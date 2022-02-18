@@ -1,0 +1,12 @@
+{
+    "version": 2,
+    "projects": {
+        "ambrosia-index": "apps/ambrosia-index",
+        "api": "apps/api",
+        "api-iomodel": "libs/api-iomodel",
+        "client": "apps/client",
+        "element-lib": "libs/element-lib",
+        "express-api": "apps/express-api",
+        "misc-for-now": "libs/misc-for-now"
+    }
+}

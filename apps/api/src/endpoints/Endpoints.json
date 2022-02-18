@@ -1,0 +1,27 @@
+{
+    "user": {
+        "auth": {
+            "signup": {},
+            "login": {},
+            "logout": {}
+        },
+        "item": {
+            "register": {},
+            "found-loot": {},
+            "buy": {},
+            "sell": {},
+            "remove-from-inventory": {}
+        },
+        "display": {
+            "market": {
+                "list-slots": {},
+                "organize-slots": {}
+            },
+            "inventory": {
+                "list-slots": {},
+                "organize-slots": {}
+            },
+            "bookmarks": {}
+        }
+    }
+}

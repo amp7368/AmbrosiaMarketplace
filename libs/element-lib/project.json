@@ -1,0 +1,33 @@
+{
+    "root": "libs/element-lib",
+    "sourceRoot": "libs/element-lib/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nrwl/node:package",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/element-lib",
+                "tsConfig": "libs/element-lib/tsconfig.lib.json",
+                "packageJson": "libs/element-lib/package.json",
+                "main": "libs/element-lib/src/index.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/element-lib/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/element-lib"],
+            "options": {
+                "jestConfig": "libs/element-lib/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "root": "libs/api-iomodel",
+    "sourceRoot": "libs/api-iomodel/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/node:package",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/api-iomodel",
+                "tsConfig": "libs/api-iomodel/tsconfig.lib.json",
+                "packageJson": "libs/api-iomodel/package.json",
+                "main": "libs/api-iomodel/src/index.ts",
+                "assets": ["libs/api-iomodel/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/api-iomodel/**/*.ts"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/api-iomodel"],
+            "options": {
+                "jestConfig": "libs/api-iomodel/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": []
+}

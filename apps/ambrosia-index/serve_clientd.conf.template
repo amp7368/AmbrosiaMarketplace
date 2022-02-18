@@ -1,0 +1,8 @@
+server {
+    listen *:${PORT} default_server;
+    server_name _;
+    root ${WORKINGDIR}/final/dist/apps/ambrosia-index ;
+    location / {
+        try_files $uri /index.html ;
+    }
+}

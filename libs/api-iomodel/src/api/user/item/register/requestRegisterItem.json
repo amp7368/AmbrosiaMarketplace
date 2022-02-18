@@ -1,0 +1,43 @@
+{
+    "sessionToken": "{{sessionToken}}",
+    "item": {
+        "itemMeta": {
+            "name": {
+                "val": "Eidolon"
+            },
+            "material": {
+                "val": "269:1"
+            },
+            "quest": {
+                "val": null
+            },
+            "classRequirement": {
+                "val": null
+            },
+            "tier": {
+                "val": "Rare"
+            },
+            "type": {
+                "val": "Wand"
+            },
+            "restrictions": {
+                "val": "Untradable"
+            },
+            "dropType": {
+                "val": "never"
+            },
+            "addedLore": {
+                "val": null
+            },
+            "level": {
+                "val": 96
+            },
+            "category": {
+                "val": "weapon"
+            },
+            "set": {
+                "val": null
+            }
+        }
+    }
+}

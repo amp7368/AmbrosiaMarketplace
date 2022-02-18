@@ -1,0 +1,74 @@
+{
+    "root": "apps/ambrosia-index",
+    "sourceRoot": "apps/ambrosia-index/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/web:webpack",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "compiler": "babel",
+                "outputPath": "dist/apps/ambrosia-index",
+                "index": "apps/ambrosia-index/src/index.html",
+                "baseHref": "/",
+                "main": "apps/ambrosia-index/src/main.tsx",
+                "polyfills": "apps/ambrosia-index/src/polyfills.ts",
+                "tsConfig": "apps/ambrosia-index/tsconfig.app.json",
+                "assets": [
+                    "apps/ambrosia-index/src/favicon.ico",
+                    "apps/ambrosia-index/src/assets"
+                ],
+                "styles": [],
+                "scripts": [],
+                "webpackConfig": "@nrwl/react/plugins/webpack"
+            },
+            "configurations": {
+                "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/ambrosia-index/src/environments/environment.ts",
+                            "with": "apps/ambrosia-index/src/environments/environment.prod.ts"
+                        }
+                    ],
+                    "optimization": true,
+                    "outputHashing": "all",
+                    "sourceMap": false,
+                    "namedChunks": false,
+                    "extractLicenses": true,
+                    "vendorChunk": false
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/web:dev-server",
+            "options": {
+                "buildTarget": "ambrosia-index:build",
+                "hmr": true,
+                "port": 8090
+            },
+            "configurations": {
+                "production": {
+                    "buildTarget": "ambrosia-index:build:production",
+                    "hmr": false
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/ambrosia-index/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/apps/ambrosia-index"],
+            "options": {
+                "jestConfig": "apps/ambrosia-index/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": []
+}

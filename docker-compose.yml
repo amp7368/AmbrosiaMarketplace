@@ -1,0 +1,128 @@
+version: '3.8'
+services:
+    ambrosia-postgres:
+        image: ${COMPOSE_NAME}/${DATABASE_IMAGE}
+        container_name: ambrosia-postgres
+        build:
+            context: .
+            dockerfile: ./apps/postgres/pg.Dockerfile
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        expose:
+            - ${POSTGRES_PORT}
+        networks:
+            - 'ambrosia'
+        volumes:
+            - database:/${WORKINGDIR}/database
+        ports:
+            - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    ambrosia-express:
+        image: ${COMPOSE_NAME}/${EXPRESS_IMAGE}
+        build:
+            context: .
+            dockerfile: ./apps/express-api/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+        hostname: ${EXPRESS_IMAGE}
+        container_name: ${EXPRESS_IMAGE}
+        networks:
+            - 'ambrosia'
+        environment:
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
+        expose:
+            - ${NGINX_PORT}
+    ambrosia-nest:
+        image: ${COMPOSE_NAME}/${NEST_IMAGE}
+        depends_on:
+            - ambrosia-postgres
+        build:
+            context: .
+            dockerfile: ./apps/api/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+        hostname: ${NEST_IMAGE}
+        container_name: ${NEST_IMAGE}
+        networks:
+            - 'ambrosia'
+        environment:
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
+        ports:
+            - '80:80'
+        expose:
+            - 80
+    ambrosia-client:
+        image: ${COMPOSE_NAME}/${CLIENT_IMAGE}
+        hostname: ${CLIENT_IMAGE}
+        container_name: ${CLIENT_IMAGE}
+        build:
+            context: .
+            dockerfile: ./apps/client/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+        networks:
+            - 'ambrosia'
+        environment:
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
+        expose:
+            - ${NGINX_PORT}
+    ambrosia-index:
+        hostname: ${INDEX_IMAGE}
+        container_name: ${INDEX_IMAGE}
+        image: ${COMPOSE_NAME}/${INDEX_IMAGE}
+        build:
+            context: .
+            dockerfile: ./apps/ambrosia-index/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+        networks:
+            - 'ambrosia'
+        environment:
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
+        expose:
+            - ${NGINX_PORT}
+    ambrosia-nginx: #DONT CHANGE THIS
+        hostname: ambrosia-nginx
+        container_name: ambrosia-nginx
+        image: ${COMPOSE_NAME}/ambrosia-nginx # give a name to it
+        environment:
+            - EXPRESS_DOMAIN=${EXPRESS_DOMAIN}
+            - EXPRESS_IMAGE=${EXPRESS_IMAGE}
+            - CLIENT_DOMAIN=${CLIENT_DOMAIN}
+            - CLIENT_IMAGE=${CLIENT_IMAGE}
+            - NEST_DOMAIN=${NEST_DOMAIN}
+            - NEST_IMAGE=${NEST_IMAGE}
+            - INDEX_IMAGE=${INDEX_IMAGE}
+
+            - DOMAIN_PREFIX=${DOMAIN_PREFIX}
+            - WORKINGDIR=${WORKINGDIR}
+            - NGINX_PORT=${NGINX_PORT}
+        build:
+            context: .
+            dockerfile: ./apps/nginx/Dockerfile # specify where the docker file is to build this service
+            args:
+                - WORKINGDIR=${WORKINGDIR} # provide args from the .env file to the build phase of the docker file
+        networks:
+            - 'appleptr16'
+            - 'ambrosia'
+        expose:
+            - ${NGINX_PORT}
+networks:
+    appleptr16:
+        name: appleptr16
+    ambrosia:
+volumes:
+    database:

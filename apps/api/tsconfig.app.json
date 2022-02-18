@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "../..",
+        "sourceRoot": "./src",
+        "outDir": "../../dist/api",
+        "types": ["node", "express"],
+        "typeRoots": ["../../node_modules/@types/"],
+        "resolveJsonModule": true,
+        "moduleResolution": "node"
+    },
+    "exclude": ["**/*.spec.ts", "**/*.test.ts"],
+    "include": ["**/*.ts", "**/*.js"]
+}

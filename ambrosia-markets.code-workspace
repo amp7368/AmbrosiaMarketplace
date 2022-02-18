@@ -1,0 +1,61 @@
+{
+  "folders": [
+    {
+      "name": "Sources",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "vscodeWorkspaceSwitcher.paths": ["./vscode-workspaces"],
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    "workbench.colorTheme": "Monokai",
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "files.autoSave": "afterDelay",
+    "editor.parameterHints.cycle": true,
+    "javascript.inlayHints.enumMemberValues.enabled": true,
+    "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+    "javascript.inlayHints.parameterNames.enabled": "all",
+    "javascript.inlayHints.parameterTypes.enabled": true,
+    "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+    "javascript.inlayHints.variableTypes.enabled": true,
+    "typescript.inlayHints.enumMemberValues.enabled": true,
+    "typescript.inlayHints.parameterTypes.enabled": true,
+    "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+    "typescript.inlayHints.variableTypes.enabled": true,
+    "workbench.preferredDarkColorTheme": "Monokai",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "terminal.integrated.scrollback": 1000000,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.experimentalSandboxedFileService": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "npm-intellisense.packageSubfoldersIntellisense": true,
+    "eslint.lintTask.enable": true,
+    "eslint.alwaysShowStatus": true
+  },
+  "extensions": {
+    "recommendations": []
+  },
+  "launch": {
+    "version": "0.1.0",
+    "configurations": [
+      {
+        "name": "Launch Chrome",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:8090",
+        "webRoot": "${workspaceFolder}/ambrosia-markets",
+        "breakOnLoad": true,
+        "sourceMapPathOverrides": {
+          "webpack:///./ambrosia-markets/*": "${webRoot}/ambrosia-markets/*"
+        }
+      }
+    ]
+  }
+}

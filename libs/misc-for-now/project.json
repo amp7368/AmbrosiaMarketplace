@@ -1,0 +1,33 @@
+{
+    "root": "libs/misc-for-now",
+    "sourceRoot": "libs/misc-for-now/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/node:package",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/misc-for-now",
+                "tsConfig": "libs/misc-for-now/tsconfig.lib.json",
+                "packageJson": "libs/misc-for-now/package.json",
+                "main": "libs/misc-for-now/src/index.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/misc-for-now/**/*.ts"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/misc-for-now"],
+            "options": {
+                "jestConfig": "libs/misc-for-now/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": []
+}

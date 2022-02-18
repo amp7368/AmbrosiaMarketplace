@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+    base:
+        container_name: base
+        image: ${COMPOSE_NAME}/${BASE_IMAGE}
+        build:
+            context: .
+            dockerfile: base.Dockerfile

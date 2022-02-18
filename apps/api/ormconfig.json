@@ -1,0 +1,10 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "appleptr16",
+    "password": "changeToSomething",
+    "database": "ambrosiaDb",
+    "synchronize": true,
+    "logging": true
+}
