@@ -16,12 +16,12 @@ const StyledTopButton = styled.div`
     height: 75%;
 `;
 function createButton(img: JSX.Element, label: string, link: string) {
-    return <StyledTopButton>{img}</StyledTopButton>;
+    return <StyledTopButton key={link}>{img}</StyledTopButton>;
 }
 const NavSearchTopButtons = [
     createButton(ImgDiscord, 'Discord', '/discord'),
     createButton(ImgAbout, 'About', '/about'),
-    createButton(ImgFallback, 'PlaceHolder', '/'),
+    createButton(ImgFallback, 'Account', '/login'),
 ];
 const NavSearchTop = () => {
     return NavSearchTopButtons;

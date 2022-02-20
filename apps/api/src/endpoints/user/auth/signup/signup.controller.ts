@@ -16,7 +16,7 @@ export class SignupController extends ControllerBase<ValidateSignup> {
 
     @Post()
     async signup(@Body() request: RequestSignup): Promise<ResponseSignup> {
-        if (isFalsey(request)) throw authExceptionFactory.badRequest(request);
+        if (!request) throw authExceptionFactory.badRequest(request);
         const hasUser = this.authService.hasUser(request);
         return hasUser.then((hasUser) => this.signupGotUser(request, hasUser));
     }

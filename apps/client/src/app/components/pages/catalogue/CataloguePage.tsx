@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Component, useState } from 'react';
 import { PropsAndClass } from '../../../util/PropUtils';
 import { PageWrapper } from '../PageWrapper';
-import { PageWrapperProps } from '../routeProps';
+import { PageWrapperProps } from '../../../routes/routeProps';
 import { CatalogueContentWrapper } from './CatalogueContent';
 import { AllDisplayTabs, DisplayTab } from './CatalogueDisplayTab';
 

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { from, Observable } from 'rxjs';
+import { json } from 'stream/consumers';
 export enum RequestMethod {
     Get = 'get',
     Post = 'post',
@@ -46,7 +47,12 @@ export class RequestBuilder {
     async build(): Promise<any> {
         return axios(this.buildUrl()).catch(
             (error: { request: XMLHttpRequest }) => {
-                throw error.request.response;
+                let msg = JSON.parse(error.request.response);
+                try {
+                    msg = msg['message'] ?? msg;
+                    // eslint-disable-next-line no-empty
+                } catch (ignored) {}
+                throw new Error(msg);
             }
         );
     }

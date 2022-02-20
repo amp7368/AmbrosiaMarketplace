@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { observeableToElement, StyledDiv100 } from 'elemental';
-import { isFalsey } from '../../../../../../../libs/misc-for-now/src/lib/falsey/falseyTruthy';
+import { ObserveableToElement, StyledDiv100 } from 'elemental';
 import { sessionQuery } from '../../../model/user/session/Session.query';
 import { ItemDisplayGrid } from '../../item/ItemDisplayGrid';
 import { PageWrapper } from '../PageWrapper';
@@ -20,12 +19,10 @@ const ProfileMarketSlots = styled.div`
 `;
 
 const SessionToken = () => {
-    return observeableToElement({
+    return ObserveableToElement({
         original: sessionQuery.sessionToken,
         mappingFn: (sessionToken) => {
-            let display: string;
-            if (isFalsey(sessionToken)) display = 'Session token is invalid';
-            else display = sessionToken as string;
+            const display = sessionToken ?? 'Session token is invalid';
             return <h1>{display}</h1>;
         },
     });
