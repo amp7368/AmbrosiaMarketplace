@@ -17,7 +17,12 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, new FastifyAdapter(), {
         cors: true,
     });
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            enableDebugMessages: true,
+        })
+    );
     await app.listen(PORT, () => {
         console.log(`Nest server running on port ${PORT}`);
     });
