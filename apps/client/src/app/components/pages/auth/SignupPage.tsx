@@ -21,8 +21,8 @@ export class SignupPage extends Component<unknown, SignupPageState> {
     private onFormSubmit(form: RequestSignup) {
         sessionService.signup(form).catch(this.errorMsg);
     }
-    private errorMsg(errorMsg: string) {
-        this.setState((state) => ({ ...state, errorMsg }));
+    private errorMsg(errorMsg: Error) {
+        this.setState((state) => ({ ...state, errorMsg: errorMsg.message }));
     }
     override render(): React.ReactNode {
         const required = { required: true };

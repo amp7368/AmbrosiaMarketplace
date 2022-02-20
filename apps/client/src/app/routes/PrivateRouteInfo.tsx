@@ -7,7 +7,7 @@ export class PrivateRouteInfo extends RestrictedRouteInfo {
             // if you're not logged in, log in
             return this.page.renderElement();
         } else {
-            return <Navigate to={'/login'} replace={true} />;
+            return <Navigate to={'/auth'} replace={true} />;
         }
     }
 }

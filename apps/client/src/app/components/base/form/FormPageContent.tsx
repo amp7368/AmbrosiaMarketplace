@@ -74,13 +74,11 @@ export function FormPageContent(props: FormPageContentProps) {
         formState: { errors },
     } = useForm();
     const length = props.fields.length;
-    const fields = props.fields.map((field: FormField, i: number) => {
-        return (
-            <StyledFormField key={i}>
-                {field.getElement(register, errors)}
-            </StyledFormField>
-        );
-    });
+    const fields = props.fields.map((field: FormField, i: number) => (
+        <StyledFormField key={i}>
+            {field.getElement(register, errors)}
+        </StyledFormField>
+    ));
     let errorElement;
     if (props.errorMsg) {
         errorElement = (

@@ -18,11 +18,11 @@ export class LoginPage extends Component<unknown, LoginPageState> {
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.errorMsg = this.errorMsg.bind(this);
     }
-    private onFormSubmit(form: RequestLogin) {
-        sessionService.login(form).catch(this.errorMsg);
+    private async onFormSubmit(form: RequestLogin) {
+        await sessionService.login(form).catch(this.errorMsg).then();
     }
-    private errorMsg(errorMsg: string) {
-        this.setState((state) => ({ ...state, errorMsg }));
+    private errorMsg(errorMsg: Error) {
+        this.setState((state) => ({ ...state, errorMsg: errorMsg.message }));
     }
     override render(): React.ReactNode {
         const required = { required: true };

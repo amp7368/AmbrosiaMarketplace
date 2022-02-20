@@ -2,9 +2,7 @@ FROM node:17-alpine3.14 as buildstage
 WORKDIR /base
 
 COPY ./package*.json ./
-RUN npm install --only=prod
-RUN npm prune --production
-RUN npm install @nrwl/workspace
+RUN npm install 
 
 COPY ./nx.json ./
 COPY ./workspace.json ./
@@ -14,6 +12,7 @@ COPY ./tsconfig* ./
 COPY ./babel* ./
 
 RUN npx nx affected:build --configuration=production --parallel --all
+RUN npm prune --production
 
 FROM node:17-alpine3.14 as servestage
 COPY --from=buildstage /base/dist /base/dist

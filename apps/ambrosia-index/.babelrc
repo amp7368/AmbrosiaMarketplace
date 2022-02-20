@@ -7,5 +7,5 @@
             }
         ]
     ],
-    "plugins": [["@emotion/styled", { "pure": true, "ssr": true }]]
+    "plugins": []
 }

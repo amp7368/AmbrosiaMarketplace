@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { distinctUntilChanged, map, Observable, tap } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 
 type DisplayedElement = JSX.Element | null;
 

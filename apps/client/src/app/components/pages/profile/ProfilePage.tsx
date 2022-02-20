@@ -22,9 +22,7 @@ const SessionToken = () => {
     return ObserveableToElement({
         original: sessionQuery.sessionToken,
         mappingFn: (sessionToken) => {
-            let display: string;
-            if (!sessionToken) display = 'Session token is invalid';
-            else display = sessionToken as string;
+            const display = sessionToken ?? 'Session token is invalid';
             return <h1>{display}</h1>;
         },
     });

@@ -14,7 +14,9 @@ const PORT = 80;
 class AppModule {}
 async function bootstrap() {
     await initTypeOrmDbConnection();
-    const app = await NestFactory.create(AppModule, new FastifyAdapter());
+    const app = await NestFactory.create(AppModule, new FastifyAdapter(), {
+        cors: true,
+    });
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     await app.listen(PORT, () => {
         console.log(`Nest server running on port ${PORT}`);

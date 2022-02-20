@@ -5,9 +5,9 @@ import {
     ResponseLogin,
     ResponseSignup,
 } from '@api/io-model';
+import { isTruthy, runnableEmpty } from '@misc/for-now';
 import { AuthAPI, authAPI } from '../../../api/auth/AuthApi';
 import { SessionState, SessionStore, sessionStore } from './Session.store';
-import { isTruthy } from '../../../../../../../libs/misc-for-now/src/lib/falsey/falseyTruthy';
 
 export class SessionService {
     constructor(
@@ -19,25 +19,25 @@ export class SessionService {
         this.signup = this.signup.bind(this);
         this.authPost = this.authPost.bind(this);
     }
-    logout() {
+    async logout() {
         this.store.update((state: SessionState) => ({
             ...state,
             sessionToken: undefined,
             lastRefresh: 0,
         }));
     }
-    signup(credentials: RequestSignup): Promise<ResponseSignup> {
+    async signup(credentials: RequestSignup): Promise<ResponseSignup> {
         const signupResponse = this.authApi.signup(credentials);
-        signupResponse.then(this.authPost);
+        signupResponse.then(this.authPost).catch(runnableEmpty);
         return signupResponse;
     }
-    login(credentials: RequestLogin): Promise<ResponseLogin> {
+    async login(credentials: RequestLogin): Promise<ResponseLogin> {
         const loginResponse = this.authApi.login(credentials);
-        loginResponse.then(this.authPost);
+        loginResponse.then(this.authPost).catch(runnableEmpty);
         return loginResponse;
     }
     private authPost(session: ResponseAuth) {
-        const lastRefresh = isTruthy(session.sessionToken) ? Date.now() : 0;
+        const lastRefresh = session.sessionToken ? Date.now() : 0;
         this.store.update((state) => ({
             ...state,
             sessionToken: session.sessionToken,

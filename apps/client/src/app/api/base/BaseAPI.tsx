@@ -1,7 +1,7 @@
 import { RequestBuilder } from './RequestBuilder';
 
 export class BaseAPI {
-    private readonly BASE = 'http://localhost:80/ambrosia';
+    private readonly BASE = 'http://localhost:80';
 
     newRequest(): RequestBuilder {
         return new RequestBuilder(this.BASE);

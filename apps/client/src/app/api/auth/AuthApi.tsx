@@ -8,14 +8,14 @@ import { BaseAPI } from '../base/BaseAPI';
 import { RequestMethod } from '../base/RequestBuilder';
 
 export class AuthAPI extends BaseAPI {
-    signup(props: RequestSignup): Promise<ResponseSignup> {
+    async signup(props: RequestSignup): Promise<ResponseSignup> {
         return this.newRequest()
             .url('user', 'auth', 'signup')
             .setMethod(RequestMethod.Post)
             .payload(props)
             .build();
     }
-    login(props: RequestLogin): Promise<ResponseLogin> {
+    async login(props: RequestLogin): Promise<ResponseLogin> {
         return this.newRequest()
             .url('user', 'auth', 'login')
             .setMethod(RequestMethod.Post)
