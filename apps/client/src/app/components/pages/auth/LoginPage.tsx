@@ -1,31 +1,27 @@
+import { RequestLogin } from '@api/io-model';
 import { Component } from 'react';
+
 import { sessionService } from '../../../model/user/session/Session.service';
-import { FormPageBackground } from '../../form/FormPageBackground';
-import { FormPageContent } from '../../form/FormPageContent';
-import { FormFieldPassword } from '../../form/FormPasswordBlock';
-import { FormFieldText } from '../../form/FormTextBlock';
-import { PageWrapper } from '../PageWrapper';
+import { FormPageBackground } from '../../base/form/FormPageBackground';
+import { FormPageContent } from '../../base/form/FormPageContent';
+import { FormFieldPassword } from '../../base/form/FormPasswordBlock';
+import { FormFieldText } from '../../base/form/FormTextBlock';
 
-interface LoginPageFormData {
-    username: string;
-    password: string;
-}
 interface LoginPageState {
-    errorMsg: string;
+    errorMsg?: string;
 }
 
-class LoginPageContent extends Component<unknown, LoginPageState> {
+export class LoginPage extends Component<unknown, LoginPageState> {
     constructor(props: unknown) {
         super(props);
-        this.state = { errorMsg: '' };
+        this.state = {};
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.errorMsg = this.errorMsg.bind(this);
     }
-    private onFormSubmit(form: LoginPageFormData) {
+    private onFormSubmit(form: RequestLogin) {
         sessionService.login(form).catch(this.errorMsg);
     }
-    private errorMsg(errorMsg: any) {
-        console.log('oof' + errorMsg);
+    private errorMsg(errorMsg: string) {
         this.setState((state) => ({ ...state, errorMsg }));
     }
     override render(): React.ReactNode {
@@ -46,9 +42,3 @@ class LoginPageContent extends Component<unknown, LoginPageState> {
         );
     }
 }
-class LoginPageWrapper extends PageWrapper {
-    public renderMainPage = () => {
-        return <LoginPageContent />;
-    };
-}
-export default LoginPageWrapper;

@@ -8,7 +8,7 @@ export interface FormPageContentProps {
     onSubmit: (data: any) => void;
     title: string;
     fields: FormField[];
-    errorMsg: string;
+    errorMsg?: string;
 }
 const formFieldHeight = 100;
 const StyledFormField = styled.div(
@@ -81,6 +81,15 @@ export function FormPageContent(props: FormPageContentProps) {
             </StyledFormField>
         );
     });
+    let errorElement;
+    if (props.errorMsg) {
+        errorElement = (
+            <StyledErrorMessage>{props.errorMsg}</StyledErrorMessage>
+        );
+    } else {
+        errorElement = null;
+    }
+
     return (
         <StyledForm onSubmit={handleSubmit(props.onSubmit)}>
             <TopFormField count={length}>{props.title}</TopFormField>
@@ -88,7 +97,7 @@ export function FormPageContent(props: FormPageContentProps) {
             <StyledFormField>
                 <StyledSubmit type="submit" />
             </StyledFormField>
-            <StyledErrorMessage>{props.errorMsg}</StyledErrorMessage>
+            {errorElement}
         </StyledForm>
     );
 }

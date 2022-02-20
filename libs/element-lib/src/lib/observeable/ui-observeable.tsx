@@ -1,37 +1,30 @@
 import { useEffect, useMemo, useState } from 'react';
 import { distinctUntilChanged, map, Observable, tap } from 'rxjs';
 
+type DisplayedElement = JSX.Element | null;
+
 export interface ObserveableToElementProps<T> {
     original: Observable<T>;
-    mappingFn: (original: T) => JSX.Element | null;
+    mappingFn: (original: T) => DisplayedElement;
 }
 
-interface ObserveableToElementState {
-    currentElement?: JSX.Element;
-}
-
-export function observeableToElement<T>(props: ObserveableToElementProps<T>) {
-    let state: ObserveableToElementState;
-    let setState: (prevState: ObserveableToElementState) => void;
-    [state, setState] = useState<ObserveableToElementState>({});
+export function ObserveableToElement<T>(
+    props: ObserveableToElementProps<T>
+): DisplayedElement {
+    const [currentElement, setState] = useState<DisplayedElement>(null);
     const subscription = useMemo(() => {
+        console.log('doing stuff');
         return props.original
-            .pipe(
-                distinctUntilChanged(),
-                map(props.mappingFn),
-                tap((newElement: any) => {
-                    setState({
-                        currentElement: newElement,
-                    });
-                })
-            )
-            .subscribe();
-    }, [props.original]);
+            .pipe(distinctUntilChanged(), map(props.mappingFn))
+            .subscribe((newElement: DisplayedElement) => {
+                setState(newElement);
+                console.log('setting stuff');
+            });
+    }, [props.original, props.mappingFn]);
     useEffect(() => {
         return () => {
             subscription.unsubscribe();
         };
-    }, [props.original]);
-    if (state.currentElement == undefined) return null;
-    return state.currentElement;
+    }, [subscription]);
+    return currentElement ?? null;
 }

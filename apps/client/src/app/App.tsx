@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes } from 'react-router-dom';
-import { AllRoutesList, RouteInfo } from './components/pages/routes';
+import { RouteInfo } from './routes/RouteInfo';
+import { AllRoutesList } from './routes/routes';
 
 function App() {
     const routes: JSX.Element[] = [];

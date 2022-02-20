@@ -1,17 +1,21 @@
 import styled from '@emotion/styled';
 import { ThemeProvider } from '@mui/material';
 import {
-    divWrapperWith, FlexColContainer, FlexElement, FlexRowContainer, PresetOverlap100Container,
-    PresetOverlap100Element
+    divWrapperWith,
+    FlexColContainer,
+    FlexElement,
+    FlexRowContainer,
+    PresetOverlap100Container,
+    PresetOverlap100Element,
 } from 'elemental';
-import * as React from 'react';
 import { PropsWithChildren } from 'react';
+
+import { PageWrapperProps } from '../../routes/routeProps';
 import { CSSConsts } from '../../util/CSSConsts';
 import { ImgPageBackground } from '../../util/imageHandling';
-import { SidePanel } from '../navigation/side/SidePanel';
-import { StyledTopNavigation } from '../navigation/top/TopNav';
+import { SidePanel } from '../common/side/SidePanel';
+import { StyledTopNavigation } from '../common/top/TopNav';
 import { appTheme } from '../ThemeManager';
-import { PageWrapperProps } from './routeProps';
 
 const StyledMainPage = styled('div')(
     (props) => `
