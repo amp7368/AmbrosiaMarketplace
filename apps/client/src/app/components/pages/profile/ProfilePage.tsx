@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { ObserveableToElement, StyledDiv100 } from 'elemental';
 import { sessionQuery } from '../../../model/user/session/Session.query';
-import { ItemDisplayGrid } from '../../item/ItemDisplayGrid';
 import { PageWrapper } from '../PageWrapper';
 
 const StyledMainPageRoot = styled(StyledDiv100)`
@@ -31,9 +30,7 @@ class ProfilePage extends PageWrapper {
     public renderMainPage = () => {
         return (
             <StyledMainPageRoot>
-                <ProfileMarketSlots>
-                    <ItemDisplayGrid items={[]} />
-                </ProfileMarketSlots>
+                <ProfileMarketSlots></ProfileMarketSlots>
                 <ProfileInventory>
                     <h1>Heyo</h1>
                     <SessionToken />

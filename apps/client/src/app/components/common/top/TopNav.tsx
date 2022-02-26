@@ -21,7 +21,7 @@ function makeNavButtonProps(
     return { icon: icon, label: label, link: link };
 }
 const navButtons: NavButtonProps[] = [
-    makeNavButtonProps(ImgMarket, 'Market', '/market'),
+    makeNavButtonProps(ImgMarket, 'Catalogue', '/catalogue'),
     makeNavButtonProps(ImgTrade, 'Trade', '/trade'),
     makeNavButtonProps(ImgProfile, 'Profile', '/profile'),
     makeNavButtonProps(ImgMoney, 'Search', '/search'),

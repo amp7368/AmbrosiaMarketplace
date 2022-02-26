@@ -1,7 +1,7 @@
 import { Query } from '@datorama/akita';
-import { map, Observable } from 'rxjs';
 import { isTruthy, minutesToMillis } from '@misc/for-now';
-import { uuidv4 } from '@misc/for-now';
+import { map, Observable } from 'rxjs';
+
 import { SessionState, SessionStore, sessionStore } from './Session.store';
 
 const LOGOUT_TIME = minutesToMillis(30);

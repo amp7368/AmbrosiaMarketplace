@@ -1,79 +1,37 @@
-import styled from '@emotion/styled';
-import { Component, useState } from 'react';
-import { PropsAndClass } from '../../../util/PropUtils';
 import { PageWrapper } from '../PageWrapper';
-import { PageWrapperProps } from '../../../routes/routeProps';
-import { CatalogueContentWrapper } from './CatalogueContent';
-import { AllDisplayTabs, DisplayTab } from './CatalogueDisplayTab';
-
-interface CatalogueHeaderProps {
-    setDisplayTab: (tab: DisplayTab) => void;
+import { AppTabSwitcher } from '../../base/tab/AppTabSwitcher';
+import { AppTabsProps } from '../../base/tab/AppTabProps';
+import { Subject } from 'rxjs';
+import { CataloguePageIdentified } from './CataloguePageIdentified';
+import { CataloguePageNonIdentified } from './CataloguePageNonIdentified';
+import { AppTabContent } from '../../base/tab/AppTabContent';
+enum CatalogueTab {
+    IDENTIFIED_ITEM,
+    NONIDENTIFIED_ITEM,
 }
-
-class CatalogueHeader extends Component<PropsAndClass<CatalogueHeaderProps>> {
-    constructor(props: PropsAndClass<CatalogueHeaderProps>) {
-        super(props);
-        this.setDisplayTab = this.setDisplayTab.bind(this);
-    }
-
-    protected setDisplayTab(tab: DisplayTab) {
-        this.props.innerProps.setDisplayTab(tab);
-    }
-
-    override render() {
+const tabs: AppTabsProps<CatalogueTab> = {
+    defaultPage: CatalogueTab.NONIDENTIFIED_ITEM,
+    onTabSwitch: new Subject<CatalogueTab>(),
+    tabs: [
+        {
+            tabKey: CatalogueTab.NONIDENTIFIED_ITEM,
+            tabElement: 'Base Items',
+            renderPage: () => <CataloguePageNonIdentified />,
+        },
+        {
+            tabKey: CatalogueTab.IDENTIFIED_ITEM,
+            tabElement: 'Stat Items',
+            renderPage: () => <CataloguePageIdentified />,
+        },
+    ],
+};
+export default class CataloguePage extends PageWrapper {
+    public renderMainPage: () => JSX.Element = () => {
         return (
             <>
-                <div className={this.props.className}>
-                    <p
-                        onClick={() =>
-                            this.setDisplayTab(AllDisplayTabs.UN_IDED)
-                        }
-                    >
-                        setDisplayTyped
-                    </p>
-                </div>
-                <div>
-                    <p
-                        onClick={() =>
-                            this.setDisplayTab(AllDisplayTabs.STAT_ITEM)
-                        }
-                    >
-                        setDisplayStat
-                    </p>
-                </div>
-            </>
-        );
-    }
-}
-
-const StyledCatalogueHeader = styled(CatalogueHeader)(
-    () => `
-    height: 100%;
-    width: 100%;
-`
-);
-
-class CataloguePage extends PageWrapper {
-    constructor(props: PageWrapperProps) {
-        super(props);
-        this.renderMainPage = this.renderMainPage.bind(this);
-    }
-    public renderMainPage = () => {
-        const [displayTab, setDisplayTab] = useState<DisplayTab>(
-            AllDisplayTabs.STAT_ITEM
-        );
-
-        return (
-            <>
-                <StyledCatalogueHeader
-                    innerProps={{ setDisplayTab: setDisplayTab }}
-                />
-                <CatalogueContentWrapper
-                    displayTab={displayTab}
-                ></CatalogueContentWrapper>
+                <AppTabSwitcher {...tabs} />
+                <AppTabContent {...tabs} />
             </>
         );
     };
 }
-
-export default CataloguePage;
