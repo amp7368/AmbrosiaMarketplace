@@ -1,5 +1,5 @@
 import { Query } from '@datorama/akita';
-import { isTruthy, minutesToMillis } from '@misc/for-now';
+import { isTruthy, minutesToMillis } from '@appleptr16/utilities';
 import { map, Observable } from 'rxjs';
 
 import { SessionState, SessionStore, sessionStore } from './Session.store';
