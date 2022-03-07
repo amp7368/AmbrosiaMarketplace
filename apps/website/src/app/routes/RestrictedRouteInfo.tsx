@@ -10,11 +10,12 @@ export abstract class RestrictedRouteInfo extends RouteInfo {
         super(props);
         this.mapToElement = this.mapToElement.bind(this);
     }
-    override renderRoute(): JSX.Element {
+    override renderRoute({ key }: { key: number }): JSX.Element {
         const element = ObserveableToElement({
             original: sessionQuery.isLoggedIn,
             mappingFn: this.mapToElement,
         });
-        return <Route path={this.props.link} element={element} />;
+
+        return <Route key={key} path={this.props.link} element={element} />;
     }
 }

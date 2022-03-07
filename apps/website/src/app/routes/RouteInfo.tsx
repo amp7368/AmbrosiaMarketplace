@@ -17,10 +17,10 @@ export class RouteInfo {
     getName(): string {
         return this.props.title;
     }
-    renderRoute(i: number): JSX.Element {
+    renderRoute({ key }: { key: number }): JSX.Element {
         return (
             <Route
-                key={i}
+                key={key}
                 path={this.props.link}
                 element={this.page.PageElement()}
             />

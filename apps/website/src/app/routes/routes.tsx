@@ -1,4 +1,5 @@
 import { HomePage } from '../components/pages/home/HomePage';
+import { ProfilePage } from '../components/pages/profile/ProfilePage';
 import { RouteInfo } from './RouteInfo';
 import { PageId, PageWrapperProps } from './routeProps';
 
@@ -20,9 +21,9 @@ export const AllRoutes = {
     // DesignRoute: new DesignPage(
     //     createProps(PageId.Design, 'Design', '/design')
     // ).createRoute(),
-    // ProfileRoute: new ProfilePage(
-    //     createProps(PageId.Profile, 'Profile', '/profile')
-    // ).createRoute(),
+    ProfileRoute: new ProfilePage(
+        createProps(PageId.Profile, 'Profile', '/profile')
+    ).createRoute(),
 };
 
 const AllRouteProps = {

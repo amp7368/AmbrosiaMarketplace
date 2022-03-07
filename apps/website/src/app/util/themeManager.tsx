@@ -16,16 +16,16 @@ declare module '@emotion/react' {
 export const appTheme = createTheme({
     palette: {
         primary: {
-            light: '#c2f6d7',
-            main: '##4d9365',
-            dark: '#35704a',
-            contrastText: '#043822',
+            main: '#2d170f',
         },
         secondary: {
-            light: '#4d211a',
-            main: '#301510',
-            dark: '#1d0d0a',
-            contrastText: '#4d9365',
+            main: '#46247e',
+        },
+        background: {
+            default: '#1f6135',
+        },
+        text: {
+            primary: '#40d171',
         },
     },
 });
