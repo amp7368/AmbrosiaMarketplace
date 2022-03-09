@@ -1,4 +1,5 @@
 import { RouteInfo } from '../../../routes/RouteInfo';
+import { SideDrawer } from '../../common/side/SideDrawer';
 import { PageWrapper } from '../PageWrapper';
 
 export class HomePage extends PageWrapper {
@@ -9,7 +10,7 @@ export class HomePage extends PageWrapper {
     renderMainPage(): JSX.Element {
         return <h1>Main Page</h1>;
     }
-    sideBar(): JSX.Element {
-        return <h2>sidebar</h2>;
+    renderSideBar(): JSX.Element {
+        return <SideDrawer />;
     }
 }

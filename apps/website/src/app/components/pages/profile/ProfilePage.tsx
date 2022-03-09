@@ -1,6 +1,7 @@
 import { PrivateRouteInfo } from '../../../routes/PrivateRouteInfo';
 import { RouteInfo } from '../../../routes/RouteInfo';
 import { PageWrapper } from '../PageWrapper';
+import { SideDrawer } from '../../common/side/SideDrawer';
 
 export class ProfilePage extends PageWrapper {
     createRoute(): RouteInfo {
@@ -10,7 +11,7 @@ export class ProfilePage extends PageWrapper {
     renderMainPage(): JSX.Element {
         return <h1>Profile Page</h1>;
     }
-    sideBar(): JSX.Element {
-        return <h2>sidebar</h2>;
+    renderSideBar(): JSX.Element {
+        return <h2>side</h2>;
     }
 }
