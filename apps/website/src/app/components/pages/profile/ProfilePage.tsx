@@ -1,13 +1,11 @@
 import { PrivateRouteInfo } from '../../../routes/PrivateRouteInfo';
 import { RouteInfo } from '../../../routes/RouteInfo';
 import { PageWrapper } from '../PageWrapper';
-import { SideDrawer } from '../../common/side/SideDrawer';
 
 export class ProfilePage extends PageWrapper {
     createRoute(): RouteInfo {
         return new PrivateRouteInfo(this);
     }
-
     renderMainPage(): JSX.Element {
         return <h1>Profile Page</h1>;
     }

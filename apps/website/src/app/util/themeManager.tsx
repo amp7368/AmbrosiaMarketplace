@@ -19,13 +19,14 @@ export const appTheme = createTheme({
             main: '#2d170f',
         },
         secondary: {
-            main: '#46247e',
+            main: '#216263',
         },
         background: {
             default: '#1f6135',
         },
         text: {
             primary: '#40d171',
+            secondary: '#40d171',
         },
     },
 });

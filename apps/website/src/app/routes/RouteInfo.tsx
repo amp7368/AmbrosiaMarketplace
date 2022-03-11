@@ -22,11 +22,11 @@ export class RouteInfo {
             <Route
                 key={key}
                 path={this.props.link}
-                element={this.page.PageElement()}
+                element={this.renderPage()}
             />
         );
     }
     renderPage(): JSX.Element {
-        return <this.page.PageElement />;
+        return this.page.PageElement();
     }
 }

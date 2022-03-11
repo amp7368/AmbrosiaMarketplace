@@ -1,12 +1,16 @@
 import { PropsJustChildren } from '@appleptr16/elemental';
-import { Box, Container, CssBaseline, Stack } from '@mui/material';
+import { Box, Container, CssBaseline, Stack, Typography } from '@mui/material';
 
 import { IPageWrapper, RouteInfo } from '../../routes/RouteInfo';
 import { PageWrapperProps } from '../../routes/routeProps';
 import { TopNavigation } from '../common/top/TopNavigation';
 
 const StyledRootPage = (props: PropsJustChildren) => {
-    return <Box sx={{ color: 'primary', padding: 2 }}>{props.children}</Box>;
+    return (
+        <Box display="flex" flexGrow={1}>
+            {props.children}
+        </Box>
+    );
 };
 export abstract class PageWrapper implements IPageWrapper {
     props: PageWrapperProps;
@@ -22,20 +26,22 @@ export abstract class PageWrapper implements IPageWrapper {
 
     PageElement(): JSX.Element {
         return (
-            <Box display="flex" position="relative">
-                {[<this.renderTopNav />, <this.renderSideBar />].map(
-                    (el, i) => (
-                        <Box key={i}>{el}</Box>
-                    )
-                )}
-                <StyledRootPage>
+            <Box
+                width="100vw"
+                height="100vh"
+                display="flex"
+                flexDirection="column"
+            >
+                <this.renderTopNav />
+                <Box display="flex" flexGrow={1}>
+                    <this.renderSideBar />
                     <this.renderMainPage />
-                </StyledRootPage>
+                </Box>
             </Box>
         );
     }
     renderTopNav(): JSX.Element {
-        return <TopNavigation hidden={false} />;
+        return <TopNavigation />;
     }
     abstract renderMainPage(): JSX.Element;
     abstract renderSideBar(): JSX.Element;
