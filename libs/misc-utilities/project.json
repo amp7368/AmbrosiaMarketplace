@@ -1,0 +1,33 @@
+{
+    "root": "libs/misc-utilities",
+    "sourceRoot": "libs/misc-utilities/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/node:package",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/misc-utilities",
+                "tsConfig": "libs/misc-utilities/tsconfig.lib.json",
+                "packageJson": "libs/misc-utilities/package.json",
+                "main": "libs/misc-utilities/src/index.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/misc-utilities/**/*.ts"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/misc-utilities"],
+            "options": {
+                "jestConfig": "libs/misc-utilities/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": []
+}

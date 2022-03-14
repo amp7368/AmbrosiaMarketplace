@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { hoursToMillis } from '@misc/for-now';
+import { hoursToMillis } from '@appleptr16/utilities';
 import { UserAccount } from '../entity/user/UserAcount.entity';
 
 export class Session {

@@ -1,4 +1,4 @@
-import { isFalsey, minutesToMillis } from '@misc/for-now';
+import { isFalsey, minutesToMillis } from '@appleptr16/utilities';
 import { UserAccount } from '../entity/user/UserAcount.entity';
 import { Session } from './Session';
 

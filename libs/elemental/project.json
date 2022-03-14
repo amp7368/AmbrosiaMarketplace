@@ -1,0 +1,33 @@
+{
+    "root": "libs/elemental",
+    "sourceRoot": "libs/elemental/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nrwl/node:package",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/elemental",
+                "tsConfig": "libs/elemental/tsconfig.lib.json",
+                "packageJson": "libs/elemental/package.json",
+                "main": "libs/elemental/src/index.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/elemental/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/elemental"],
+            "options": {
+                "jestConfig": "libs/elemental/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    }
+}

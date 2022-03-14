@@ -5,8 +5,9 @@
         "api": "apps/api",
         "api-iomodel": "libs/api-iomodel",
         "client": "apps/client",
-        "element-lib": "libs/element-lib",
+        "@appleptr16/elemental": "libs/elemental",
         "express-api": "apps/express-api",
-        "misc-for-now": "libs/misc-for-now"
+        "@appleptr16/utilities": "libs/misc-utilities",
+        "website": "apps/website"
     }
 }

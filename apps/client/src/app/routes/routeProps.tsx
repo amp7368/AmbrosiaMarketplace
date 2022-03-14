@@ -11,7 +11,6 @@ export enum PageType {
     Auth,
 }
 
-
 function createProps(pageType: PageType, title: string, link: string) {
     return {
         pageType: pageType,
@@ -23,5 +22,5 @@ export const AllRouteProps = {
     CatalogueProps: createProps(PageType.Catalogue, 'Catalogue', '/catalogue'),
     HomeProps: createProps(PageType.Home, 'Home', '/'),
     ProfileProps: createProps(PageType.Profile, 'Profile', '/profile'),
-    AuthProps: createProps(PageType.Auth, 'Authentication', '/auth'),
+    AuthProps: createProps(PageType.Auth, 'Login', '/login'),
 };

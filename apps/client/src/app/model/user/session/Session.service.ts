@@ -5,7 +5,7 @@ import {
     ResponseLogin,
     ResponseSignup,
 } from '@api/io-model';
-import { isTruthy, runnableEmpty } from '@misc/for-now';
+import { isTruthy, runnableEmpty } from '@appleptr16/utilities';
 import { AuthAPI, authAPI } from '../../../api/auth/AuthApi';
 import { SessionState, SessionStore, sessionStore } from './Session.store';
 
