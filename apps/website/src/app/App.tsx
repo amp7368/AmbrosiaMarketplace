@@ -8,7 +8,7 @@ import { AllRoutes } from './routes/routes';
 const Root = (props: PropsJustChildren) => (
     <ThemeProvider theme={appTheme}>
         <Box width="100vw" height="100vh" bgcolor="background.default">
-            <Typography color="text.primary">{props.children}</Typography>
+            {props.children}
         </Box>
     </ThemeProvider>
 );

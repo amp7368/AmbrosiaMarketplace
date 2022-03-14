@@ -1,8 +1,7 @@
 import { AuthPage } from '../components/pages/auth/AuthPage';
 import { HomePage } from '../components/pages/home/HomePage';
 import { ProfilePage } from '../components/pages/profile/ProfilePage';
-import { RouteInfo } from './RouteInfo';
-import { PageId, PageWrapperProps } from './routeProps';
+import { PageId, PageWrapperProps, RouteProps } from './routeProps';
 
 function createProps(
     pageType: PageId,
@@ -16,13 +15,7 @@ function createProps(
     } as PageWrapperProps;
 }
 export const AllRoutes = {
-    HomeRoute: new HomePage(
-        createProps(PageId.Home, 'Home', '/')
-    ).createRoute(),
-    ProfileRoute: new ProfilePage(
-        createProps(PageId.Profile, 'Profile', '/profile')
-    ).createRoute(),
-    AuthRoute: new AuthPage(
-        createProps(PageId.Auth, 'Authentication', '/auth')
-    ).createRoute(),
+    Home: new HomePage(RouteProps.Home).createRoute(),
+    Profile: new ProfilePage(RouteProps.Profile).createRoute(),
+    Auth: new AuthPage(RouteProps.Auth).createRoute(),
 };

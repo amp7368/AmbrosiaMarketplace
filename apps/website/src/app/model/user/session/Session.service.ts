@@ -38,8 +38,8 @@ export class SessionService {
         return loginResponse;
     }
     private authPost(session: ResponseAuth) {
-        console.log(session.sessionToken);
         const lastRefresh = session.sessionToken ? Date.now() : 0;
+        console.log(lastRefresh);
         this.store.update((state) => ({
             ...state,
             sessionToken: session.sessionToken,

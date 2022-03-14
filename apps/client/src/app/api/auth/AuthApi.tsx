@@ -6,6 +6,9 @@ import {
 } from '@api/io-model';
 import { BaseAPI } from '../base/BaseAPI';
 import { RequestMethod } from '../base/RequestBuilder';
+import { ResponseLogin } from '../../../../../../libs/api-iomodel/src/api/user/auth/login/ResponseLogin';
+import { v4 } from 'uuid';
+import { SessionBase } from '../../../../../../dist/libs/api-iomodel/src/api/user/auth/SessionBase';
 
 export class AuthAPI extends BaseAPI {
     async signup(props: RequestSignup): Promise<ResponseSignup> {

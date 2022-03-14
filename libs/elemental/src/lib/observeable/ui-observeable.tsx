@@ -13,13 +13,9 @@ export function ObserveableToElement<T>(
 ): DisplayedElement {
     const [currentElement, setState] = useState<DisplayedElement>(null);
     const subscription = useMemo(() => {
-        console.log('doing stuff');
         return props.original
             .pipe(distinctUntilChanged(), map(props.mappingFn))
-            .subscribe((newElement: DisplayedElement) => {
-                setState(newElement);
-                console.log('setting stuff');
-            });
+            .subscribe(setState);
     }, [props.original, props.mappingFn]);
     useEffect(() => {
         return () => {

@@ -1,7 +1,10 @@
+import { Button, Container } from '@mui/material';
+
+import { clearAppStorage } from '../../../../persistState';
 import { RouteInfo } from '../../../routes/RouteInfo';
 import { SideDrawer } from '../../common/side/SideDrawer';
-import { PageWrapper } from '../PageWrapper';
 import { SideDrawerState } from '../../common/side/SideDrawerState';
+import { PageWrapper } from '../PageWrapper';
 
 export class HomePage extends PageWrapper {
     createRoute(): RouteInfo {
@@ -9,7 +12,17 @@ export class HomePage extends PageWrapper {
     }
 
     renderMainPage(): JSX.Element {
-        return <h1>Main Page</h1>;
+        return (
+            <Container>
+                <Button
+                    onClick={clearAppStorage}
+                    color="secondary"
+                    variant="contained"
+                >
+                    Reset Stores
+                </Button>
+            </Container>
+        );
     }
     renderSideBar(): JSX.Element {
         return (

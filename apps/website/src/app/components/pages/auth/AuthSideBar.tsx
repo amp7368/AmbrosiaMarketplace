@@ -1,13 +1,8 @@
-import {
-    Box,
-    Button,
-    Container,
-    Stack,
-    styled,
-    Typography,
-} from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
+
 import { AppImg } from '../../../util/imageHandling';
 import { DarkShadowText, LightShadowText } from '../../base/AppTypography';
+import { LoginForm } from './LoginForm';
 
 const welcomeRow = (
     <Stack
@@ -17,23 +12,15 @@ const welcomeRow = (
         bgcolor="primary.light"
         alignItems="center"
     >
-        <Box>
-            <DarkShadowText fontSize="2rem" fontWeight="bold">
-                Welcome to
-                <br />
-                Ambrosia Markets!
-            </DarkShadowText>
-        </Box>
+        <DarkShadowText color="text.primary" fontSize="2rem" fontWeight="bold">
+            Welcome to
+            <br />
+            Ambrosia Markets!
+        </DarkShadowText>
         <Box height="8rem">{AppImg.logo().resize(true).build()}</Box>
     </Stack>
 );
-const loginRow = (
-    <Stack direction="row" padding={4} justifyContent="center">
-        <Button variant="contained" color="secondary">
-            <Typography fontSize="2rem">Login</Typography>
-        </Button>
-    </Stack>
-);
+
 const signupRow = (
     <Stack
         direction="column"
@@ -59,7 +46,7 @@ export function AuthSideDrawer() {
     return (
         <Stack direction="column" justifyContent="space-between">
             {welcomeRow}
-            {loginRow}
+            {<LoginForm />}
             {signupRow}
         </Stack>
     );

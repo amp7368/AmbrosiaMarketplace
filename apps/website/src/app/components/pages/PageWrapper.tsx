@@ -13,15 +13,7 @@ const StyledRootPage = (props: PropsJustChildren) => {
     );
 };
 export abstract class PageWrapper implements IPageWrapper {
-    props: PageWrapperProps;
-    constructor(props: PageWrapperProps) {
-        this.props = props;
-    }
-
-    public getName(): string {
-        return this.props.title;
-    }
-
+    constructor(public props: PageWrapperProps) {}
     abstract createRoute(): RouteInfo;
 
     PageElement(): JSX.Element {
@@ -40,6 +32,7 @@ export abstract class PageWrapper implements IPageWrapper {
             </Box>
         );
     }
+    
     renderTopNav(): JSX.Element {
         return <TopNavigation />;
     }
