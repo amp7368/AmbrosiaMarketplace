@@ -14,7 +14,7 @@ export class SelfUserQuery extends QueryBase<SelfUser> {
     isLoggedIn: Observable<boolean> = this.map(
         this.session,
         (session: Optional<Session>) =>
-            !!session && new Date() > session.expiration
+            !!session && new Date() < session.expiration
     );
 }
 export const selfUserQuery = new SelfUserQuery(selfUserStore);
