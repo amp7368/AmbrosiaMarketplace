@@ -1,6 +1,6 @@
 import { Box, FormControl, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { sessionService } from '../../../model/user/session/Session.service';
+import { sessionService } from '../../../model/session/Session.service';
 
 import { AuthLoginButton } from './AuthLoginButton';
 

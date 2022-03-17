@@ -1,4 +1,4 @@
-import { RequestSignup } from 'libs/api-iomodel/src/api';
+import { SignupRequest } from 'libs/api-iomodel/src/api';
 import { UserAccountBase } from '@api/io-model';
 import { Column, Entity, JoinColumn, PrimaryColumn } from 'typeorm';
 import { v4 } from 'uuid';
@@ -25,7 +25,7 @@ export class UserAccount implements UserAccountBase {
     @Column(() => AmbrosiaAccount)
     ambrosiaAccount: AmbrosiaAccount;
 
-    assignProps(props: RequestSignup) {
+    assignProps(props: SignupRequest) {
         this.userId = v4();
         this.credentials = new UserCredentials();
         this.credentials.assignProps(props);

@@ -5,7 +5,7 @@ import {
     PrimaryColumn,
     RelationOptions,
 } from 'typeorm';
-import { ItemIdentified } from '../identified/ItemIdentified.entity';
+import { ItemIden } from '../iden/ItemIden.entity';
 import { ItemHistoricBuy } from './ItemHistoricBuy.entity';
 import { ItemHistoricFound } from './ItemHistoricFound.entity';
 import { ItemHistoricSell } from './ItemHistoricSell.entity';
@@ -15,7 +15,7 @@ const historyOptions: RelationOptions = { lazy: true };
 @Entity()
 export class ItemHistory {
     @PrimaryColumn('uuid')
-    @OneToOne(() => ItemIdentified)
+    @OneToOne(() => ItemIden)
     instUUID: string;
 
     @OneToMany(

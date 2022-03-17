@@ -16,7 +16,7 @@ import {
     ResponseRegisterItem,
 } from '@api/io-model';
 import { ControllerBase } from '../../base/ControllerBase';
-import { queryItemIdentified } from '../../../database/entity/item/identified/ItemIdentifiedQuery';
+import { queryItemIden } from '../../../database/entity/item/iden/ItemIden.query';
 
 @Controller()
 export class ItemController extends ControllerBase<ValidateItem> {
@@ -29,7 +29,7 @@ export class ItemController extends ControllerBase<ValidateItem> {
         @Body() request: RequestRegisterItem
     ): Promise<ResponseRegisterItem> {
         this.validate().validateRegisterItem(request);
-        const ref: ItemRef = await queryItemIdentified.insertItem(request.item);
+        const ref: ItemRef = await queryItemIden.insertItem(request.item);
         return new ResponseRegisterItem(ref.instUUID);
     }
 

@@ -1,4 +1,4 @@
-import { isFalsey, minutesToMillis } from '@appleptr16/utilities';
+import { minutesToMillis } from '@appleptr16/utilities';
 import { UserAccount } from '../entity/user/UserAcount.entity';
 import { Session } from './Session';
 
@@ -25,7 +25,7 @@ export class SessionStore {
     isSessionValid(sessionToken: string): boolean {
         this.verifyTrimmed();
         const session: Session = this.sessions.get(sessionToken);
-        if (isFalsey(session)) return false;
+        if (!session) return false;
         return session.isValid();
     }
 }

@@ -1,4 +1,4 @@
-import { RequestLogin, ResponseLogin } from '@api/io-model';
+import { LoginRequest, LoginResponse } from '@api/io-model';
 import { Body, Controller, Post } from '@nestjs/common';
 import { UserAccount } from '../../../../database/entity/user/UserAcount.entity';
 import { sessionStore } from '../../../../database/session/SessionStorage';
@@ -16,7 +16,7 @@ export class LoginController extends ControllerBase<ValidateLogin> {
     }
 
     @Post()
-    async login(@Body() credentials: RequestLogin): Promise<ResponseLogin> {
+    async login(@Body() credentials: LoginRequest): Promise<LoginResponse> {
         const getUser: Promise<UserAccount> =
             this.authService.getUser(credentials);
         return await getUser
@@ -27,12 +27,12 @@ export class LoginController extends ControllerBase<ValidateLogin> {
     }
 
     private loginGotUser(
-        credentials: RequestLogin,
+        credentials: LoginRequest,
         user: UserAccount
-    ): ResponseLogin {
+    ): LoginResponse {
         const isOkLogin = this.authService.isOkLogin(user, credentials);
         if (!isOkLogin) throw authExceptionFactory.loginBadCredentials();
         const session = sessionStore.newSession(user);
-        return new ResponseLogin(session);
+        return new LoginResponse(session);
     }
 }

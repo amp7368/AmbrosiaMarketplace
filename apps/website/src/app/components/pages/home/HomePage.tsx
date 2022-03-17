@@ -5,13 +5,17 @@ import { RouteInfo } from '../../../routes/RouteInfo';
 import { SideDrawer } from '../../common/side/SideDrawer';
 import { SideDrawerState } from '../../common/side/SideDrawerState';
 import { PageWrapper } from '../PageWrapper';
+import { SideBarProps, MainPageProps } from '../PageWrapperProps';
 
-export class HomePage extends PageWrapper {
+export class HomePage extends PageWrapper<undefined> {
+    listTabs(): undefined[] {
+        return [];
+    }
     createRoute(): RouteInfo {
         return new RouteInfo(this);
     }
 
-    renderMainPage(): JSX.Element {
+    renderMainPage(props: MainPageProps<undefined>): JSX.Element {
         return (
             <Container>
                 <Button
@@ -24,7 +28,7 @@ export class HomePage extends PageWrapper {
             </Container>
         );
     }
-    renderSideBar(): JSX.Element {
+    renderSideBar(props: SideBarProps<undefined>): JSX.Element {
         return (
             <SideDrawer
                 drawerStates={
@@ -35,6 +39,7 @@ export class HomePage extends PageWrapper {
                         [SideDrawerState.EXPANDED, <h1>expanded</h1>],
                     ])
                 }
+                {...props}
             />
         );
     }

@@ -1,3 +1,3 @@
 export * from './user';
-export * from './AmbrosiaRequest';
-export * from './AmbrosiaResponse';
+export * from './auth';
+export * from './ApiAmbrosiaFactory';

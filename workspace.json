@@ -4,7 +4,6 @@
         "ambrosia-index": "apps/ambrosia-index",
         "api": "apps/api",
         "api-iomodel": "libs/api-iomodel",
-        "client": "apps/client",
         "@appleptr16/elemental": "libs/elemental",
         "express-api": "apps/express-api",
         "@appleptr16/utilities": "libs/misc-utilities",

@@ -1,4 +1,4 @@
-import { RequestSignup } from '@api/io-model';
+import { SignupRequest } from '@api/io-model';
 import { getManager } from 'typeorm';
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
 import { UserAccount } from './UserAcount.entity';
@@ -11,7 +11,7 @@ export class UserAccountQuery extends AmbrosiaQuery {
             })
             .getOneOrFail();
     }
-    async newUser(signup: RequestSignup): Promise<UserAccount> {
+    async newUser(signup: SignupRequest): Promise<UserAccount> {
         const account = new UserAccount();
         account.assignProps(signup);
         return await getManager().save(account);
