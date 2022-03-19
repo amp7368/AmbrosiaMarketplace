@@ -1,3 +1,4 @@
+import { Multer } from 'multer';
 import {
     INestApplication,
     Module,
@@ -24,7 +25,7 @@ async function bootstrap() {
         cors: true,
     };
     const pipes = new ValidationPipe({
-        whitelist: true,
+        // whitelist: true,
         enableDebugMessages: true,
     });
     const nestApp: INestApplication = await NestFactory.create(

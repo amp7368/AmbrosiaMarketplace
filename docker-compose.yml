@@ -10,14 +10,16 @@ services:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
             - POSTGRES_DB=${POSTGRES_DB}
-        expose:
-            - ${POSTGRES_PORT}
         networks:
             - 'ambrosia'
         volumes:
             - database:/${WORKINGDIR}/database
+        # Remove these probably
+        expose:
+            - ${POSTGRES_PORT}
         ports:
             - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+        # Remove these probably
     ambrosia-api:
         image: ${COMPOSE_NAME}/${API_IMAGE}
         depends_on:
@@ -29,6 +31,7 @@ services:
                 - WORKINGDIR=${WORKINGDIR}
                 - COMPOSE_NAME=${COMPOSE_NAME}
                 - BASE_IMAGE=${BASE_IMAGE}
+                - NODE_VERSION=${NODE_VERSION}
         hostname: ${API_IMAGE}
         container_name: ${API_IMAGE}
         networks:
@@ -51,55 +54,45 @@ services:
                 - WORKINGDIR=${WORKINGDIR}
                 - COMPOSE_NAME=${COMPOSE_NAME}
                 - BASE_IMAGE=${BASE_IMAGE}
+                - NGINX_VERSION=${NGINX_VERSION}
+                - NGINX_PORT=${NGINX_PORT}
         networks:
             - 'ambrosia'
         environment:
             - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
+            - NGINX_PORT=${NGINX_PORT}
         expose:
             - ${NGINX_PORT}
-    ambrosia-index:
-        hostname: ${INDEX_IMAGE}
-        container_name: ${INDEX_IMAGE}
-        image: ${COMPOSE_NAME}/${INDEX_IMAGE}
+    ambrosia-nginx:
+        depends_on:
+            - ambrosia-website
+            - ambrosia-api
+        hostname: ${NGINX_IMAGE}
+        container_name: ${NGINX_IMAGE}
+        image: ${COMPOSE_NAME}/${NGINX_IMAGE}
         build:
             context: .
-            dockerfile: ./apps/ambrosia-index/Dockerfile
+            dockerfile: ./apps/nginx/Dockerfile
             args:
                 - WORKINGDIR=${WORKINGDIR}
                 - COMPOSE_NAME=${COMPOSE_NAME}
                 - BASE_IMAGE=${BASE_IMAGE}
-        networks:
-            - 'ambrosia'
-        environment:
-            - PORT=${NGINX_PORT}
-            - WORKINGDIR=${WORKINGDIR}
-        expose:
-            - ${NGINX_PORT}
-    ambrosia-nginx: #DONT CHANGE THIS
-        hostname: ambrosia-nginx
-        container_name: ambrosia-nginx
-        image: ${COMPOSE_NAME}/ambrosia-nginx # give a name to it
-        environment:
-            - EXPRESS_DOMAIN=${EXPRESS_DOMAIN}
-            - EXPRESS_IMAGE=${EXPRESS_IMAGE}
-            - WEBSITE_DOMAIN=${WEBSITE_DOMAIN}
-            - WEBSITE_IMAGE=${WEBSITE_IMAGE}
-            - NEST_DOMAIN=${NEST_DOMAIN}
-            - NEST_IMAGE=${NEST_IMAGE}
-            - INDEX_IMAGE=${INDEX_IMAGE}
-
-            - DOMAIN_PREFIX=${DOMAIN_PREFIX}
-            - WORKINGDIR=${WORKINGDIR}
-            - NGINX_PORT=${NGINX_PORT}
-        build:
-            context: .
-            dockerfile: ./apps/nginx/Dockerfile # specify where the docker file is to build this service
-            args:
-                - WORKINGDIR=${WORKINGDIR} # provide args from the .env file to the build phase of the docker file
+                - NGINX_VERSION=${NGINX_VERSION}
         networks:
             - 'appleptr16'
             - 'ambrosia'
+        environment:
+            - WEBSITE_DOMAIN=${WEBSITE_DOMAIN}
+            - WEBSITE_IMAGE=${WEBSITE_IMAGE}
+            - API_DOMAIN=${API_DOMAIN}
+            - API_IMAGE=${API_IMAGE}
+
+            - DOMAIN_PREFIX=${DOMAIN_PREFIX}
+            - NGINX_PORT=${NGINX_PORT}
+
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
         expose:
             - ${NGINX_PORT}
 networks:

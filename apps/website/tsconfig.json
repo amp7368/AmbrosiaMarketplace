@@ -3,9 +3,15 @@
     "compilerOptions": {
         "jsx": "react-jsx",
         "jsxImportSource": "@emotion/react",
-        "allowJs": true,
+        "target": "es2018",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
+
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,

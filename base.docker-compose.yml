@@ -5,4 +5,6 @@ services:
         image: ${COMPOSE_NAME}/${BASE_IMAGE}
         build:
             context: .
+            args:
+                - NODE_VERSION=${NODE_VERSION}
             dockerfile: base.Dockerfile

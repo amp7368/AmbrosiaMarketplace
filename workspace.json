@@ -3,7 +3,7 @@
     "projects": {
         "@appleptr16/elemental": "libs/elemental",
         "@appleptr16/utilities": "libs/misc-utilities",
-        "ambrosia-index": "apps/ambrosia-index",
+        "ambrosia-nginx": "apps/nginx",
         "api": "apps/api",
         "api-iomodel": "libs/api-iomodel",
         "website": "apps/website"

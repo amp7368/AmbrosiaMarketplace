@@ -1,6 +1,6 @@
 {
-    "root": "apps/ambrosia-index",
-    "sourceRoot": "apps/ambrosia-index/src",
+    "root": "apps/nginx",
+    "sourceRoot": "apps/nginx/src",
     "projectType": "application",
     "targets": {
         "build": {
@@ -9,30 +9,32 @@
             "defaultConfiguration": "production",
             "options": {
                 "compiler": "babel",
-                "outputPath": "dist/apps/ambrosia-index",
-                "index": "apps/ambrosia-index/src/index.html",
+                "outputPath": "dist/apps/nginx",
+                "index": "apps/nginx/src/index.html",
                 "baseHref": "/",
-                "main": "apps/ambrosia-index/src/main.tsx",
-                "tsConfig": "apps/ambrosia-index/tsconfig.app.json",
+                "main": "apps/nginx/src/main.tsx",
+                "tsConfig": "apps/nginx/tsconfig.app.json",
                 "assets": [
-                    "apps/ambrosia-index/src/favicon.ico",
-                    "apps/ambrosia-index/src/assets"
+                    "apps/nginx/src/favicon.ico",
+                    "apps/nginx/src/assets"
                 ],
                 "styles": [],
+                "generatePackageJson": true,
+                "externalDependencies": "all",
                 "scripts": [],
                 "webpackConfig": "@nrwl/react/plugins/webpack",
-                "polyfills": "apps/ambrosia-index/src/polyfills.ts"
+                "polyfills": "apps/nginx/src/polyfills.ts"
             },
             "configurations": {
                 "production": {
                     "fileReplacements": [
                         {
-                            "replace": "apps/ambrosia-index/src/environments/environment.ts",
-                            "with": "apps/ambrosia-index/src/environments/environment.prod.ts"
+                            "replace": "apps/nginx/src/environments/environment.ts",
+                            "with": "apps/nginx/src/environments/environment.prod.ts"
                         }
                     ],
                     "optimization": true,
-                    "outputHashing": "all",
+                    "outputHashing": "none",
                     "sourceMap": false,
                     "namedChunks": false,
                     "extractLicenses": true,
@@ -43,13 +45,13 @@
         "serve": {
             "executor": "@nrwl/web:dev-server",
             "options": {
-                "buildTarget": "ambrosia-index:build",
+                "buildTarget": "nginx:build",
                 "hmr": true,
                 "port": 8090
             },
             "configurations": {
                 "production": {
-                    "buildTarget": "ambrosia-index:build:production",
+                    "buildTarget": "nginx:build:production",
                     "hmr": false
                 }
             }
@@ -58,14 +60,14 @@
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["apps/ambrosia-index/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["apps/nginx/**/*.{ts,tsx,js,jsx}"]
             }
         },
         "test": {
             "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/apps/ambrosia-index"],
+            "outputs": ["coverage/apps/nginx"],
             "options": {
-                "jestConfig": "apps/ambrosia-index/jest.config.js",
+                "jestConfig": "apps/nginx/jest.config.js",
                 "passWithNoTests": true
             }
         }

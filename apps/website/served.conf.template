@@ -1,0 +1,8 @@
+server {
+    listen *:${NGINX_PORT} default_server;
+    server_name _;
+    root ${WORKINGDIR}/dist/apps/nginx;
+    location / { 
+        try_files $uri /index.html ;
+    }
+}

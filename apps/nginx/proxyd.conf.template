@@ -1,24 +1,26 @@
 server {
     listen *:${NGINX_PORT};
-    server_name ~^.*${CLIENT_DOMAIN}[-](.*);
+    server_name ~^[${API_DOMAIN}][\.](.*);
     location / { 
         include /etc/nginx/conf.d/common_proxy.txt;
-        proxy_pass http://${CLIENT_IMAGE}:${NGINX_PORT}/;
+        set $$upstream_api ${API_IMAGE};
+        proxy_pass http://$$upstream_api:${NGINX_PORT}/;
     }
 }
 server {
     listen *:${NGINX_PORT};
-    server_name ~^.*${NEST_DOMAIN}[-](.*);
+    server_name ~^(.*);
     location / { 
         include /etc/nginx/conf.d/common_proxy.txt;
-        proxy_pass http://${NEST_IMAGE}:${NGINX_PORT}/;
+        set $$upstream_web ${WEBSITE_IMAGE};
+        proxy_pass http://$$upstream_web:${NGINX_PORT}/;
     }
 }
 server {
     listen *:${NGINX_PORT} default_server;
-    server_name _;
+    server_name ~^(.*);
+    root ${WORKINGDIR}/dist/apps/nginx;
     location / { 
-        include /etc/nginx/conf.d/common_proxy.txt;
-        proxy_pass http://${INDEX_IMAGE}:${NGINX_PORT}/;
+        try_files $uri /index.html ;
     }
 }

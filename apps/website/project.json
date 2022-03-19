@@ -12,6 +12,7 @@
                 "outputPath": "dist/apps/website",
                 "index": "apps/website/src/index.html",
                 "baseHref": "/",
+                "outputHashing": "none",
                 "main": "apps/website/src/main.tsx",
                 "polyfills": "apps/website/src/polyfills.ts",
                 "tsConfig": "apps/website/tsconfig.app.json",
@@ -19,6 +20,9 @@
                     "apps/website/src/favicon.ico",
                     "apps/website/src/assets"
                 ],
+                "generatePackageJson": true,
+                "externalDependencies": "all",
+                "generateIndexHtml": true,
                 "styles": [],
                 "scripts": [],
                 "webpackConfig": "@nrwl/react/plugins/webpack"
@@ -32,7 +36,7 @@
                         }
                     ],
                     "optimization": true,
-                    "outputHashing": "all",
+                    "outputHashing": "none",
                     "sourceMap": false,
                     "namedChunks": false,
                     "extractLicenses": true,
