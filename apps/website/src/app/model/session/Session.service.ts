@@ -14,15 +14,13 @@ export class SessionService {
     async logout() {
         selfUserStore.setSession(undefined);
     }
-    async signup(
-        credentials: SignupRequest['input']
-    ): SignupResponse['promise'] {
-        const response: SignupResponse['promise'] = authAPI.signup(credentials);
+    async signup(request: SignupRequest['input']): SignupResponse['promise'] {
+        const response: SignupResponse['promise'] = authAPI.signup(request);
         response.then(this.authPost).catch(emptyRunnable);
         return response;
     }
-    async login(credentials: LoginRequest['input']): LoginResponse['promise'] {
-        const response: LoginResponse['promise'] = authAPI.login(credentials);
+    async login(request: LoginRequest['input']): LoginResponse['promise'] {
+        const response: LoginResponse['promise'] = authAPI.login(request);
         response.then(this.authPost).catch(emptyRunnable);
         return response;
     }

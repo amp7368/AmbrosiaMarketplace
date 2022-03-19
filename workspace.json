@@ -1,11 +1,11 @@
 {
     "version": 2,
     "projects": {
+        "@appleptr16/elemental": "libs/elemental",
+        "@appleptr16/utilities": "libs/misc-utilities",
         "ambrosia-index": "apps/ambrosia-index",
         "api": "apps/api",
         "api-iomodel": "libs/api-iomodel",
-        "@appleptr16/elemental": "libs/elemental",
-        "@appleptr16/utilities": "libs/misc-utilities",
         "website": "apps/website"
     }
 }

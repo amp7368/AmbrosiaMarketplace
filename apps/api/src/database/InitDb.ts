@@ -1,4 +1,8 @@
-export abstract class InitDb {
-    initialize() {}
-    abstract getEntities();
+import { EntityTarget } from 'typeorm';
+
+export class InitDb<Entity> {
+    constructor(private entities?: EntityTarget<Entity>[]) {}
+    getEntities(): EntityTarget<Entity>[] {
+        return this.entities ?? [];
+    }
 }

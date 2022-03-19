@@ -1,23 +1,26 @@
 import { v4 } from 'uuid';
 import { hoursToMillis } from '@appleptr16/utilities';
-import { UserAccount } from '../entity/user/UserAcount.entity';
+import { ServerProfile } from '../entity/user/UserAcount.entity';
+import { SessionBase } from '@api/io-model';
 
-export class Session {
+export class Session implements SessionBase {
     static SESSION_EXPIRATION = hoursToMillis(1);
 
-    user: UserAccount;
+    user: ServerProfile;
     sessionToken: string = v4();
-    expiration: number = Date.now() + Session.SESSION_EXPIRATION;
+    expiration: Date = this.refresh();
 
-    constructor(user: UserAccount) {
+    constructor(user: ServerProfile) {
         this.user = user;
     }
 
     refresh() {
-        this.expiration = Date.now() + Session.SESSION_EXPIRATION;
+        return (this.expiration = new Date(
+            Date.now() + Session.SESSION_EXPIRATION
+        ));
     }
 
     isValid(): boolean {
-        return Date.now() <= this.expiration;
+        return new Date() <= this.expiration;
     }
 }

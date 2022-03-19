@@ -18,26 +18,8 @@ services:
             - database:/${WORKINGDIR}/database
         ports:
             - '${POSTGRES_PORT}:${POSTGRES_PORT}'
-    ambrosia-express:
-        image: ${COMPOSE_NAME}/${EXPRESS_IMAGE}
-        build:
-            context: .
-            dockerfile: ./apps/express-api/Dockerfile
-            args:
-                - WORKINGDIR=${WORKINGDIR}
-                - COMPOSE_NAME=${COMPOSE_NAME}
-                - BASE_IMAGE=${BASE_IMAGE}
-        hostname: ${EXPRESS_IMAGE}
-        container_name: ${EXPRESS_IMAGE}
-        networks:
-            - 'ambrosia'
-        environment:
-            - PORT=${NGINX_PORT}
-            - WORKINGDIR=${WORKINGDIR}
-        expose:
-            - ${NGINX_PORT}
-    ambrosia-nest:
-        image: ${COMPOSE_NAME}/${NEST_IMAGE}
+    ambrosia-api:
+        image: ${COMPOSE_NAME}/${API_IMAGE}
         depends_on:
             - ambrosia-postgres
         build:
@@ -47,8 +29,8 @@ services:
                 - WORKINGDIR=${WORKINGDIR}
                 - COMPOSE_NAME=${COMPOSE_NAME}
                 - BASE_IMAGE=${BASE_IMAGE}
-        hostname: ${NEST_IMAGE}
-        container_name: ${NEST_IMAGE}
+        hostname: ${API_IMAGE}
+        container_name: ${API_IMAGE}
         networks:
             - 'ambrosia'
         environment:
@@ -58,13 +40,13 @@ services:
             - '80:80'
         expose:
             - 80
-    ambrosia-client:
-        image: ${COMPOSE_NAME}/${CLIENT_IMAGE}
-        hostname: ${CLIENT_IMAGE}
-        container_name: ${CLIENT_IMAGE}
+    ambrosia-website:
+        image: ${COMPOSE_NAME}/${WEBSITE_IMAGE}
+        hostname: ${WEBSITE_IMAGE}
+        container_name: ${WEBSITE_IMAGE}
         build:
             context: .
-            dockerfile: ./apps/client/Dockerfile
+            dockerfile: ./apps/website/Dockerfile
             args:
                 - WORKINGDIR=${WORKINGDIR}
                 - COMPOSE_NAME=${COMPOSE_NAME}
@@ -101,8 +83,8 @@ services:
         environment:
             - EXPRESS_DOMAIN=${EXPRESS_DOMAIN}
             - EXPRESS_IMAGE=${EXPRESS_IMAGE}
-            - CLIENT_DOMAIN=${CLIENT_DOMAIN}
-            - CLIENT_IMAGE=${CLIENT_IMAGE}
+            - WEBSITE_DOMAIN=${WEBSITE_DOMAIN}
+            - WEBSITE_IMAGE=${WEBSITE_IMAGE}
             - NEST_DOMAIN=${NEST_DOMAIN}
             - NEST_IMAGE=${NEST_IMAGE}
             - INDEX_IMAGE=${INDEX_IMAGE}

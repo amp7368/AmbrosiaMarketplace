@@ -1,20 +1,33 @@
-import { SignupRequest } from 'libs/api-iomodel/src/api';
-import { UserAccountBase } from '@api/io-model';
-import { Column, Entity, JoinColumn, PrimaryColumn } from 'typeorm';
-import { v4 } from 'uuid';
-import { AmbrosiaAccount } from './ambrosia/AmbrosiaAccount';
+import {
+    ItemSlotsBase,
+    ProfileBase,
+    ServerProfileBase,
+    UserSettingsBase,
+} from '@api/io-model';
+import { CreateClassFactory } from '@appleptr16/utilities';
+import { Column, Entity, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+
+import { ItemSlots } from '../item/ref/ItemSlots.entity';
 import { DiscordAccount } from './discord/DiscordAccount';
-import { UserCredentials } from './UserCredentials';
+import { Credentials } from './UserCredentials';
 import { WynnAccount } from './wynn/WynnAccount';
+import { CreateClassFn } from '../../../../../../libs/misc-utilities/src/lib/factory/CreateClassFactory';
+import { UserSettings } from './settings/UserSettings';
 
 @Entity()
-export class UserAccount implements UserAccountBase {
+export class ServerProfile implements ServerProfileBase {
+    static factory = new CreateClassFactory(ServerProfile);
+    static create: CreateClassFn<ServerProfile> = ServerProfile.factory.create;
+
+    @Column(() => UserSettings)
+    settings: UserSettings;
+
     @JoinColumn()
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn('uuid')
     userId: string;
 
-    @Column(() => UserCredentials)
-    credentials: UserCredentials;
+    @Column(() => Credentials)
+    credentials: Credentials;
 
     @Column(() => WynnAccount)
     wynnAccount: WynnAccount;
@@ -22,15 +35,10 @@ export class UserAccount implements UserAccountBase {
     @Column(() => DiscordAccount)
     discordAccount: DiscordAccount;
 
-    @Column(() => AmbrosiaAccount)
-    ambrosiaAccount: AmbrosiaAccount;
-
-    assignProps(props: SignupRequest) {
-        this.userId = v4();
-        this.credentials = new UserCredentials();
-        this.credentials.assignProps(props);
-        this.wynnAccount = new WynnAccount();
-        this.discordAccount = new DiscordAccount();
-        this.ambrosiaAccount = new AmbrosiaAccount();
-    }
+    @Column(() => ItemSlots)
+    marketSlots: ItemSlotsBase;
+    @Column(() => ItemSlots)
+    pinnedSlots: ItemSlotsBase;
+    @Column(() => ItemSlots)
+    playerInventory: ItemSlotsBase;
 }

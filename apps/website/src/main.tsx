@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+// import 'reflect-metadata';
 import './persistState';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';

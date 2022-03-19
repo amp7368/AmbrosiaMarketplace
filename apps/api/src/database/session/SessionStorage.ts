@@ -1,5 +1,5 @@
 import { minutesToMillis } from '@appleptr16/utilities';
-import { UserAccount } from '../entity/user/UserAcount.entity';
+import { ServerProfile } from '../entity/user/UserAcount.entity';
 import { Session } from './Session';
 
 export class SessionStore {
@@ -16,7 +16,7 @@ export class SessionStore {
             if (!session.isValid()) map.delete(key);
         });
     }
-    newSession(user: UserAccount): Session {
+    newSession(user: ServerProfile): Session {
         this.verifyTrimmed();
         const session = new Session(user);
         this.sessions.set(session.sessionToken, session);

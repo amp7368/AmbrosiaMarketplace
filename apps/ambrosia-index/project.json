@@ -13,7 +13,6 @@
                 "index": "apps/ambrosia-index/src/index.html",
                 "baseHref": "/",
                 "main": "apps/ambrosia-index/src/main.tsx",
-                "polyfills": "apps/ambrosia-index/src/polyfills.ts",
                 "tsConfig": "apps/ambrosia-index/tsconfig.app.json",
                 "assets": [
                     "apps/ambrosia-index/src/favicon.ico",
@@ -21,7 +20,8 @@
                 ],
                 "styles": [],
                 "scripts": [],
-                "webpackConfig": "@nrwl/react/plugins/webpack"
+                "webpackConfig": "@nrwl/react/plugins/webpack",
+                "polyfills": "apps/ambrosia-index/src/polyfills.ts"
             },
             "configurations": {
                 "production": {

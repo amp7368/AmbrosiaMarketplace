@@ -1,32 +1,26 @@
-import { ILoginId, SignupRequest, UserAccountBase } from '@api/io-model';
-import { UserAccount } from '../../../database/entity/user/UserAcount.entity';
+import { ILoginId, ServerProfileBase, SignupRequest } from '@api/io-model';
+import { Optional } from '@appleptr16/utilities';
+
+import { ServerProfile } from '../../../database/entity/user/UserAcount.entity';
 import { Session } from '../../../database/session/Session';
 import { sessionStore } from '../../../database/session/SessionStorage';
-import { userAccountQuery } from '../../../database/entity/user/userAccount.query';
+import { userAccountQuery } from '../../../database/entity/user/UserAccount.query';
 
 export class AuthService {
-    isOkLogin(
-        user: UserAccountBase | undefined,
-        credentials: ILoginId
-    ): boolean {
-        if (!user) return false;
-        return user.credentials.password === credentials.password;
-    }
-
-    async getUser(credentials: ILoginId): Promise<UserAccount> {
+    async getUser(credentials: ILoginId): Promise<ServerProfile> {
         return userAccountQuery.getUser(credentials.username);
     }
 
     async hasUser(credentials: ILoginId): Promise<boolean> {
         return this.getUser(credentials)
-            .then((user) => !!user)
+            .then((user: ServerProfile) => !!user)
             .catch(() => false);
     }
 
-    async newUser(signup: SignupRequest): Promise<UserAccount> {
+    async newUser(signup: SignupRequest['output']): Promise<ServerProfile> {
         return userAccountQuery.newUser(signup);
     }
-    async newSessionFromNewUser(signup: SignupRequest): Promise<Session> {
+    async newSession(signup: SignupRequest['output']): Promise<Session> {
         return this.newUser(signup).then(sessionStore.newSession);
     }
 }

@@ -1,19 +1,12 @@
-import { wynnInitDb } from './wynn/wynn.initDb';
-import { discordInitDb } from './discord/discord.initDb';
 import { InitDb } from '../../InitDb';
-import { ambrosiaInitDb } from './ambrosia/ambrosia.initDb';
-import { UserAccount } from './UserAcount.entity';
-import { UserCredentials } from './UserCredentials';
+import { discordInitDb } from './discord/discord.initDb';
+import { ServerProfile } from './UserAcount.entity';
+import { Credentials } from './UserCredentials';
+import { wynnInitDb } from './wynn/wynn.initDb';
 
-class UserInitDb extends InitDb {
-    getEntities() {
-        return [
-            UserAccount,
-            UserCredentials,
-            ...ambrosiaInitDb.getEntities(),
-            ...discordInitDb.getEntities(),
-            ...wynnInitDb.getEntities(),
-        ];
-    }
-}
-export const userInitDb = new UserInitDb();
+export const userInitDb = new InitDb([
+    ServerProfile,
+    Credentials,
+    ...discordInitDb.getEntities(),
+    ...wynnInitDb.getEntities(),
+]);

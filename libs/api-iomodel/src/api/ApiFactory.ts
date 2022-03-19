@@ -1,4 +1,4 @@
-import { EmptyObject } from '../../../misc-utilities/src/lib/questionable/Questionable';
+import { EmptyObject } from '@appleptr16/utilities';
 // Out, but not in Supply or Parent
 export type FactoryIn<Supply, Parent, Extra> = {
     [Key in keyof Extra as Key extends keyof (Supply & Parent)

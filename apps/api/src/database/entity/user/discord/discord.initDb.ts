@@ -1,8 +1,4 @@
 import { InitDb } from '../../../InitDb';
+import { DiscordAccount } from './DiscordAccount';
 
-class DiscordInitDb extends InitDb {
-    getEntities() {
-        return [];
-    }
-}
-export const discordInitDb = new DiscordInitDb();
+export const discordInitDb = new InitDb();

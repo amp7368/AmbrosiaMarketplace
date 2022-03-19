@@ -1,12 +1,10 @@
-import { SignupRequest, UserCredentialsBase } from '@api/io-model';
+import { CredentialsBase } from '@api/io-model';
+import { CreateClassFactory, CreateClassFn } from '@appleptr16/utilities';
 import { Column } from 'typeorm';
 
-export class UserCredentials implements UserCredentialsBase {
-    assignProps(props: SignupRequest) {
-        this.email = props.email ?? null;
-        this.username = props.username;
-        this.password = props.password;
-    }
+export class Credentials implements CredentialsBase {
+    static factory = new CreateClassFactory(Credentials);
+    static create: CreateClassFn<Credentials> = Credentials.factory.create;
 
     @Column({ nullable: true })
     email: string;

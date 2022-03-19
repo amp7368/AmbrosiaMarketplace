@@ -1,3 +1,7 @@
 import { DiscordAccountBase } from '@api/io-model';
+import { Column } from 'typeorm';
 
-export class DiscordAccount implements DiscordAccountBase {}
+export class DiscordAccount implements DiscordAccountBase {
+    @Column('bigint')
+    uuid: number;
+}
