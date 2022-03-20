@@ -10,11 +10,12 @@ import { NestFactory } from '@nestjs/core';
 import { initTypeOrmDbConnection } from './database/initDbConnection';
 import { AuthModule } from './endpoints/user/auth/auth.module';
 import { ItemModule } from './endpoints/user/item/item.module';
+import { PingModule } from './endpoints/ping/ping.module';
 
 const PORT = 80;
 
 @Module({
-    imports: [AuthModule, ItemModule],
+    imports: [PingModule, AuthModule, ItemModule],
 })
 class AppModule {}
 

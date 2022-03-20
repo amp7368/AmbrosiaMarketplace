@@ -1,6 +1,6 @@
 {
     "type": "postgres",
-    "host": "ambrosia-postgres",
+    "host": "ambrosia.postgres",
     "port": 5432,
     "username": "appleptr16",
     "password": "changeToSomething",

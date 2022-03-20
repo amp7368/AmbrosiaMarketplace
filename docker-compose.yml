@@ -1,8 +1,8 @@
 version: '3.8'
 services:
-    ambrosia-postgres:
+    postgres:
         image: ${COMPOSE_NAME}/${DATABASE_IMAGE}
-        container_name: ambrosia-postgres
+        container_name: ${COMPOSE_NAME}.${DATABASE_IMAGE}
         build:
             context: .
             dockerfile: ./apps/postgres/pg.Dockerfile
@@ -20,10 +20,11 @@ services:
         ports:
             - '${POSTGRES_PORT}:${POSTGRES_PORT}'
         # Remove these probably
-    ambrosia-api:
+    api:
         image: ${COMPOSE_NAME}/${API_IMAGE}
+        container_name: ${COMPOSE_NAME}.${API_IMAGE}
         depends_on:
-            - ambrosia-postgres
+            - postgres
         build:
             context: .
             dockerfile: ./apps/api/Dockerfile
@@ -32,21 +33,14 @@ services:
                 - COMPOSE_NAME=${COMPOSE_NAME}
                 - BASE_IMAGE=${BASE_IMAGE}
                 - NODE_VERSION=${NODE_VERSION}
-        hostname: ${API_IMAGE}
-        container_name: ${API_IMAGE}
         networks:
             - 'ambrosia'
         environment:
             - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
-        ports:
-            - '80:80'
-        expose:
-            - 80
-    ambrosia-website:
+    website:
         image: ${COMPOSE_NAME}/${WEBSITE_IMAGE}
-        hostname: ${WEBSITE_IMAGE}
-        container_name: ${WEBSITE_IMAGE}
+        container_name: ${COMPOSE_NAME}.${WEBSITE_IMAGE}
         build:
             context: .
             dockerfile: ./apps/website/Dockerfile
@@ -64,12 +58,11 @@ services:
             - NGINX_PORT=${NGINX_PORT}
         expose:
             - ${NGINX_PORT}
-    ambrosia-nginx:
+    nginx:
         depends_on:
-            - ambrosia-website
-            - ambrosia-api
-        hostname: ${NGINX_IMAGE}
-        container_name: ${NGINX_IMAGE}
+            - website
+            - api
+        container_name: ${COMPOSE_NAME}.${NGINX_IMAGE}
         image: ${COMPOSE_NAME}/${NGINX_IMAGE}
         build:
             context: .
@@ -88,10 +81,10 @@ services:
             - API_DOMAIN=${API_DOMAIN}
             - API_IMAGE=${API_IMAGE}
 
+            - COMPOSE_NAME=${COMPOSE_NAME}
             - DOMAIN_PREFIX=${DOMAIN_PREFIX}
             - NGINX_PORT=${NGINX_PORT}
 
-            - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
         expose:
             - ${NGINX_PORT}

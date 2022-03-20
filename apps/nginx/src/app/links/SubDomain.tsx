@@ -1,18 +1,22 @@
-/* eslint-disable no-restricted-globals */
-import { RedirectLink } from './RedirectLink';
+import { Button, Container, Typography } from '@mui/material';
 
 export interface SubDomainProps {
     newSubdomain: string;
     name: string;
 }
-function onClick(props: SubDomainProps) {
-    location.hostname = `${props.newSubdomain}-${location.hostname}`;
+function setDomain(newSubdomain: string) {
+    return (location.hostname = `${newSubdomain}.${location.hostname}`);
 }
-export const SubDomain = (props: SubDomainProps) => {
+export function SubDomain({ newSubdomain, name }: SubDomainProps) {
     return (
-        <RedirectLink
-            onClick={() => onClick(props)}
-            name={props.name + '-' + location.hostname}
-        ></RedirectLink>
+        <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => setDomain(newSubdomain)}
+        >
+            <Typography>
+                {newSubdomain}.{location.hostname}
+            </Typography>
+        </Button>
     );
-};
+}
