@@ -1,4 +1,4 @@
-import { ILoginId } from '../../api';
+import { ILoginId } from '../../api/auth/LoginId';
 
 export interface CredentialsBase extends ILoginId {
     email?: string;

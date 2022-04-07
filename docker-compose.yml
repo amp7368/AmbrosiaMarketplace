@@ -15,8 +15,6 @@ services:
         volumes:
             - database:/${WORKINGDIR}/database
         # Remove these probably
-        expose:
-            - ${POSTGRES_PORT}
         ports:
             - '${POSTGRES_PORT}:${POSTGRES_PORT}'
         # Remove these probably
@@ -38,6 +36,8 @@ services:
         environment:
             - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
+        ports:
+            - '${NGINX_PORT}:${NGINX_PORT}'
     website:
         image: ${COMPOSE_NAME}/${WEBSITE_IMAGE}
         container_name: ${COMPOSE_NAME}.${WEBSITE_IMAGE}
@@ -56,8 +56,6 @@ services:
             - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
             - NGINX_PORT=${NGINX_PORT}
-        expose:
-            - ${NGINX_PORT}
     nginx:
         depends_on:
             - website

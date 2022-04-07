@@ -1,7 +1,7 @@
 import { ILoginId, ServerProfileBase, SignupRequest } from '@api/io-model';
 import { Optional } from '@appleptr16/utilities';
 
-import { ServerProfile } from '../../../database/entity/user/UserAcount.entity';
+import { ServerProfile } from '../../../database/entity/user/UserAccount.entity';
 import { Session } from '../../../database/session/Session';
 import { sessionStore } from '../../../database/session/SessionStorage';
 import { userAccountQuery } from '../../../database/entity/user/UserAccount.query';

@@ -44,16 +44,18 @@ export class RequestBuilder {
         return this;
     }
     async build(): Promise<any> {
-        return axios(this.buildUrl()).catch(
-            (error: { request: XMLHttpRequest }) => {
+        return axios(this.buildUrl())
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error: { request: XMLHttpRequest }) => {
                 let msg = JSON.parse(error.request.response);
                 try {
                     msg = msg['message'] ?? msg;
                     // eslint-disable-next-line no-empty
                 } catch (ignored) {}
                 throw new Error(msg);
-            }
-        );
+            });
     }
 
     private serializeQueryParams(param: RequestParam) {

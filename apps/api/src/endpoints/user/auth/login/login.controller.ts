@@ -2,7 +2,7 @@ import { LoginRequest, LoginResponse } from '@api/io-model';
 import { Body, Controller, Post } from '@nestjs/common';
 
 import { apiLoginFactory } from '../../../../../../../libs/api-iomodel/src/api/auth/login/ApiLoginFactory';
-import { ServerProfile } from '../../../../database/entity/user/UserAcount.entity';
+import { ServerProfile } from '../../../../database/entity/user/UserAccount.entity';
 import { Session } from '../../../../database/session/Session';
 import { sessionStore } from '../../../../database/session/SessionStorage';
 import { ControllerBase } from '../../../base/ControllerBase';

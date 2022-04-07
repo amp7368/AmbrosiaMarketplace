@@ -1,6 +1,6 @@
 import { InitDb } from '../../InitDb';
 import { discordInitDb } from './discord/discord.initDb';
-import { ServerProfile } from './UserAcount.entity';
+import { ServerProfile } from './UserAccount.entity';
 import { Credentials } from './UserCredentials';
 import { wynnInitDb } from './wynn/wynn.initDb';
 

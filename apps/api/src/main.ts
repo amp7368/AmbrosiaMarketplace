@@ -8,14 +8,24 @@ import {
 import { NestFactory } from '@nestjs/core';
 
 import { initTypeOrmDbConnection } from './database/initDbConnection';
+import { PingModule } from './endpoints/ping/ping.module';
 import { AuthModule } from './endpoints/user/auth/auth.module';
 import { ItemModule } from './endpoints/user/item/item.module';
-import { PingModule } from './endpoints/ping/ping.module';
+import { TempInitDatabase } from './TempInitDatabase';
+import { ImageModule } from './endpoints/image/Image.module';
+import { MulterInit } from './MulterInit';
 
 const PORT = 80;
 
 @Module({
-    imports: [PingModule, AuthModule, ItemModule],
+    imports: [
+        PingModule,
+        ImageModule,
+        AuthModule,
+        ItemModule,
+        TempInitDatabase,
+        MulterInit,
+    ],
 })
 class AppModule {}
 

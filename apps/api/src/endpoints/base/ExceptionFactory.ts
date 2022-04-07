@@ -1,13 +1,15 @@
+import { AmbrosiaException } from '@api/io-model';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ExceptionFactory {
-    exception(message: string | Record<string, any>, status: HttpStatus) {
-        if (typeof message === 'string') {
-            message = { message: message };
-        }
-        message['status'] = status;
-        message['timestamp'] = Date.now();
-        throw new HttpException(message, status);
+    exception(message: string, status: HttpStatus, extra?: string) {
+        const response: AmbrosiaException = {
+            message,
+            extra,
+            status,
+            timestamp: new Date(),
+        };
+        throw new HttpException(response, status);
     }
 
     forbidden(message: string) {
@@ -23,10 +25,10 @@ export class ExceptionFactory {
     }
 
     badRequest(request: any) {
-        const response = {
-            message: 'Invalid request structure',
-            request: request,
-        };
-        this.exception(response, HttpStatus.BAD_REQUEST);
+        this.exception(
+            'Invalid request structure',
+            HttpStatus.BAD_REQUEST,
+            request
+        );
     }
 }

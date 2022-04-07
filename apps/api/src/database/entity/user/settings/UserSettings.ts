@@ -5,8 +5,10 @@ import { Column } from 'typeorm';
 import { ContactSettings } from './ContactSettings';
 
 export class UserSettings implements UserSettingsBase {
-    static factory = new CreateClassFactory(UserSettings);
-    static create: CreateClassFn<UserSettings> = UserSettings.factory.create;
+    static factory = new CreateClassFactory(UserSettings, () => ({
+        contactSettings: ContactSettings.create(),
+    }));
+    static create = UserSettings.factory.createFn();
 
     @Column(() => ContactSettings)
     contactSettings: ContactSettingsBase;

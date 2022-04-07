@@ -8,6 +8,7 @@ import {
 import { emptyRunnable } from '@appleptr16/utilities';
 
 import { authAPI } from '../../api/auth/AuthApi';
+import { selfUserQuery } from './SelfUser.query';
 import { selfUserStore } from './SelfUser.store';
 
 export class SessionService {

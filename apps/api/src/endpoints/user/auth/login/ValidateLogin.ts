@@ -4,7 +4,7 @@ import {
     authExceptionFactory,
     AuthExceptionFactory,
 } from '../AuthExceptionFactory';
-import { ServerProfile } from '../../../../database/entity/user/UserAcount.entity';
+import { ServerProfile } from '../../../../database/entity/user/UserAccount.entity';
 export class ValidateLogin extends ValidateBase<AuthExceptionFactory> {
     validateGoodLogin(credentials: ILoginId, user: ServerProfile) {
         if (!user || user.credentials.password !== credentials.password)

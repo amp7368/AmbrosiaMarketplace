@@ -4,7 +4,7 @@ import { Column } from 'typeorm';
 
 export class Credentials implements CredentialsBase {
     static factory = new CreateClassFactory(Credentials);
-    static create: CreateClassFn<Credentials> = Credentials.factory.create;
+    static create: CreateClassFn<Credentials> = Credentials.factory.createFn();
 
     @Column({ nullable: true })
     email: string;

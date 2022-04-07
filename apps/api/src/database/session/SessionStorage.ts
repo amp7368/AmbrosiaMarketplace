@@ -1,5 +1,5 @@
 import { minutesToMillis } from '@appleptr16/utilities';
-import { ServerProfile } from '../entity/user/UserAcount.entity';
+import { ServerProfile } from '../entity/user/UserAccount.entity';
 import { Session } from './Session';
 
 export class SessionStore {

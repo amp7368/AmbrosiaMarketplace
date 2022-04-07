@@ -1,23 +1,30 @@
+import { apiImageFactory } from '@api/io-model';
 import {
     Controller,
     Post,
-    UploadedFile,
+    UploadedFiles,
     UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
+import { itemImageQuery } from '../../database/entity/image/ItemImage.query';
 import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
 import { ValidateImage } from './ValidateImage';
-import { apiImageFactory } from '../../../../../libs/api-iomodel/src/api/image/ApiImageFactory';
 
-@Controller(EndpointUrls.user.auth.login.url)
+@Controller(EndpointUrls.image.url)
 export class ImageController extends ControllerBase<ValidateImage> {
+    constructor(validateImage: ValidateImage) {
+        super(validateImage);
+    }
     @Post()
-    @UseInterceptors(FileInterceptor('file'))
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
-        this.validate(file, ['verifyFile']);
-        console.log(file);
-        return apiImageFactory.response({});
+    @UseInterceptors(AnyFilesInterceptor())
+    uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
+        this.validate(files);
+        for (const file of files) {
+            this.validate(file, ['verifyFile']);
+            itemImageQuery.newImage(file);
+            return apiImageFactory.response({});
+        }
     }
 }

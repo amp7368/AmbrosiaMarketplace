@@ -1,3 +1,3 @@
 export interface WynnAccountBase {
-    uuid: string;
+    playerUUID: string;
 }

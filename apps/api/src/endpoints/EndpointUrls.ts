@@ -1,7 +1,9 @@
 import endpoints from './Endpoints.json';
-interface Endpoint {
+
+type Endpoint = {
     url: string;
-}
+} & { [key: string]: Endpoint };
+
 function normalize(endpoint: string): string {
     let newUrl = '';
     let wasADash = false;
@@ -17,13 +19,13 @@ function normalize(endpoint: string): string {
     }
     return newUrl;
 }
-function addParent(endpoints: any, parent: string) {
+function addParent(endpoints: any, parent: string): Endpoint {
     for (const endpoint in endpoints) {
         const url = `${parent}/${endpoint}`;
         const children = endpoints[endpoint];
         addParent(children, url);
-        endpoints[normalize(endpoint)] = { url: url, ...children };
+        endpoints[normalize(endpoint)] = { url, ...children };
     }
     return endpoints;
 }
-export const EndpointUrls: Endpoint & any = addParent(endpoints, '');
+export const EndpointUrls: Endpoint = addParent(endpoints, '');

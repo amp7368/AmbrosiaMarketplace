@@ -4,20 +4,26 @@ import {
     ServerProfileBase,
     UserSettingsBase,
 } from '@api/io-model';
-import { CreateClassFactory } from '@appleptr16/utilities';
+import { CreateClassFactory, CreateClassFn } from '@appleptr16/utilities';
 import { Column, Entity, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 import { ItemSlots } from '../item/ref/ItemSlots.entity';
 import { DiscordAccount } from './discord/DiscordAccount';
 import { Credentials } from './UserCredentials';
 import { WynnAccount } from './wynn/WynnAccount';
-import { CreateClassFn } from '../../../../../../libs/misc-utilities/src/lib/factory/CreateClassFactory';
 import { UserSettings } from './settings/UserSettings';
 
 @Entity()
 export class ServerProfile implements ServerProfileBase {
-    static factory = new CreateClassFactory(ServerProfile);
-    static create: CreateClassFn<ServerProfile> = ServerProfile.factory.create;
+    static factory = new CreateClassFactory(ServerProfile, () => ({
+        settings: UserSettings.create(),
+        wynnAccount: WynnAccount.create(),
+        discordAccount: new DiscordAccount(),
+        marketSlots: ItemSlots.create(),
+        pinnedSlots: ItemSlots.create(),
+        playerInventory: ItemSlots.create(),
+    }));
+    static create = ServerProfile.factory.createFn();
 
     @Column(() => UserSettings)
     settings: UserSettings;
@@ -36,9 +42,9 @@ export class ServerProfile implements ServerProfileBase {
     discordAccount: DiscordAccount;
 
     @Column(() => ItemSlots)
-    marketSlots: ItemSlotsBase;
+    marketSlots: ItemSlots;
     @Column(() => ItemSlots)
-    pinnedSlots: ItemSlotsBase;
+    pinnedSlots: ItemSlots;
     @Column(() => ItemSlots)
-    playerInventory: ItemSlotsBase;
+    playerInventory: ItemSlots;
 }

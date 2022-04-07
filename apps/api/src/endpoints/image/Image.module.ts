@@ -7,4 +7,4 @@ import { ImageController } from './Image.controller';
     controllers: [ImageController],
     providers: [ImageService, ValidateImage],
 })
-export class LoginModule {}
+export class ImageModule {}
