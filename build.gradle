@@ -1,0 +1,90 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'io.ebean' version '15.8.0'
+}
+
+repositories {
+    maven { url "https://reposilite.appleptr16.com/appleptr16" }
+    mavenCentral()
+}
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(22))
+    }
+}
+
+project.group groupValue
+project.version versionValue
+
+configurations {
+    configureEach {
+        resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
+        resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+    }
+}
+
+project.ext.ebean_version = '15.8.0'
+// https://search.maven.org/search?q=g:io.ebean
+dependencies {
+    // sql
+    annotationProcessor "io.ebean:ebean-querybean:${ebean_version}"
+    annotationProcessor "io.ebean:querybean-generator:${ebean_version}"
+    implementation "io.ebean:ebean-querybean:${ebean_version}"
+    implementation "io.ebean:ebean-postgres:${ebean_version}"
+    // sql driver
+    implementation 'org.postgresql:postgresql:42.7.2'
+
+    // migration
+    implementation "io.ebean:ebean-ddl-generator:${ebean_version}"
+    implementation 'io.ebean:ebean-migration:13.7.0'
+    testImplementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+
+    //json
+    implementation "io.ebean:ebean-jackson-mapper:${ebean_version}"
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+
+    // logging
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+
+    // http
+    implementation 'io.javalin:javalin:5.4.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
+    // validation
+    implementation 'am.ik.yavi:yavi:0.12.1'
+    // rate limiting client
+    implementation 'com.bucket4j:bucket4j_jdk17-core:8.13.1'
+
+    // used for string comparison
+    implementation 'org.apache.commons:commons-text:1.10.0'
+    // discord
+    implementation 'net.dv8tion:JDA:5.1.2'
+    // fuzzy string matching
+    implementation 'me.xdrop:fuzzywuzzy:1.4.0'
+
+
+    // apple
+    implementation 'apple.utilities:AppleUtilities:1.4-SNAPSHOT'
+    implementation 'discord.util:discorddcf:1.1-SNAPSHOT'
+    implementation 'apple.lib:applemodules:2.0-SNAPSHOT'
+    implementation "apple.lib:AppleEbeanDatabase:${ebean_version}-SNAPSHOT"
+}
+ebean {
+    debugLevel = 0 //0 - 9
+}
+
+mainClassName = 'com.ambrosia.marketplace.Ambrosia'
+shadowJar {
+    manifest {
+        attributes 'Multi-Release': true
+    }
+    doLast {
+        copy {
+            from getArchiveFile()
+            into file(botsBuildDir + '/AmbrosiaMarkets')
+        }
+    }
+}
