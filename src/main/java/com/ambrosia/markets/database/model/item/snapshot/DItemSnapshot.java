@@ -6,6 +6,7 @@ import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.item.DItem;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.pricecheck.DPriceCheck;
+import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,10 +31,10 @@ public class DItemSnapshot extends BaseEntity {
     protected DClient soldTo;
     @Column(nullable = false)
     protected DItemSnapshotStatus status;
-    //    @ManyToOne
-//    protected DTransferAction selling;
-//    @ManyToOne
-//    protected DTransferAction bought;
+    @ManyToOne
+    protected DTransferAction selling;
+    @ManyToOne
+    protected DTransferAction bought;
     @ManyToOne(optional = false)
     protected DItem item;
     @ManyToOne(optional = false)

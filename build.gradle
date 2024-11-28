@@ -38,8 +38,8 @@ dependencies {
 
     // migration
     implementation "io.ebean:ebean-ddl-generator:${ebean_version}"
-    implementation 'io.ebean:ebean-migration:13.7.0'
-    testImplementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    implementation 'io.ebean:ebean-migration:13.11.1'
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
 
     //json
     implementation "io.ebean:ebean-jackson-mapper:${ebean_version}"
@@ -47,8 +47,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
 
     // logging
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.24.1'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.24.1'
 
     // http
     implementation 'io.javalin:javalin:5.4.2'
@@ -76,11 +76,12 @@ ebean {
     debugLevel = 0 //0 - 9
 }
 
-mainClassName = 'com.ambrosia.marketplace.Ambrosia'
+mainClassName = 'com.ambrosia.markets.Ambrosia'
 shadowJar {
     manifest {
         attributes 'Multi-Release': true
     }
+    archiveClassifier.set('')
     doLast {
         copy {
             from getArchiveFile()
