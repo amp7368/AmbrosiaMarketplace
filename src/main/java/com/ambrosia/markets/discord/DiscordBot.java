@@ -9,6 +9,7 @@ public class DiscordBot {
 
     private static final Object sync = new Object();
     public static DCF dcf;
+    private static String APPLICATION_ID;
     private static String SELF_AVATAR;
     private static SelfUser SELF_USER;
     private static boolean completed = false;
@@ -31,6 +32,7 @@ public class DiscordBot {
     public static void ready(DCF dcf) {
         DiscordBot.dcf = dcf;
         SELF_USER = dcf.jda().getSelfUser();
+        APPLICATION_ID = SELF_USER.getApplicationId();
         SELF_AVATAR = SELF_USER.getAvatarUrl();
         synchronized (sync) {
             completed = true;
@@ -46,4 +48,7 @@ public class DiscordBot {
         return SELF_USER;
     }
 
+    public static String getApplicationId() {
+        return APPLICATION_ID;
+    }
 }

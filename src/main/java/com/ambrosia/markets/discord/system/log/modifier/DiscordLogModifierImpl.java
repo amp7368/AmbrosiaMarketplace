@@ -1,7 +1,6 @@
 package com.ambrosia.markets.discord.system.log.modifier;
 
-
-import com.ambrosia.markets.discord.system.log.DiscordLogService;
+import com.ambrosia.markets.discord.system.log.SendDiscordLog;
 
 public record DiscordLogModifierImpl(int priority, DiscordLogModifier base) implements DiscordLogModifier {
 
@@ -11,7 +10,7 @@ public record DiscordLogModifierImpl(int priority, DiscordLogModifier base) impl
     }
 
     @Override
-    public void modify(DiscordLogService log) {
+    public void modify(SendDiscordLog log) {
         base.modify(log);
     }
 }

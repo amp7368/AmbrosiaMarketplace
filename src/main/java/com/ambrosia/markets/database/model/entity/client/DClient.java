@@ -17,6 +17,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @History
@@ -52,10 +53,12 @@ public class DClient extends Model implements ClientAccess {
         return this;
     }
 
+    @NotNull
     public ClientMinecraftDetails getMinecraft() {
         return getNameMeta().getMinecraft();
     }
 
+    @NotNull
     public ClientDiscordDetails getDiscord(boolean shouldUpdate) {
         return getNameMeta().getDiscord(shouldUpdate);
     }

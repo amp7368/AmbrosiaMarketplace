@@ -3,9 +3,11 @@ package com.ambrosia.markets;
 import apple.lib.modules.AppleModule;
 import apple.lib.modules.ApplePlugin;
 import apple.lib.modules.configs.factory.AppleConfigLike;
+import com.ambrosia.markets.api.ApiModule;
 import com.ambrosia.markets.config.AmbrosiaConfig;
 import com.ambrosia.markets.config.AmbrosiaStaffConfig;
 import com.ambrosia.markets.database.DatabaseModule;
+import com.ambrosia.markets.discord.DiscordModule;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -56,7 +58,11 @@ public class Ambrosia extends ApplePlugin {
 
     @Override
     public List<AppleModule> createModules() {
-        return List.of(new DatabaseModule());
+        return List.of(
+            new ApiModule(),
+            new DiscordModule(),
+            new DatabaseModule()
+        );
     }
 
     @Override
