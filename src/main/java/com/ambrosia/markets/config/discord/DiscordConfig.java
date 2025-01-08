@@ -12,6 +12,7 @@ public class DiscordConfig {
     protected long mainServerId = 0;
     protected long logChannel = 0;
     protected long requestChannel = 0;
+    protected String applicationToken = "appToken";
 
     public DiscordConfig() {
         instance = this;
@@ -59,5 +60,9 @@ public class DiscordConfig {
     public boolean isInServer(Guild guild) {
         if (guild == null) return false;
         return guild.getIdLong() == mainServerId;
+    }
+
+    public String getApplicationToken() {
+        return this.applicationToken;
     }
 }

@@ -9,7 +9,7 @@ import com.ambrosia.markets.discord.base.command.BaseSubCommand;
 import com.ambrosia.markets.discord.misc.autocomplete.AutoCompleteListener;
 import com.ambrosia.markets.discord.request.RequestCommand;
 import com.ambrosia.markets.discord.system.help.HelpCommandListManager;
-import com.ambrosia.markets.discord.system.log.DiscordLogService;
+import com.ambrosia.markets.discord.system.log.SendDiscordLog;
 import discord.util.dcf.DCF;
 import discord.util.dcf.DCFCommandManager;
 import discord.util.dcf.slash.DCFAbstractCommand;
@@ -62,8 +62,7 @@ public class DiscordModule extends AppleModule {
 
     @Override
     public void onEnable() {
-        JDABuilder builder = JDABuilder.createDefault(DiscordConfig.get().getToken(), GatewayIntent.GUILD_MEMBERS,
-                GatewayIntent.GUILD_EMOJIS_AND_STICKERS)
+        JDABuilder builder = JDABuilder.createDefault(DiscordConfig.get().getToken(), GatewayIntent.GUILD_EMOJIS_AND_STICKERS)
             .disableCache(CacheFlag.VOICE_STATE, CacheFlag.STICKER, CacheFlag.SCHEDULED_EVENTS);
         JDA jda = builder.build();
         try {
@@ -85,12 +84,12 @@ public class DiscordModule extends AppleModule {
     @Override
     public void onEnablePost() {
         DiscordConfig.get().load();
-        DiscordLogService.load();
+        SendDiscordLog.load();
         CommandData viewProfileCommand = Commands.user("view_profile");
-        DiscordBot.dcf.commands().updateCommands(
-            action -> action.addCommands(viewProfileCommand),
-            this::updateCommandsCallback
-        );
+//        DiscordBot.dcf.commands().updateCommands(
+//            action -> action.addCommands(viewProfileCommand),
+//            this::updateCommandsCallback
+//        );
     }
 
     private void updateCommandsCallback(List<Command> commands) {
