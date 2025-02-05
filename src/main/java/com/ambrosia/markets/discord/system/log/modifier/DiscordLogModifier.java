@@ -2,7 +2,6 @@ package com.ambrosia.markets.discord.system.log.modifier;
 
 import apple.utilities.util.Pretty;
 import com.ambrosia.markets.discord.system.log.SendDiscordLog;
-import com.ambrosia.markets.util.theme.AmbrosiaAssets.AmbrosiaEmoji;
 import io.ebean.DB;
 import java.util.Comparator;
 
@@ -12,7 +11,7 @@ public interface DiscordLogModifier {
     Comparator<DiscordLogModifier> COMPARATOR = Comparator.comparing(DiscordLogModifier::getPriority);
 
     static DiscordLogModifier addEntity(String entityType, String entityId) {
-        String msg = "%s %s %s".formatted(Pretty.spaceEnumWords(entityType), AmbrosiaEmoji.KEY_ID, entityId);
+        String msg = "%s %s %s".formatted(Pretty.spaceEnumWords(entityType), ":apple:", entityId);
         return log -> log.prependMsg(msg);
     }
 

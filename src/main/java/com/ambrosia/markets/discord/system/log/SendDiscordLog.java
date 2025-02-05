@@ -8,7 +8,7 @@ import com.ambrosia.markets.database.model.message.log.DLog;
 import com.ambrosia.markets.discord.DiscordModule;
 import com.ambrosia.markets.discord.base.message.client.ClientMessage;
 import com.ambrosia.markets.discord.system.log.modifier.DiscordLogModifier;
-import com.ambrosia.markets.util.theme.AmbrosiaColor;
+import com.ambrosia.markets.discord.system.theme.AmbrosiaColor;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,8 +87,11 @@ public class SendDiscordLog {
         this.gatherData();
         this.handleModifiers();
         this.finalizedMessage = this.finalizeMessage();
-        send(this.log(), embed().build());
-        new DLog(this).save();
+        try {
+            send(this.log(), embed().build());
+        } finally {
+            new DLog(this).save();
+        }
         return this;
     }
 

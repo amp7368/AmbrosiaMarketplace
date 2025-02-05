@@ -7,13 +7,14 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public record UpdateClientMetaHook(long id, Instant startedUpdateAt) {
+public record UpdateClientMetaHook(UUID id, Instant startedUpdateAt) {
 
     public static final Duration TIME_TO_OLD = Duration.ofMinutes(5);
-    private static final Map<Long, UpdateClientMetaHook> ACTIVELY_UPDATING = new HashMap<>();
+    private static final Map<UUID, UpdateClientMetaHook> ACTIVELY_UPDATING = new HashMap<>();
 
     public static void hookUpdate(DClientNameMeta client) {
         Ambrosia.get().schedule(() -> hookUpdateTask(client), 50);

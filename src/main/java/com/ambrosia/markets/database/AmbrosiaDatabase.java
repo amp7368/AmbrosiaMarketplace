@@ -3,9 +3,8 @@ package com.ambrosia.markets.database;
 import apple.lib.ebean.database.AppleEbeanDatabase;
 import apple.lib.ebean.database.config.AppleEbeanDatabaseConfig;
 import apple.lib.ebean.database.config.AppleEbeanPostgresConfig;
-import com.ambrosia.markets.config.AmbrosiaConfig;
+import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.base.BaseEntity;
-import com.ambrosia.markets.database.model.base.BaseEventEntity;
 import com.ambrosia.markets.database.model.base.image.DImage;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.entity.client.name.ClientDiscordDetails;
@@ -25,6 +24,8 @@ import com.ambrosia.markets.database.model.profile.auction.DClientAuction;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOfferStatusChange;
+import com.ambrosia.markets.database.model.profile.backpack.DBackpackItem;
+import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
 import com.ambrosia.markets.database.model.trade.cost.DCost;
 import com.ambrosia.markets.database.model.trade.cost.DCostItem;
 import com.ambrosia.markets.database.model.trade.cost.DCostItemMisc;
@@ -37,9 +38,20 @@ import java.util.List;
 public class AmbrosiaDatabase extends AppleEbeanDatabase {
 
     @Override
+    protected DatabaseConfig configureDatabase(DataSourceConfig dataSourceConfig) {
+        return super.configureDatabase(dataSourceConfig)
+            .setDdlCreateOnly(!shouldDropDatabase());
+    }
+
+    @Override
+    protected boolean isDefault() {
+        return true;
+    }
+
+    @Override
     protected void addEntities(List<Class<?>> entities) {
         entities.add(BaseEntity.class);
-        entities.add(BaseEventEntity.class);
+        entities.add(BareBaseEntity.class);
         // client
         entities.addAll(List.of(
             DClientNameHistory.class, DClientNameMeta.class,
@@ -67,23 +79,16 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
             DAuctionOfferStatusChange.class
         ));
 
+        // backpack
+        entities.addAll(List.of(
+            DClientBackpack.class,
+            DBackpackItem.class
+        ));
+
         // misc
         entities.add(DImage.class);
         entities.add(DLog.class);
 
-    }
-
-    @Override
-    protected DatabaseConfig configureDatabase(DataSourceConfig dataSourceConfig) {
-        return super.configureDatabase(dataSourceConfig)
-            .setRunMigration(true)
-            .setDdlRun(true)
-            .setDdlGenerate(true)
-            .setDdlCreateOnly(!shouldDropDatabase());
-    }
-
-    private boolean shouldDropDatabase() {
-        return !AmbrosiaConfig.get().isProduction();
     }
 
     @Override
@@ -97,13 +102,12 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
     }
 
     @Override
-    protected boolean isDefault() {
-        return true;
-    }
-
-    @Override
     protected String getName() {
         return "Ambrosia";
+    }
+
+    private boolean shouldDropDatabase() {
+        return false;
     }
 
     public static class AmbrosiaDatabaseConfig extends AppleEbeanPostgresConfig {

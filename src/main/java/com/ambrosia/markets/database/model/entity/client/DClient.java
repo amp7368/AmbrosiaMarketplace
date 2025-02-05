@@ -1,14 +1,14 @@
 package com.ambrosia.markets.database.model.entity.client;
 
+import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.entity.client.name.ClientDiscordDetails;
 import com.ambrosia.markets.database.model.entity.client.name.ClientMinecraftDetails;
 import com.ambrosia.markets.database.model.entity.client.name.DClientNameMeta;
 import com.ambrosia.markets.database.model.entity.client.rank.DClientRank;
 import com.ambrosia.markets.database.model.entity.staff.Rank;
 import com.ambrosia.markets.database.model.profile.auction.DClientAuction;
-import io.ebean.Model;
+import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
 import io.ebean.annotation.History;
-import io.ebean.annotation.Identity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,40 +17,35 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @History
 @Entity
 @Table(name = "client")
-public class DClient extends Model implements ClientAccess {
+public class DClient extends BaseEntity {
 
     @Id
-    @Identity(start = 1000)
-    protected long id;
+    protected UUID id;
 
     @Column
     protected Rank rank;
-    @OneToOne
+    @OneToOne(mappedBy = "client")
     protected DClientNameMeta nameMeta;
     @OneToMany
     protected List<DClientRank> rankHistory = new ArrayList<>();
 
-    @OneToOne
-    protected DClientAuction auction = new DClientAuction();
+    @OneToOne(mappedBy = "client")
+    protected DClientAuction auction;
+    @OneToOne(mappedBy = "client")
+    protected DClientBackpack backpack;
 
-    public DClient(DClientNameMeta nameMeta) {
-        this.nameMeta = nameMeta;
-        this.nameMeta.setClient(this);
+    public DClient() {
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    @Override
-    public DClient getEntity() {
-        return this;
     }
 
     @NotNull
@@ -78,12 +73,32 @@ public class DClient extends Model implements ClientAccess {
     }
 
     public Rank getRank() {
-        return null;
-//        return rank;
+        return rank;
     }
 
     public DClientNameMeta getNameMeta() {
-        return null;
-//        return nameMeta;
+        return nameMeta;
+    }
+
+    public DClientBackpack getBackpack() {
+        if (backpack == null) {
+            this.backpack = new DClientBackpack(this);
+            this.backpack.save();
+        }
+        return backpack;
+    }
+
+    public DClientAuction getAuction() {
+        if (auction == null) {
+            this.auction = new DClientAuction(this);
+            this.auction.save();
+        }
+        return auction;
+    }
+
+    public void init(DClientNameMeta nameMeta, DClientBackpack backpack, DClientAuction auction) {
+        this.nameMeta = nameMeta;
+        this.backpack = backpack;
+        this.auction = auction;
     }
 }

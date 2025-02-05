@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 @Entity
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public class DStaffConductor extends BaseEntity {
 
     @Id
-    protected long id;
+    protected UUID id;
     @Column(nullable = false)
     protected String username;
     @Column(nullable = false)
@@ -34,14 +35,14 @@ public class DStaffConductor extends BaseEntity {
         this.rank = client.getRank();
     }
 
-    private DStaffConductor(long id, String username) {
+    private DStaffConductor(UUID id, String username) {
         this.id = id;
         this.username = username;
         this.rank = Rank.SYSTEM;
     }
 
 
-    public static synchronized DStaffConductor insertSystemConductor(String systemUsername, long systemId) {
+    public static synchronized DStaffConductor insertSystemConductor(String systemUsername, UUID systemId) {
         DStaffConductor conductor = DB.find(DStaffConductor.class, systemId);
         if (conductor != null) return conductor;
 

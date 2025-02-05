@@ -1,7 +1,7 @@
 package com.ambrosia.markets.database.model.entity.client.name;
 
+import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.entity.client.DClient;
-import io.ebean.Model;
 import io.ebean.annotation.DbJson;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Entity
 @Table(name = "client_name_history")
-public class DClientNameHistory extends Model {
+public class DClientNameHistory extends BaseEntity {
 
     @Id
     private UUID id;

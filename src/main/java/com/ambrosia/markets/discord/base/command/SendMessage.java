@@ -1,6 +1,6 @@
 package com.ambrosia.markets.discord.base.command;
 
-import com.ambrosia.markets.util.theme.AmbrosiaColor;
+import com.ambrosia.markets.discord.system.theme.AmbrosiaColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.CommandInteraction;

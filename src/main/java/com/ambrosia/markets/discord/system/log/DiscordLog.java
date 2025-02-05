@@ -1,6 +1,7 @@
 package com.ambrosia.markets.discord.system.log;
 
-import static com.ambrosia.markets.util.theme.AmbrosiaMessages.formatDate;
+
+import static com.ambrosia.markets.discord.system.theme.AppMessages.formatDate;
 
 import com.ambrosia.markets.Ambrosia;
 import com.ambrosia.markets.database.model.entity.actor.UserActor;
@@ -9,8 +10,8 @@ import com.ambrosia.markets.database.model.entity.client.name.DClientNameHistory
 import com.ambrosia.markets.database.model.entity.client.name.NameHistoryType;
 import com.ambrosia.markets.database.model.entity.staff.SystemConductor;
 import com.ambrosia.markets.discord.system.log.modifier.DiscordLogModifier;
-import com.ambrosia.markets.util.theme.AmbrosiaAssets.AmbrosiaEmoji;
-import com.ambrosia.markets.util.theme.AmbrosiaColor;
+import com.ambrosia.markets.discord.system.theme.AmbrosiaColor;
+import com.ambrosia.markets.discord.system.theme.AppEmoji;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.local.LocalBucket;
 import java.time.Duration;
@@ -92,7 +93,7 @@ public interface DiscordLog {
         String msg = """
             %s username updated
             %s **%s** => **%s**
-            %s""".formatted(logType, AmbrosiaEmoji.CLIENT_ACCOUNT, lastName.getName(), newName.getName(),
+            %s""".formatted(logType, AppEmoji.CLIENT_ACCOUNT, lastName.getName(), newName.getName(),
             formatDate(newName.getFirstUsed(), true));
         return new SendDiscordLog(client, actor, category, logType, msg);
     }

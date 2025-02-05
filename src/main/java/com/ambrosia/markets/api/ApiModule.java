@@ -2,12 +2,11 @@ package com.ambrosia.markets.api;
 
 import apple.lib.modules.AppleModule;
 import com.ambrosia.markets.api.auth.AuthController;
-import com.ambrosia.markets.api.system.ApiGson;
+import com.ambrosia.markets.api.item.create.CreateItemController;
 import com.ambrosia.markets.api.system.ApiRequestLogger;
 import com.ambrosia.markets.api.system.ExceptionHandlers;
 import com.ambrosia.markets.config.AmbrosiaConfig;
 import io.javalin.Javalin;
-import io.javalin.json.JavalinGson;
 
 public class ApiModule extends AppleModule {
 
@@ -23,6 +22,7 @@ public class ApiModule extends AppleModule {
 
     private void registerControllers(Javalin app) {
         app.post("/api/token", new AuthController());
+        app.post("/api/item/create", new CreateItemController());
     }
 
 //    private void registerPermissions() {
@@ -43,10 +43,7 @@ public class ApiModule extends AppleModule {
         Javalin app = Javalin.create(cfg -> {
             AmbrosiaConfig.getApi().commonConfig(cfg);
             cfg.requestLogger.http(new ApiRequestLogger());
-            cfg.jsonMapper(new JavalinGson(ApiGson.gson(), false));
-        });
-        app.ws("/", wss -> {
-            wss.onMessage(System.out::println);
+//            cfg.jsonMapper(new JavalinGson(ApiGson.gson(), false));
         });
 //        app.beforeMatched(new ApiSecurity()::manage);
 

@@ -27,7 +27,7 @@ public class DiscordRateLimit {
     private static final Bucket globalRateLimit = Bucket.builder()
         .addLimit(
             BandwidthBuilder.builder().capacity(600)
-                .refillGreedy(600, Duration.ofMinutes(10))
+                .refillIntervally(600, Duration.ofMinutes(10))
                 .build())
         .build();
     protected List<DiscordRateLimit> rateLimits = new ArrayList<>();

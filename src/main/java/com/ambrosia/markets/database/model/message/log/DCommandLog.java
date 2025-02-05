@@ -1,13 +1,12 @@
 package com.ambrosia.markets.database.model.message.log;
 
+import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.entity.client.DClient;
-import io.ebean.Model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.sql.Timestamp;
 import java.util.UUID;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -16,12 +15,10 @@ import org.jetbrains.annotations.Nullable;
 
 @Entity
 @Table(name = "command_log")
-public class DCommandLog extends Model {
+public class DCommandLog extends BaseEntity {
 
     @Id
     protected UUID id;
-    @Column(nullable = false)
-    protected Timestamp createdAt;
     @Column(nullable = false, columnDefinition = "text")
     protected String commandMessage;
 
@@ -48,7 +45,6 @@ public class DCommandLog extends Model {
     public DCommandLog(String commandMessage,
         User senderDiscord, @Nullable DClient senderClient,
         @Nullable Guild server, MessageChannelUnion channel) {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.commandMessage = commandMessage;
 
         this.senderDiscordId = senderDiscord.getIdLong();
