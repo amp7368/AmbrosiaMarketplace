@@ -1,17 +1,18 @@
 package com.ambrosia.markets.database.model.entity.staff;
 
 import com.ambrosia.markets.database.model.entity.actor.UserActor;
+import java.util.UUID;
 
 public enum SystemConductor {
-    SYSTEM("System", 1),
-    WEB("Web", 2);
+    SYSTEM("System", UUID.fromString("c6528e00-0000-0000-0000-000000000000")),
+    WEB("Web", UUID.fromString("c6528e00-0000-0000-0000-000000000001"));
 
 
-    private final int id;
+    private final UUID id;
     private final String name;
     private DStaffConductor conductor;
 
-    SystemConductor(String name, int id) {
+    SystemConductor(String name, UUID id) {
         this.name = name;
         this.id = id;
     }
@@ -27,7 +28,7 @@ public enum SystemConductor {
         this.conductor = DStaffConductor.insertSystemConductor(name, id);
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 

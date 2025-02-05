@@ -47,7 +47,9 @@ public class DClientNameMeta extends BaseEntity {
     @OneToMany
     protected List<DClientNameHistory> nameHistory = new ArrayList<>();
 
-    public DClientNameMeta(@NotNull ClientDiscordDetails discord, @NotNull ClientMinecraftDetails minecraft, String displayName) {
+    public DClientNameMeta(DClient client, @NotNull ClientDiscordDetails discord, @NotNull ClientMinecraftDetails minecraft,
+        String displayName) {
+        this.client = client;
         this.discord = discord;
         this.minecraft = minecraft;
         this.displayName = displayName;
@@ -125,7 +127,7 @@ public class DClientNameMeta extends BaseEntity {
         return this;
     }
 
-    public long getId() {
+    public UUID getId() {
         return getClient().getId();
     }
 
@@ -144,12 +146,7 @@ public class DClientNameMeta extends BaseEntity {
     }
 
     public DClient getClient() {
-        //todo
-        return null;
+        return this.client;
     }
 
-    public void setClient(DClient client) {
-        //todo
-//        this.client = client;
-    }
 }

@@ -1,4 +1,4 @@
-package com.ambrosia.markets.util.theme;
+package com.ambrosia.markets.discord.system.theme;
 
 public interface AmbrosiaColor {
 

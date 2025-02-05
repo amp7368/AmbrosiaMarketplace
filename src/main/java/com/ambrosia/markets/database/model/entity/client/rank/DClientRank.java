@@ -1,6 +1,6 @@
 package com.ambrosia.markets.database.model.entity.client.rank;
 
-import com.ambrosia.markets.database.model.base.BaseEventEntity;
+import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.entity.staff.Rank;
 import io.ebean.annotation.WhenCreated;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "client_rank")
-public class DClientRank extends BaseEventEntity {
+public class DClientRank extends BareBaseEntity {
 
     @Id
     protected UUID id;

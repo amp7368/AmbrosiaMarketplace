@@ -5,8 +5,8 @@ import io.javalin.plugin.bundled.CorsPluginConfig.CorsRule;
 
 public class ApiConfig {
 
-    protected final int port = 3001;
     public boolean cors = false;
+    protected int port = 3001;
 
     public void commonConfig(JavalinConfig config) {
         config.router.treatMultipleSlashesAsSingleSlash = true;

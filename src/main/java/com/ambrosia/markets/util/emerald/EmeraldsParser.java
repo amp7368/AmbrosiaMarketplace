@@ -1,6 +1,5 @@
 package com.ambrosia.markets.util.emerald;
 
-import com.ambrosia.markets.util.theme.AmbrosiaMessages.ErrorMessages;
 import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -18,6 +17,7 @@ public class EmeraldsParser {
     private static final Pattern EMERALDS_PATTERN = Pattern.compile(
         "^\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*STX)?\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*LE)?\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*EB)?\\s*("
             + "(\\d+)\\s*E)?\\s*$", Pattern.UNICODE_CASE + Pattern.CASE_INSENSITIVE);
+    private static final String EMERALDS_FORMAT_MESSAGE = "Use the format \"23 STX 12 LE 8 EB 56 E\" or \"12.75 STX\".";
 
     @Nullable
     public static Emeralds tryParse(String amountArg) {
@@ -34,7 +34,7 @@ public class EmeraldsParser {
 
         Matcher match = EMERALDS_PATTERN.matcher(amountArg);
         if (!match.find()) {
-            throw new NumberFormatException("'%s' is not a valid amount! %s".formatted(amountArg, ErrorMessages.emeraldsFormat()));
+            throw new NumberFormatException("'%s' is not a valid amount! %s".formatted(amountArg, EMERALDS_FORMAT_MESSAGE));
         }
 
         String stxArg = match.group(2);
@@ -65,9 +65,9 @@ public class EmeraldsParser {
         if (amountWithoutUnits.compareTo(BigDecimal.valueOf(64)) > 0) {
             EmeraldsFormatter formatter = EmeraldsFormatter.of().setTruncateFields(10);
             String emeralds = formatter.format(Emeralds.of(amountWithoutUnits));
-            throw new NumberFormatException("Did you mean %s? %s".formatted(emeralds, ErrorMessages.emeraldsFormat()));
+            throw new NumberFormatException("Did you mean %s? %s".formatted(emeralds, EMERALDS_FORMAT_MESSAGE));
         }
-        throw new NumberFormatException("Did you mean '%s STX'? %s".formatted(amountArg, ErrorMessages.emeraldsFormat()));
+        throw new NumberFormatException("Did you mean '%s STX'? %s".formatted(amountArg, EMERALDS_FORMAT_MESSAGE));
     }
 
     @NotNull

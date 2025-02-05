@@ -1,6 +1,6 @@
 package com.ambrosia.markets.database.model.interaction;
 
-import com.ambrosia.markets.database.model.base.BaseEventEntity;
+import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Column;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "client_click")
-public class DClientClick extends BaseEventEntity {
+public class DClientClick extends BareBaseEntity {
 
     @Id
     protected UUID id;

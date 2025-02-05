@@ -1,73 +1,39 @@
 package com.ambrosia.markets.discord.base.command.option;
 
-import apple.utilities.util.Pretty;
-import com.ambrosia.markets.database.model.entity.client.ClientApi.ClientQueryApi;
 import com.ambrosia.markets.database.model.entity.client.DClient;
-import com.ambrosia.markets.discord.system.help.HelpCommandListType;
-import com.ambrosia.markets.util.emerald.Emeralds;
-import com.ambrosia.markets.util.theme.AmbrosiaMessage;
-import com.ambrosia.markets.util.theme.AmbrosiaMessages.ErrorMessages;
+import com.ambrosia.markets.discord.base.command.option.variant.CommandOptionClientResolver;
+import com.ambrosia.markets.discord.base.command.option.variant.CommandOptionDateResolver;
+import com.ambrosia.markets.discord.system.theme.AppReply;
+import java.time.Instant;
+import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Stream;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.CommandInteraction;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface CommandOption<R> {
+public interface CommandOption<Op, R> {
 
-    // client
-    CommandOptionMulti<String, DClient> CLIENT = client("client");
-    CommandOptionMulti<String, DClient> OWNER = client("owner");
-    CommandOption<Member> DISCORD = basic("discord", "The discord of the client", OptionType.MENTIONABLE,
+    CommandOption<String, Instant> DATE = CommandOptionDateResolver.of();
+    CommandOption<String, DClient> CLIENT = CommandOptionClientResolver.of();
+    CommandOption<Member, Member> DISCORD = base("discord", "The discord of the client", OptionType.MENTIONABLE,
         OptionMapping::getAsMember);
-    CommandOption<String> MINECRAFT = basic("minecraft", "Your minecraft username", OptionType.STRING,
+    CommandOption<String, String> MINECRAFT = base("minecraft", "Your minecraft username", OptionType.STRING,
         OptionMapping::getAsString);
-    CommandOption<String> DISPLAY_NAME = basic("display_name", "The name to display on the profile", OptionType.STRING,
+    CommandOption<String, String> DISPLAY_NAME = base("display_name", "The name to display on the profile", OptionType.STRING,
         OptionMapping::getAsString);
-    // common
-    CommandOptionDate DATE = new CommandOptionDate();
-    CommandOptionDate LOAN_START_DATE = new CommandOptionDate("start_date",
-        "The start date (MM/DD/YY) for the loan. (Defaults to current date if not specified)");
-    // request
-//    CommandOptionMulti<Long, DCFStoredGui<?>> REQUEST = multi("request_id", "The id of the request", OptionType.INTEGER,
-//        OptionMapping::getAsLong, ActiveRequestDatabase.get()::getRequest);
-    CommandOption<Attachment> LOAN_COLLATERAL_IMAGE = basic("image", "Image of the collateral to add to the request",
-        OptionType.ATTACHMENT, OptionMapping::getAsAttachment);
-    CommandOption<Attachment> ITEM_IMAGE = basic("image", "Image of the item",
-        OptionType.ATTACHMENT, OptionMapping::getAsAttachment);
-    // help
-    CommandOptionMulti<String, HelpCommandListType> HELP_LIST_TYPE = new CommandOptionMapEnum<>("help_list", "The type of help list",
-        HelpCommandListType.class, HelpCommandListType.values());
-    CommandOptionMulti<String, Emeralds> PRICE = CommandOption.emeraldsAmount("price", "Cost to rent per week");
 
-    static CommandOptionMulti<String, DClient> client(String name) {
-        return multi(name.toLowerCase(), "%s associated with this action".formatted(name), OptionType.STRING,
-            OptionMapping::getAsString, ClientQueryApi::findByName).setAutocomplete();
+    static <T> CommandOption<T, T> base(String name, String description, OptionType optionType,
+        Function<OptionMapping, T> optionMapping) {
+        return new BaseCommandOption<>(name, description, optionType, optionMapping, (ctx, op) -> op);
     }
 
-    @NotNull
-    static CommandOptionMulti<String, Emeralds> emeraldsAmount(String name, String type) {
-        String desc = "The amount to %s. %s".formatted(type, ErrorMessages.emeraldsFormat());
-        return new CommandOptionEmeralds(name, desc, OptionType.STRING);
-    }
-
-
-    static <V, R> CommandOptionMulti<V, R> multi(String name, String description, OptionType type,
-        Function<OptionMapping, V> mapping1, Function<V, R> mapping2) {
-        return new CommandOptionMulti<>(name, description, type, mapping1, mapping2);
-    }
-
-    private static <R> CommandOptionBasic<R> basic(String name, String description, OptionType type,
-        Function<OptionMapping, R> getOption) {
-        return new CommandOptionBasic<>(name, description, type, getOption);
-    }
+    <R2> BaseCommandOption<Op, R2> withResolver(CommandOptionResolver<R, R2> resolver2);
 
     R getOptional(CommandInteraction event, R fallback);
 
@@ -76,21 +42,11 @@ public interface CommandOption<R> {
         return this.getOptional(event, null);
     }
 
-    default AmbrosiaMessage getErrorMessage(CommandInteraction event) {
-        return ErrorMessages.missingOption(getOptionName());
-    }
+    R getRequired(CommandInteraction event, @Nullable AppReply errorMsg);
 
     default R getRequired(CommandInteraction event) {
-        return getRequired(event, getErrorMessage(event));
+        return getRequired(event, null);
     }
-
-    default R getRequired(CommandInteraction event, AmbrosiaMessage errorMsg) {
-        R result = getOptional(event);
-        if (result == null) errorMsg.replyError(event);
-        return result;
-    }
-
-    String getOptionName();
 
     default void addOption(SubcommandData command) {
         this.addOption(command, false);
@@ -104,24 +60,9 @@ public interface CommandOption<R> {
 
     void addOption(SlashCommandData command, boolean required);
 
-    class CommandOptionMapEnum<Enm extends Enum<Enm>> extends CommandOptionMulti<String, Enm> {
+    OptionData createOption(boolean required);
 
-        CommandOptionMapEnum(String name, String description, Class<Enm> type, Enm[] values) {
-            super(name, description, OptionType.STRING, OptionMapping::getAsString, s -> parseCollateral(type, s));
-            addChoices(Stream.of(values)
-                .map(Enm::name)
-                .map(Pretty::spaceEnumWords)
-                .map(c -> new Choice(c, c))
-                .toList()
-            );
-        }
+    CommandOption<Op, R> addChoices(List<Choice> choices);
 
-        private static <E extends Enum<E>> E parseCollateral(Class<E> type, String s) {
-            try {
-                return Enum.valueOf(type, s.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-    }
+    CommandOption<Op, R> setAutocomplete();
 }

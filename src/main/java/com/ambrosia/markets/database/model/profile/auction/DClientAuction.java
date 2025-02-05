@@ -25,4 +25,7 @@ public class DClientAuction extends BaseEntity {
     @OneToMany
     protected List<DAuctionItem> onDisplay = new ArrayList<>();
 
+    public DClientAuction(DClient client) {
+        this.client = client;
+    }
 }

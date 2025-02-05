@@ -7,8 +7,10 @@ import com.ambrosia.markets.database.model.item.DItem;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.pricecheck.DPriceCheck;
 import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
+import com.ambrosia.markets.database.wynncraft.item.base.DVersionedItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -37,11 +39,54 @@ public class DItemSnapshot extends BaseEntity {
     protected DTransferAction bought;
     @ManyToOne(optional = false)
     protected DItem item;
-    @ManyToOne(optional = false)
-    protected DItemData data;
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    protected DItemData data; // encoded string
     @ManyToOne
     protected DImage userImage;
     @OneToMany
     protected List<DPriceCheck> priceChecks = new ArrayList<>();
 
+    public DItemSnapshot(String name, DClient owner, DItem item, DItemData data) {
+        this.name = name;
+        this.owner = owner;
+        this.status = DItemSnapshotStatus.OWNED;
+        this.item = item;
+        this.data = data;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public DClient getOwner() {
+        return owner;
+    }
+
+    public DItemSnapshotStatus getStatus() {
+        return status;
+    }
+
+    public DImage getUserImage() {
+        return userImage;
+    }
+
+    public DVersionedItem getData() {
+        return data.getJson();
+    }
+
+    public String getEncodedString() {
+        return data.getEncodedString();
+    }
+
+    public DItem getItem() {
+        return item;
+    }
+
+    public List<DPriceCheck> getPriceChecks() {
+        return priceChecks;
+    }
 }

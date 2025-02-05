@@ -24,8 +24,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.Command;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
@@ -48,48 +46,6 @@ public class DiscordModule extends AppleModule {
 
     public static DiscordModule get() {
         return instance;
-    }
-
-    @Override
-    public void onLoad() {
-        DiscordConfig.get().generateWarnings();
-        DiscordPermissions.get().generateWarnings();
-        if (!DiscordConfig.get().isConfigured()) {
-            this.logger().fatal("Please configure {}", Ambrosia.get().getFile("AmbrosiaConfig.json"));
-            System.exit(1);
-        }
-    }
-
-    @Override
-    public void onEnable() {
-        JDABuilder builder = JDABuilder.createDefault(DiscordConfig.get().getToken(), GatewayIntent.GUILD_EMOJIS_AND_STICKERS)
-            .disableCache(CacheFlag.VOICE_STATE, CacheFlag.STICKER, CacheFlag.SCHEDULED_EVENTS);
-        JDA jda = builder.build();
-        try {
-            jda.awaitReady();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        jda.getPresence().setPresence(Activity.customStatus("Ambrosia a path"), false);
-
-        DCF dcf = new DCF(jda);
-        DiscordBot.ready(dcf);
-
-        jda.addEventListener(new AutoCompleteListener());
-        DCFCommandManager commands = dcf.commands();
-
-        commands.addCommand(new RequestCommand());
-    }
-
-    @Override
-    public void onEnablePost() {
-        DiscordConfig.get().load();
-        SendDiscordLog.load();
-        CommandData viewProfileCommand = Commands.user("view_profile");
-//        DiscordBot.dcf.commands().updateCommands(
-//            action -> action.addCommands(viewProfileCommand),
-//            this::updateCommandsCallback
-//        );
     }
 
     private void updateCommandsCallback(List<Command> commands) {
@@ -133,5 +89,46 @@ public class DiscordModule extends AppleModule {
     @Override
     public String getName() {
         return "Discord";
+    }
+
+    @Override
+    public void onLoad() {
+        DiscordConfig.get().generateWarnings();
+        DiscordPermissions.get().generateWarnings();
+        if (!DiscordConfig.get().isConfigured()) {
+            this.logger().fatal("Please configure {}", Ambrosia.get().getFile("AmbrosiaConfig.json"));
+            System.exit(1);
+        }
+    }
+
+    @Override
+    public void onEnablePost() {
+        DiscordConfig.get().load();
+        SendDiscordLog.load();
+        DiscordBot.dcf.commands().updateCommands(
+            action -> action,
+            this::updateCommandsCallback
+        );
+    }
+
+    @Override
+    public void onEnable() {
+        JDABuilder builder = JDABuilder.createDefault(DiscordConfig.get().getToken(), GatewayIntent.GUILD_EMOJIS_AND_STICKERS)
+            .disableCache(CacheFlag.VOICE_STATE, CacheFlag.STICKER, CacheFlag.SCHEDULED_EVENTS);
+        JDA jda = builder.build();
+        try {
+            jda.awaitReady();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        jda.getPresence().setPresence(Activity.customStatus("Ambrosia a path"), false);
+
+        DCF dcf = new DCF(jda);
+        DiscordBot.ready(dcf);
+
+        jda.addEventListener(new AutoCompleteListener());
+        DCFCommandManager commands = dcf.commands();
+
+        commands.addCommand(new RequestCommand());
     }
 }

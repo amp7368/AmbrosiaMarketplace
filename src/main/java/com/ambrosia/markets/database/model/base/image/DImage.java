@@ -1,6 +1,6 @@
 package com.ambrosia.markets.database.model.base.image;
 
-import io.ebean.Model;
+import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.utils.FileUpload;
 
 @Entity
 @Table(name = "image")
-public class DImage extends Model {
+public class DImage extends BareBaseEntity {
 
     @Id
     private UUID id;

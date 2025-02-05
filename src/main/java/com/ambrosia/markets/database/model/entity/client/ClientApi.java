@@ -5,10 +5,15 @@ import com.ambrosia.markets.database.model.entity.client.name.ClientMinecraftDet
 import com.ambrosia.markets.database.model.entity.client.name.DClientNameMeta;
 import com.ambrosia.markets.database.model.entity.client.name.query.QDClientNameMeta;
 import com.ambrosia.markets.database.model.entity.client.query.QDClient;
+import com.ambrosia.markets.database.model.profile.auction.DClientAuction;
+import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
 import com.ambrosia.markets.database.system.exception.CreateEntityException;
 import io.ebean.CacheMode;
+import io.ebean.DB;
 import io.ebean.DuplicateKeyException;
+import io.ebean.Transaction;
 import java.util.List;
+import java.util.UUID;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +21,7 @@ public interface ClientApi {
 
     interface ClientQueryApi {
 
+        @Nullable
         static DClient findByName(String clientName) {
             DClient client = new QDClient().where()
                 .nameMeta.displayName.ieq(clientName)
@@ -30,15 +36,8 @@ public interface ClientApi {
             client = new QDClient().where()
                 .nameMeta.discord.username.ieq(clientName)
                 .findOne();
-            if (client != null) return client;
-            try {
-                long clientId = Long.parseLong(clientName);
-                return new QDClient().where()
-                    .id.eq(clientId)
-                    .findOne();
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
+
+            return client;
         }
 
         static DClient findByDiscord(long discordId) {
@@ -50,7 +49,7 @@ public interface ClientApi {
                 .findOne();
         }
 
-        static DClient findById(long id) {
+        static DClient findById(UUID id) {
             return new QDClient().where()
                 .id.eq(id)
                 .findOne();
@@ -87,9 +86,19 @@ public interface ClientApi {
             if (minecraft == null)
                 throw new CreateEntityException("'%s' is not a valid minecraft username".formatted(minecraftName));
 
-            DClient client = new DClient(new DClientNameMeta(discord, minecraft, clientName));
-            try {
-                client.save();
+            DClient client = new DClient();
+            DClientNameMeta nameMeta = new DClientNameMeta(client, discord, minecraft, clientName);
+            DClientBackpack backpack = new DClientBackpack(client);
+            DClientAuction auction = new DClientAuction(client);
+
+            try (Transaction transaction = DB.beginTransaction()) {
+                client.init(nameMeta, backpack, auction);
+
+                client.save(transaction);
+                nameMeta.save(transaction);
+                backpack.save(transaction);
+                auction.save(transaction);
+                transaction.commit();
             } catch (DuplicateKeyException e) {
                 throw new CreateEntityException(
                     "That account already exists! If this is your account, it may just need to be linked to your discord");
