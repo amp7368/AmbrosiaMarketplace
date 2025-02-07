@@ -1,16 +1,16 @@
-package com.ambrosia.markets.api.item.create;
+package com.ambrosia.markets.api.v1.controller.user.me;
 
-import com.ambrosia.markets.api.base.client.ClientRequest;
+import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
 import io.javalin.http.Context;
 import java.util.UUID;
 
-public class CreateItemRequest extends ClientRequest {
+public class CreateItemRequestBase extends BaseClientAuthorizationRequest {
 
     private final String name;
     private final UUID bought;
     private final String itemData;
 
-    public CreateItemRequest(Context ctx, CreateItemRequestInput input) {
+    public CreateItemRequestBase(Context ctx, CreateItemRequestInput input) {
         super(ctx);
         this.name = input.name();
         this.bought = input.boughtUUID();

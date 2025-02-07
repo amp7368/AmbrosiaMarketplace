@@ -1,7 +1,7 @@
-package com.ambrosia.markets.api.item.create;
+package com.ambrosia.markets.api.v1.controller.user.me;
 
 import com.ambrosia.markets.api.base.BaseController;
-import com.ambrosia.markets.api.base.item.ItemSnapshotResponse;
+import com.ambrosia.markets.api.base.item.ItemSnapshotDto;
 import com.ambrosia.markets.api.upstream.UpstreamException;
 import com.ambrosia.markets.api.upstream.nori.item_analysis.NoriItemAnalysis;
 import com.ambrosia.markets.database.model.entity.client.DClient;
@@ -22,12 +22,12 @@ public class CreateItemController extends BaseController {
     @Override
     public void handle(@NotNull Context ctx) throws Exception {
         CreateItemRequestInput input = validateBody(ctx, CreateItemRequestInput.VALIDATOR, CreateItemRequestInput.class);
-        CreateItemRequest request = new CreateItemRequest(ctx, input);
+        CreateItemRequestBase request = new CreateItemRequestBase(ctx, input);
 
         ctx.async(() -> handleAsync(ctx, request));
     }
 
-    public void handleAsync(@NotNull Context ctx, CreateItemRequest request) throws UpstreamException {
+    public void handleAsync(@NotNull Context ctx, CreateItemRequestBase request) throws UpstreamException {
         DItemData itemData;
         try {
             itemData = NoriItemAnalysis.requestItemAnalysisNow(request.getItemData());
@@ -49,7 +49,7 @@ public class CreateItemController extends BaseController {
             backpackItem.save(transaction);
             transaction.commit();
         }
-        ItemSnapshotResponse createdItem = new ItemSnapshotResponse(snapshot);
+        ItemSnapshotDto createdItem = new ItemSnapshotDto(snapshot);
         CreateItemResponse response = new CreateItemResponse(createdItem);
         ctx.json(response);
     }

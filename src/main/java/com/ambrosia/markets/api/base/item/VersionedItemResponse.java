@@ -11,6 +11,7 @@ public class VersionedItemResponse {
     public final String itemTier;
     public final String itemType;
     public final ObjectNode identifications;
+    public final ObjectNode nori;
 
     public VersionedItemResponse(DVersionedItem data) {
         this.version = data.version();
@@ -19,5 +20,6 @@ public class VersionedItemResponse {
         this.itemTier = data.itemTier();
         this.itemType = data.itemType();
         this.identifications = data.identifications();
+        this.nori = data.noriData();
     }
 }

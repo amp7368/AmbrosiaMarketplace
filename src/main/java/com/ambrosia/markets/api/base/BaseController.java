@@ -11,6 +11,8 @@ import java.util.Map;
 
 public abstract class BaseController implements Handler {
 
+    public static final int STRING_MAX_FIELD_LENGTH = 255;
+
     protected <T> T validateBody(Context ctx, Validator<T> validator, Class<T> type) {
         T request = ctx.bodyValidator(type).get();
         validate(ctx, validator, request);

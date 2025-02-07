@@ -4,8 +4,10 @@ import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.base.image.DImage;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.item.DItem;
+import com.ambrosia.markets.database.model.item.ItemApi;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.pricecheck.DPriceCheck;
+import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
 import com.ambrosia.markets.database.wynncraft.item.base.DVersionedItem;
 import jakarta.persistence.Column;
@@ -88,5 +90,9 @@ public class DItemSnapshot extends BaseEntity {
 
     public List<DPriceCheck> getPriceChecks() {
         return priceChecks;
+    }
+
+    public DAuctionItem getCurrentAuction() {
+        return ItemApi.findCurrentAuctionItem(this);
     }
 }

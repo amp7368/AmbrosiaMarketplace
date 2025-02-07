@@ -46,13 +46,13 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
-    
+
     // logging
     implementation 'org.apache.logging.log4j:log4j-core:2.24.1'
     implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.24.1'
 
     // http
-    implementation 'io.javalin:javalin:6.3.0'
+    implementation 'io.javalin:javalin:6.4.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
     // validation
     implementation 'am.ik.yavi:yavi:0.12.1'
