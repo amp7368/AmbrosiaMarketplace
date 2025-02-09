@@ -23,4 +23,8 @@ public class DBackpackItem extends BaseEntity {
         this.backpack = backpack;
         this.item = item;
     }
+
+    public DItemSnapshot getItem() {
+        return item;
+    }
 }

@@ -1,10 +1,10 @@
-package com.ambrosia.markets.api.item.create;
+package com.ambrosia.markets.api.v1.controller.user.me.items;
 
-import com.ambrosia.markets.api.base.client.ClientRequest;
+import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
 import io.javalin.http.Context;
 import java.util.UUID;
 
-public class CreateItemRequest extends ClientRequest {
+public class CreateItemRequest extends BaseClientAuthorizationRequest {
 
     private final String name;
     private final UUID bought;

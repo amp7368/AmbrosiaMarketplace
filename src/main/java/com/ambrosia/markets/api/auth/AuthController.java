@@ -38,8 +38,7 @@ public class AuthController extends BaseController {
     }
 
 
-    @Override
-    public void handle(@NotNull Context ctx) throws Exception {
+    public void authorize(@NotNull Context ctx) throws Exception {
         TokenRequest request = ctx.bodyValidator(TokenRequest.class).get();
         validate(ctx, TokenRequest.VALIDATOR, request);
 

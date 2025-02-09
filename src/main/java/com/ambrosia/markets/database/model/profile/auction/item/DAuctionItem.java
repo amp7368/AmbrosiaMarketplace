@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "auction_item")
+// no two auctionItems should exist with the same itemId and endSaleAt = null
 public class DAuctionItem extends BaseEntity {
 
     @Id
@@ -40,5 +41,13 @@ public class DAuctionItem extends BaseEntity {
     protected List<DAuctionOffer> offers = new ArrayList<>();
 
     public DAuctionItem() {
+    }
+
+    public Instant getEndSaleAt() {
+        return endSaleAt;
+    }
+
+    public Instant getStartSaleAt() {
+        return startSaleAt;
     }
 }
