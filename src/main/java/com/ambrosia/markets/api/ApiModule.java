@@ -6,6 +6,7 @@ import com.ambrosia.markets.api.system.ApiRequestLogger;
 import com.ambrosia.markets.api.system.ExceptionHandlers;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.MarketplaceItemsController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.InventoryController;
+import com.ambrosia.markets.api.v1.controller.user.me.items.auctions.ItemAuctionsController;
 import com.ambrosia.markets.api.v1.controller.users.items.UsersItemsController;
 import com.ambrosia.markets.config.AmbrosiaConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -33,6 +34,7 @@ public class ApiModule extends AppleModule {
         app.get("/api/v1/user/me/items", inventory::listItems);
         app.get("/api/v1/marketplace/items", new MarketplaceItemsController()::listItems);
         app.get("/api/v1/users/{user}/items", new UsersItemsController()::listItems);
+        app.patch("/api/v1/user/me/items/{item}/auction", new ItemAuctionsController()::markForAuction);
     }
 
 //    private void registerPermissions() {

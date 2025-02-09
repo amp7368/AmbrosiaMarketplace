@@ -23,18 +23,18 @@ public class EmeraldsParser {
     public static Emeralds tryParse(String amountArg) {
         try {
             return parse(amountArg);
-        } catch (NumberFormatException e) {
+        } catch (EmeraldParserException e) {
             return null;
         }
     }
 
     @NotNull
-    public static Emeralds parse(String amountArg) throws NumberFormatException {
+    public static Emeralds parse(String amountArg) throws EmeraldParserException {
         verifyHasUnits(amountArg);
 
         Matcher match = EMERALDS_PATTERN.matcher(amountArg);
         if (!match.find()) {
-            throw new NumberFormatException("'%s' is not a valid amount! %s".formatted(amountArg, EMERALDS_FORMAT_MESSAGE));
+            throw new EmeraldParserException("'%s' is not a valid amount! %s".formatted(amountArg, EMERALDS_FORMAT_MESSAGE));
         }
 
         String stxArg = match.group(2);
@@ -48,9 +48,9 @@ public class EmeraldsParser {
         BigDecimal amount = stx.add(le).add(eb).add(e);
 
         if (amount.compareTo(MAX_EMERALDS) > 0)
-            throw new NumberFormatException("Amount of '%s' is greater than 64stx!".formatted(amountArg));
+            throw new EmeraldParserException("Amount of '%s' is greater than 64stx!".formatted(amountArg));
         if (amount.compareTo(BigDecimal.ZERO) <= 0)
-            throw new NumberFormatException("Amount of '%s' is 0 emeralds. Positive numbers only!'".formatted(amountArg));
+            throw new EmeraldParserException("Amount of '%s' is 0 emeralds. Positive numbers only!'".formatted(amountArg));
         return Emeralds.of(amount);
     }
 

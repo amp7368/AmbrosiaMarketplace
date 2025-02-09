@@ -7,7 +7,7 @@ import com.ambrosia.markets.api.base.item.ListItemsResponse;
 import com.ambrosia.markets.api.upstream.UpstreamException;
 import com.ambrosia.markets.api.upstream.nori.item_analysis.NoriItemAnalysis;
 import com.ambrosia.markets.api.v1.service.ListItemsService;
-import com.ambrosia.markets.database.model.item.ItemApi;
+import com.ambrosia.markets.database.model.item.api.ItemApi;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
 import io.javalin.http.Context;

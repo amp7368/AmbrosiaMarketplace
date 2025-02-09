@@ -4,10 +4,11 @@ import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.base.image.DImage;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.item.DItem;
-import com.ambrosia.markets.database.model.item.ItemApi;
+import com.ambrosia.markets.database.model.item.api.ItemApi;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.pricecheck.DPriceCheck;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
+import com.ambrosia.markets.database.model.profile.backpack.DBackpackItem;
 import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
 import com.ambrosia.markets.database.wynncraft.item.base.DVersionedItem;
 import jakarta.persistence.Column;
@@ -45,8 +46,12 @@ public class DItemSnapshot extends BaseEntity {
     protected DItemData data; // encoded string
     @ManyToOne
     protected DImage userImage;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     protected List<DPriceCheck> priceChecks = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY)
+    protected List<DAuctionItem> auctionItems = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY)
+    protected List<DBackpackItem> backpackItems = new ArrayList<>();
 
     public DItemSnapshot(String name, DClient owner, DItem item, DItemData data) {
         this.name = name;

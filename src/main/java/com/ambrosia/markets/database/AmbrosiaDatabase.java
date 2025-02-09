@@ -3,6 +3,7 @@ package com.ambrosia.markets.database;
 import apple.lib.ebean.database.AppleEbeanDatabase;
 import apple.lib.ebean.database.config.AppleEbeanDatabaseConfig;
 import apple.lib.ebean.database.config.AppleEbeanPostgresConfig;
+import com.ambrosia.markets.config.AmbrosiaConfig;
 import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.base.image.DImage;
@@ -32,6 +33,8 @@ import com.ambrosia.markets.database.model.trade.cost.DCostItemMisc;
 import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
+import io.ebean.dbmigration.DbMigration;
+import io.ebean.migration.MigrationConfig;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,8 +42,13 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
 
     @Override
     protected DatabaseConfig configureDatabase(DataSourceConfig dataSourceConfig) {
-        return super.configureDatabase(dataSourceConfig)
-            .setDdlCreateOnly(!shouldDropDatabase());
+        return super.configureDatabase(dataSourceConfig);
+    }
+
+    @Override
+    protected void configureMigration(DbMigration migration, MigrationConfig config) {
+        migration.setStrictMode(AmbrosiaConfig.get().isProduction());
+        super.configureMigration(migration, config);
     }
 
     @Override
@@ -107,7 +115,7 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
     }
 
     private boolean shouldDropDatabase() {
-        return false;
+        return true;
     }
 
     public static class AmbrosiaDatabaseConfig extends AppleEbeanPostgresConfig {
@@ -121,11 +129,6 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
 
         public static AmbrosiaDatabaseConfig get() {
             return instance;
-        }
-
-        @Override
-        public boolean shouldRunMigration() {
-            return false;
         }
     }
 }
