@@ -1,7 +1,7 @@
 package com.ambrosia.markets.api.v1.controller.user.me.items.auctions;
 
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
-import com.ambrosia.markets.database.model.item.ItemApi;
+import com.ambrosia.markets.database.model.item.api.ItemApi;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
 import com.ambrosia.markets.util.emerald.EmeraldParserException;
 import com.ambrosia.markets.util.emerald.Emeralds;

@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
 public class MarketplaceItemsController extends BaseController {
 
     public void listItems(@NotNull Context ctx) throws Exception {
-        ListItemsResponse response = ListItemsService.listAllItems();
+        // TODO query string determines filter
+        ListItemsResponse response = ListItemsService.listMarketplaceItems();
         ctx.json(response);
     }
 }
