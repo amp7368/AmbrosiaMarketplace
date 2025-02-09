@@ -6,7 +6,7 @@ import com.ambrosia.markets.database.model.entity.client.DClient;
 import io.javalin.http.Context;
 import io.javalin.http.UnauthorizedResponse;
 
-public abstract class BaseClientAuthorizationRequest extends BaseRequest {
+public class BaseClientAuthorizationRequest extends BaseRequest implements IClientRequest {
 
     private final DClient client;
 
@@ -27,6 +27,7 @@ public abstract class BaseClientAuthorizationRequest extends BaseRequest {
         return client;
     }
 
+    @Override
     public DClient getClient() {
         return client;
     }

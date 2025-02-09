@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MarketplaceItemsController extends BaseController {
 
-    @Override
-    public void handle(@NotNull Context ctx) throws Exception {
+    public void listItems(@NotNull Context ctx) throws Exception {
         ListItemsResponse response = ListItemsService.listAllItems();
         ctx.json(response);
     }

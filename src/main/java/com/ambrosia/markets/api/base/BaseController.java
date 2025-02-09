@@ -5,11 +5,10 @@ import am.ik.yavi.core.ConstraintViolations;
 import am.ik.yavi.core.Validator;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
-import io.javalin.http.Handler;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseController implements Handler {
+public abstract class BaseController {
 
     public static final int STRING_MAX_FIELD_LENGTH = 255;
 

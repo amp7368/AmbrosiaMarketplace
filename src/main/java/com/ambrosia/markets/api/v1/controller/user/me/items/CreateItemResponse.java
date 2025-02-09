@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.v1.controller.user.me;
+package com.ambrosia.markets.api.v1.controller.user.me.items;
 
 import com.ambrosia.markets.api.base.BaseResponse;
 import com.ambrosia.markets.api.base.item.ItemSnapshotDto;

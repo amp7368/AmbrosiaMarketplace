@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.v1.controller.user.me;
+package com.ambrosia.markets.api.v1.controller.user.me.items;
 
 import am.ik.yavi.builder.ValidatorBuilder;
 import am.ik.yavi.constraint.CharSequenceConstraint;
