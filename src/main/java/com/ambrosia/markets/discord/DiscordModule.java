@@ -103,6 +103,7 @@ public class DiscordModule extends AppleModule {
 
     @Override
     public void onEnablePost() {
+        if (!DiscordConfig.get().shouldEnable()) return;
         DiscordConfig.get().load();
         SendDiscordLog.load();
         DiscordBot.dcf.commands().updateCommands(
@@ -113,6 +114,7 @@ public class DiscordModule extends AppleModule {
 
     @Override
     public void onEnable() {
+        if (!DiscordConfig.get().shouldEnable()) return;
         JDABuilder builder = JDABuilder.createDefault(DiscordConfig.get().getToken(), GatewayIntent.GUILD_EMOJIS_AND_STICKERS)
             .disableCache(CacheFlag.VOICE_STATE, CacheFlag.STICKER, CacheFlag.SCHEDULED_EVENTS);
         JDA jda = builder.build();

@@ -3,7 +3,9 @@ package com.ambrosia.markets.database.model.item;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
+import com.ambrosia.markets.database.model.item.snapshot.query.QDItemSnapshot;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
+import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItemStatus;
 import com.ambrosia.markets.database.model.profile.auction.item.query.QDAuctionItem;
 import com.ambrosia.markets.database.model.profile.backpack.DBackpackItem;
 import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
@@ -11,6 +13,7 @@ import com.ambrosia.markets.database.model.profile.backpack.query.QDBackpackItem
 import io.ebean.DB;
 import io.ebean.Transaction;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
@@ -41,7 +44,7 @@ public interface ItemApi {
     static DAuctionItem findCurrentAuctionItem(DItemSnapshot item) {
         return new QDAuctionItem().where()
             .item.eq(item)
-            .endSaleAt.isNull()
+            .status.eq(DAuctionItemStatus.CURRENT)
             .findOne();
     }
 
@@ -59,5 +62,12 @@ public interface ItemApi {
             transaction.commit();
         }
         return snapshot;
+    }
+
+    @Nullable
+    static DItemSnapshot findItem(UUID id) {
+        return new QDItemSnapshot().where()
+            .id.eq(id)
+            .findOne();
     }
 }

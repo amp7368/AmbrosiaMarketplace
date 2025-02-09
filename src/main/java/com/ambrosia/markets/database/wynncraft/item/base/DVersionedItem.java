@@ -24,6 +24,13 @@ public record DVersionedItem(
     }
 
     public DVersionedItem deepCopy() {
+        String icon;
+        if (this.icon != null) {
+            icon = this.icon;
+        } else {
+            icon = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/01/Diamond_Boots_%28item%29_JE3_BE3"
+                + ".png/revision/latest?cb=20200226193855";
+        }
         return new DVersionedItem(name, icon, itemTier, itemType, identifications.deepCopy(), noriData.deepCopy());
     }
 }

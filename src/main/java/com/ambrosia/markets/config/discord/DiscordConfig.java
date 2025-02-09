@@ -13,6 +13,7 @@ public class DiscordConfig {
     protected long logChannel = 0;
     protected long requestChannel = 0;
     protected String applicationToken = "appToken";
+    protected boolean shouldEnable = true;
 
     public DiscordConfig() {
         instance = this;
@@ -64,5 +65,9 @@ public class DiscordConfig {
 
     public String getApplicationToken() {
         return this.applicationToken;
+    }
+
+    public boolean shouldEnable() {
+        return this.shouldEnable;
     }
 }
