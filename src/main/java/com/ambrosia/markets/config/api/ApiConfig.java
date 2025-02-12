@@ -7,6 +7,7 @@ public class ApiConfig {
 
     public boolean cors = false;
     protected int port = 3001;
+    protected String domain = "marketplace.dreamcogs.com/api";
 
     public void commonConfig(JavalinConfig config) {
         config.router.treatMultipleSlashesAsSingleSlash = true;
@@ -18,5 +19,9 @@ public class ApiConfig {
 
     public int getPort() {
         return this.port;
+    }
+
+    public String getDomain() {
+        return this.domain;
     }
 }

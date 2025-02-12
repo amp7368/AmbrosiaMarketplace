@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.function.Function;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.CommandInteraction;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -27,6 +28,8 @@ public interface CommandOption<Op, R> {
         OptionMapping::getAsString);
     CommandOption<String, String> DISPLAY_NAME = base("display_name", "The name to display on the profile", OptionType.STRING,
         OptionMapping::getAsString);
+    CommandOption<Attachment, Attachment> IMAGE = base("image", "The image to add", OptionType.ATTACHMENT,
+        OptionMapping::getAsAttachment);
 
     static <T> CommandOption<T, T> base(String name, String description, OptionType optionType,
         Function<OptionMapping, T> optionMapping) {
