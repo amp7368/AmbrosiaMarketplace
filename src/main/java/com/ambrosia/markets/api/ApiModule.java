@@ -4,6 +4,7 @@ import apple.lib.modules.AppleModule;
 import com.ambrosia.markets.api.auth.AuthController;
 import com.ambrosia.markets.api.system.ApiRequestLogger;
 import com.ambrosia.markets.api.system.ExceptionHandlers;
+import com.ambrosia.markets.api.v1.controller.assets.AssetsController;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.MarketplaceItemsController;
 import com.ambrosia.markets.api.v1.controller.user.me.ProfileController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.InventoryController;
@@ -47,6 +48,8 @@ public class ApiModule extends AppleModule {
         app.get("/api/v1/user/me/items", inventory::listItems);
         app.patch("/api/v1/user/me/items/{item}/auction", new ItemAuctionsController()::markForAuction);
 
+        // assets
+        app.get("/api/v1/assets/{image}", new AssetsController()::getImage);
     }
 
 //    private void registerPermissions() {
