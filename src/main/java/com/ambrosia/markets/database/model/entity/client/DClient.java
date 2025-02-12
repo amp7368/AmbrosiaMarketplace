@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @History
 @Entity
@@ -58,7 +57,7 @@ public class DClient extends BaseEntity {
         return getNameMeta().getDiscord(shouldUpdate);
     }
 
-    @Nullable
+    @NotNull
     public ClientDiscordDetails getDiscord() {
         return getDiscord(true);
     }
@@ -74,6 +73,10 @@ public class DClient extends BaseEntity {
 
     public Rank getRank() {
         return rank;
+    }
+
+    public void setRank(Rank rank) {
+        this.rank = rank;
     }
 
     public DClientNameMeta getNameMeta() {
