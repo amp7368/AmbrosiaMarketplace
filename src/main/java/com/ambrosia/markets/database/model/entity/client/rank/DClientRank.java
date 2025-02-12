@@ -3,7 +3,6 @@ package com.ambrosia.markets.database.model.entity.client.rank;
 import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.entity.staff.Rank;
-import io.ebean.annotation.WhenCreated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,8 +21,18 @@ public class DClientRank extends BareBaseEntity {
     protected DClient client;
     @Column(nullable = false)
     protected Rank rank;
-    @WhenCreated
+    @Column(nullable = false)
     protected Instant addedAt;
     @Column
     protected Instant removedAt;
+
+    public DClientRank(DClient client, Rank rank, Instant addedAt) {
+        this.client = client;
+        this.addedAt = addedAt;
+        this.rank = rank;
+    }
+
+    public void remove(Instant removedAt) {
+        this.removedAt = Instant.now();
+    }
 }

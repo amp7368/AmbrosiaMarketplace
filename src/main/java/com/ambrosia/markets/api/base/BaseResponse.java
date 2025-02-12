@@ -4,7 +4,7 @@ import java.time.Instant;
 
 public class BaseResponse {
 
-    public Instant date = Instant.now();
-    public String apiVersion = "1.0";
+    public final Instant date = Instant.now();
+    public final String apiVersion = "1.0";
 
 }

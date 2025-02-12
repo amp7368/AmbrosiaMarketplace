@@ -5,6 +5,9 @@ import com.ambrosia.markets.database.model.entity.client.name.ClientMinecraftDet
 import com.ambrosia.markets.database.model.entity.client.name.DClientNameMeta;
 import com.ambrosia.markets.database.model.entity.client.name.query.QDClientNameMeta;
 import com.ambrosia.markets.database.model.entity.client.query.QDClient;
+import com.ambrosia.markets.database.model.entity.client.rank.DClientRank;
+import com.ambrosia.markets.database.model.entity.client.rank.query.QDClientRank;
+import com.ambrosia.markets.database.model.entity.staff.Rank;
 import com.ambrosia.markets.database.model.profile.auction.DClientAuction;
 import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
 import com.ambrosia.markets.database.system.exception.CreateEntityException;
@@ -12,6 +15,7 @@ import io.ebean.CacheMode;
 import io.ebean.DB;
 import io.ebean.DuplicateKeyException;
 import io.ebean.Transaction;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import net.dv8tion.jda.api.entities.Member;
@@ -68,6 +72,26 @@ public interface ClientApi {
                 .setReadOnly(true)
                 .findList();
         }
+
+        static void promote(DClient client, Rank setToRank, Transaction transaction) {
+            client.setRank(setToRank);
+            Instant now = Instant.now();
+            DClientRank newRank = new DClientRank(client, setToRank, now);
+
+            DClientRank lastRank = new QDClientRank().where()
+                .client.eq(client)
+                .removedAt.isNull()
+                .orderBy().addedAt.desc()
+                .setMaxRows(1)
+                .findOne();
+
+            if (lastRank != null) {
+                lastRank.remove(now);
+                lastRank.save(transaction);
+            }
+            newRank.save(transaction);
+            client.save(transaction);
+        }
     }
 
     interface ClientCreateApi {
@@ -93,7 +117,7 @@ public interface ClientApi {
 
             try (Transaction transaction = DB.beginTransaction()) {
                 client.init(nameMeta, backpack, auction);
-
+                ClientQueryApi.promote(client, Rank.CLIENT, transaction);
                 client.save(transaction);
                 nameMeta.save(transaction);
                 backpack.save(transaction);

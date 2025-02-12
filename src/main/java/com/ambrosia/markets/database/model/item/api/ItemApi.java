@@ -10,36 +10,28 @@ import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItemStat
 import com.ambrosia.markets.database.model.profile.auction.item.query.QDAuctionItem;
 import com.ambrosia.markets.database.model.profile.backpack.DBackpackItem;
 import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
-import com.ambrosia.markets.database.model.profile.backpack.query.QDBackpackItem;
 import io.ebean.DB;
 import io.ebean.Transaction;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 public interface ItemApi {
 
-    static List<DItemSnapshot> findBackpackItems(FindPaginatedItems req, DClient client) {
-        Stream<DBackpackItem> backpackItems = new QDBackpackItem().fetch("item")
-            .where().backpack.eq(client.getBackpack())
-            .orderBy().item.createdAt.desc()
+    static List<DItemSnapshot> findClientItems(FindPaginatedItems req, DClient client) {
+        return new QDItemSnapshot()
+            .where().owner.eq(client)
+            .orderBy().createdAt.desc()
             .setMaxRows(req.limit())
-            .findStream();
-        return backpackItems
-            .map(DBackpackItem::getItem)
-            .toList();
+            .findList();
     }
 
-    static List<DItemSnapshot> findBackpackItems(FindPaginatedItems req) {
-        Stream<DBackpackItem> backpackItems = new QDBackpackItem().fetch("item")
-            .orderBy().item.createdAt.desc()
+    static List<DItemSnapshot> findItems(FindPaginatedItems req) {
+        return new QDItemSnapshot()
+            .orderBy().createdAt.desc()
             .setMaxRows(req.limit())
-            .findStream();
-        return backpackItems
-            .map(DBackpackItem::getItem)
-            .toList();
+            .findList();
     }
 
     @Nullable

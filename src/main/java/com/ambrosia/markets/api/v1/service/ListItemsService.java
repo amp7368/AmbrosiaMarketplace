@@ -12,7 +12,7 @@ public class ListItemsService {
 
     public static ListItemsResponse listClientItems(IClientRequest request) {
         FindPaginatedItems req = new FindPaginatedItems(100000);
-        List<DItemSnapshot> items = ItemApi.findBackpackItems(req, request.getClient());
+        List<DItemSnapshot> items = ItemApi.findClientItems(req, request.getClient());
         List<ItemSnapshotDto> itemsResponse = ItemSnapshotDto.convert(items);
         return new ListItemsResponse(itemsResponse);
     }
