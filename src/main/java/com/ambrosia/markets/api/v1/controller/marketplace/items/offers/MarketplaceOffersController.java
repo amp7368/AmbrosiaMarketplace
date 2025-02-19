@@ -12,14 +12,18 @@ import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import io.javalin.http.ConflictResponse;
 import io.javalin.http.Context;
+import io.javalin.http.UnauthorizedResponse;
 import java.util.List;
 
-public class OffersController extends BaseController {
+public class MarketplaceOffersController extends BaseController {
 
     public void makeOffer(Context ctx) {
         DClient bidder = BaseClientAuthorizationRequest.clientAuthorization(ctx);
         MakeOfferRequestInput input = validateBody(ctx, MakeOfferRequestInput.validator, MakeOfferRequestInput.class);
         DItemSnapshot item = ItemParam.parse(ctx.pathParam("item"));
+
+        if (bidder.getId().equals(item.getOwner().getId()))
+            throw new UnauthorizedResponse("You cannot place an offer on your own item!");
 
         DAuctionItem upForSale = item.getCurrentAuction();
         if (upForSale == null) throw new ConflictResponse("The item is currently not up for sale!");
