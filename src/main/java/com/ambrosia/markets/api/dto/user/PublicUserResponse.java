@@ -12,9 +12,13 @@ public class PublicUserResponse extends BaseResponse {
     @Nullable
     public final String discordName;
     @Nullable
+    public final String discordAvatarUrl;
+    @Nullable
     public final String minecraftName;
     @Nullable
     public final UUID minecraftUUID;
+    @Nullable
+    public final String minecraftProfileUrl;
 
     public final String profileImage;
 
@@ -26,8 +30,12 @@ public class PublicUserResponse extends BaseResponse {
     public PublicUserResponse(DClient client) {
         this.name = client.getEffectiveName();
         this.discordName = client.getDiscord().getUsername();
+        this.discordAvatarUrl = client.getDiscord().getAvatarUrl();
         this.minecraftName = client.getMinecraft().getUsername();
         this.minecraftUUID = client.getMinecraft().getUUID();
+        if (this.minecraftUUID != null)
+            this.minecraftProfileUrl = "https://mc-heads.net/body/%s/200".formatted(minecraftUUID);
+        else this.minecraftProfileUrl = "https://mc-heads.net/body//200";
         this.profileImage = null;
         this.rank = client.getRank();
         this.auctionedItemsCount = -1;

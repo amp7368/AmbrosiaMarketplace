@@ -21,4 +21,20 @@ public class DMiscItem extends BaseEntity {
     protected String description;
     @ManyToOne
     protected DImage image;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public DImage getImage() {
+        return image;
+    }
 }

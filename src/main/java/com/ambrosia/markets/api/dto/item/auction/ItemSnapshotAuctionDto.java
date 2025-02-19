@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.base.item;
+package com.ambrosia.markets.api.dto.item.auction;
 
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItemStatus;

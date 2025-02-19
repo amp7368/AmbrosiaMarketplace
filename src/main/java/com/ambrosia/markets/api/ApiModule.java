@@ -6,6 +6,7 @@ import com.ambrosia.markets.api.system.ApiRequestLogger;
 import com.ambrosia.markets.api.system.ExceptionHandlers;
 import com.ambrosia.markets.api.v1.controller.assets.AssetsController;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.MarketplaceItemsController;
+import com.ambrosia.markets.api.v1.controller.marketplace.items.offers.OffersController;
 import com.ambrosia.markets.api.v1.controller.user.me.ProfileController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.InventoryController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.auctions.ItemAuctionsController;
@@ -34,7 +35,9 @@ public class ApiModule extends AppleModule {
         app.post("/api/v1/token", new AuthController()::authorize);
 
         // public marketplace
+        OffersController offers = new OffersController();
         app.get("/api/v1/marketplace/items", new MarketplaceItemsController()::listItems);
+        app.post("/api/v1/marketplace/items/{item}/offers", offers::makeOffer);
 
         // public users
         app.get("/api/v1/users/{user}/items", new UsersItemsController()::listItems);

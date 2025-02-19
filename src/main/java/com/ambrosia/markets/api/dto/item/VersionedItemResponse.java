@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.base.item;
+package com.ambrosia.markets.api.dto.item;
 
 import com.ambrosia.markets.database.wynncraft.item.base.DVersionedItem;
 import com.fasterxml.jackson.databind.node.ObjectNode;

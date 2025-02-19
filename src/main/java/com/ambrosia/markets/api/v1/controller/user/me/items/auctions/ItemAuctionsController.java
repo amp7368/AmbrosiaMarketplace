@@ -9,9 +9,10 @@ import org.jetbrains.annotations.NotNull;
 public class ItemAuctionsController extends BaseController {
 
     public void markForAuction(@NotNull Context ctx) throws Exception {
-        ItemAuctionsUpdateRequestInput input = validateBody(ctx, ItemAuctionsUpdateRequestInput.VALIDATOR,
+        ItemAuctionsUpdateRequestInput input = validateBody(ctx, ItemAuctionsUpdateRequestInput.validator,
             ItemAuctionsUpdateRequestInput.class);
-        ItemAuctionsUpdateRequest request = new ItemAuctionsUpdateRequest(ctx, input);
+
+        ItemAuctionsUpdateRequest request = ItemAuctionsUpdateRequest.parse(ctx, input);
         DAuctionItem item = ItemAuctionService.markForAuction(request);
         ctx.json(new ItemAuctionsUpdateResponse(item.getItem()));
     }

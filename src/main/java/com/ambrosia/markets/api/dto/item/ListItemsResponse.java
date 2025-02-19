@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.base.item;
+package com.ambrosia.markets.api.dto.item;
 
 import com.ambrosia.markets.api.base.BaseResponse;
 import java.util.List;

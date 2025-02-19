@@ -2,8 +2,8 @@ package com.ambrosia.markets.api.v1.controller.user.me.items;
 
 import com.ambrosia.markets.api.base.BaseController;
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
-import com.ambrosia.markets.api.base.item.ItemSnapshotDto;
-import com.ambrosia.markets.api.base.item.ListItemsResponse;
+import com.ambrosia.markets.api.dto.item.ItemSnapshotDto;
+import com.ambrosia.markets.api.dto.item.ListItemsResponse;
 import com.ambrosia.markets.api.upstream.UpstreamException;
 import com.ambrosia.markets.api.upstream.nori.item_analysis.NoriItemAnalysis;
 import com.ambrosia.markets.api.v1.service.ListItemsService;

@@ -3,9 +3,7 @@ package com.ambrosia.markets.database.model.trade.cost;
 import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.PrimaryKeyJoinColumns;
 import jakarta.persistence.Table;
@@ -20,8 +18,19 @@ public class DCostItem extends BareBaseEntity {
 
     @ManyToOne
     protected DCost cost;
-    @JoinColumn
-    @OneToOne
+    @ManyToOne
     protected DItemSnapshot item;
 
+    public DCostItem(DCost cost, DItemSnapshot item) {
+        this.cost = cost;
+        this.item = item;
+    }
+
+    public DCost getCost() {
+        return cost;
+    }
+
+    public DItemSnapshot getItem() {
+        return item;
+    }
 }
