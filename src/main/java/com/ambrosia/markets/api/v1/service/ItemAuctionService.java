@@ -1,7 +1,9 @@
 package com.ambrosia.markets.api.v1.service;
 
+import com.ambrosia.markets.api.dto.item.auction.AuctionOfferDto;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.offers.MakeOfferRequest;
 import com.ambrosia.markets.api.v1.controller.user.me.items.auctions.ItemAuctionsUpdateRequest;
+import com.ambrosia.markets.database.model.item.api.ItemAuctionApi;
 import com.ambrosia.markets.database.model.profile.auction.DClientAuction;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.offer.AuctionOfferStatus;
@@ -57,5 +59,10 @@ public class ItemAuctionService {
             transaction.commit();
         }
         return offer;
+    }
+
+    public static List<AuctionOfferDto> listOffers(DAuctionItem upForSale) {
+        List<DAuctionOffer> offers = ItemAuctionApi.listOffers(upForSale);
+        return AuctionOfferDto.convert(offers);
     }
 }
