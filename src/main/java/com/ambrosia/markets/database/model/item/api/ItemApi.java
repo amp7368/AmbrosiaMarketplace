@@ -90,6 +90,7 @@ public interface ItemApi {
         return new QDAuctionOffer().where()
             .item.eq(upForSale)
             .bidder.eq(bidder)
+            .orderBy().modifiedAt.desc()
             .findOne();
     }
 }

@@ -6,12 +6,13 @@ import com.ambrosia.markets.api.system.ApiRequestLogger;
 import com.ambrosia.markets.api.system.ExceptionHandlers;
 import com.ambrosia.markets.api.v1.controller.assets.AssetsController;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.MarketplaceItemsController;
-import com.ambrosia.markets.api.v1.controller.marketplace.items.offers.OffersController;
+import com.ambrosia.markets.api.v1.controller.marketplace.items.offers.MarketplaceOffersController;
 import com.ambrosia.markets.api.v1.controller.user.me.ProfileController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.InventoryController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.auctions.ItemAuctionsController;
 import com.ambrosia.markets.api.v1.controller.users.UsersController;
 import com.ambrosia.markets.api.v1.controller.users.items.UsersItemsController;
+import com.ambrosia.markets.api.v1.controller.users.offers.OffersController;
 import com.ambrosia.markets.config.AmbrosiaConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.javalin.Javalin;
@@ -33,14 +34,15 @@ public class ApiModule extends AppleModule {
 
     private void registerControllers(Javalin app) {
         app.post("/api/v1/token", new AuthController()::authorize);
-        OffersController offers = new OffersController();
+        MarketplaceOffersController marketOffers = new MarketplaceOffersController();
         ProfileController profile = new ProfileController();
         InventoryController inventory = new InventoryController();
+        OffersController offers = new OffersController();
 
         // public marketplace
         app.get("/api/v1/marketplace/items", new MarketplaceItemsController()::listItems);
-        app.get("/api/v1/marketplace/items/{item}/offers", offers::listOffers);
-        app.post("/api/v1/marketplace/items/{item}/offers", offers::makeOffer);
+        app.get("/api/v1/marketplace/items/{item}/offers", marketOffers::listOffers);
+        app.post("/api/v1/marketplace/items/{item}/offers", marketOffers::makeOffer);
 
         // public users
         app.get("/api/v1/users/{user}/items", new UsersItemsController()::listItems);
@@ -51,6 +53,7 @@ public class ApiModule extends AppleModule {
         app.post("/api/v1/user/me/items", inventory::createItem);
         app.get("/api/v1/user/me/items", inventory::listItems);
         app.patch("/api/v1/user/me/items/{item}/auction", new ItemAuctionsController()::markForAuction);
+        app.get("/api/v1/user/me/offers", offers::listClientOffers);
 
         // assets
         app.get("/api/v1/assets/{image}", new AssetsController()::getImage);
