@@ -3,6 +3,7 @@ package com.ambrosia.markets.api.dto.item.auction;
 import com.ambrosia.markets.database.model.profile.auction.offer.AuctionOfferStatus;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class AuctionOfferDto {
@@ -23,5 +24,11 @@ public class AuctionOfferDto {
         this.bidder = offer.getBidder().getId();
         this.completedAt = offer.getCompletedAt();
         this.status = offer.getStatus();
+    }
+
+    public static List<AuctionOfferDto> convert(List<DAuctionOffer> offers) {
+        return offers.stream()
+            .map(AuctionOfferDto::new)
+            .toList();
     }
 }

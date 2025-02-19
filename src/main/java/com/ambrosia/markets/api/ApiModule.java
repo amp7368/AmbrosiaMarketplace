@@ -33,10 +33,13 @@ public class ApiModule extends AppleModule {
 
     private void registerControllers(Javalin app) {
         app.post("/api/v1/token", new AuthController()::authorize);
+        OffersController offers = new OffersController();
+        ProfileController profile = new ProfileController();
+        InventoryController inventory = new InventoryController();
 
         // public marketplace
-        OffersController offers = new OffersController();
         app.get("/api/v1/marketplace/items", new MarketplaceItemsController()::listItems);
+        app.get("/api/v1/marketplace/items/{item}/offers", offers::listOffers);
         app.post("/api/v1/marketplace/items/{item}/offers", offers::makeOffer);
 
         // public users
@@ -44,9 +47,7 @@ public class ApiModule extends AppleModule {
         app.get("/api/v1/users/{user}", new UsersController()::getProfile);
 
         // private user data
-        ProfileController profile = new ProfileController();
         app.get("/api/v1/user/me", profile::getProfile);
-        InventoryController inventory = new InventoryController();
         app.post("/api/v1/user/me/items", inventory::createItem);
         app.get("/api/v1/user/me/items", inventory::listItems);
         app.patch("/api/v1/user/me/items/{item}/auction", new ItemAuctionsController()::markForAuction);

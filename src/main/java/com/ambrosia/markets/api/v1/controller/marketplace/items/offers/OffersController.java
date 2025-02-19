@@ -2,6 +2,7 @@ package com.ambrosia.markets.api.v1.controller.marketplace.items.offers;
 
 import com.ambrosia.markets.api.base.BaseController;
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
+import com.ambrosia.markets.api.dto.item.auction.AuctionOfferDto;
 import com.ambrosia.markets.api.request.item.ItemParam;
 import com.ambrosia.markets.api.v1.service.ItemAuctionService;
 import com.ambrosia.markets.database.model.entity.client.DClient;
@@ -11,6 +12,7 @@ import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import io.javalin.http.ConflictResponse;
 import io.javalin.http.Context;
+import java.util.List;
 
 public class OffersController extends BaseController {
 
@@ -31,5 +33,15 @@ public class OffersController extends BaseController {
         DAuctionOffer offer = ItemAuctionService.createOffer(request);
 
         ctx.json(new MakeOfferResponse(offer));
+    }
+
+    public void listOffers(Context ctx) {
+        DItemSnapshot item = ItemParam.parse(ctx.pathParam("item"));
+
+        DAuctionItem upForSale = item.getCurrentAuction();
+        if (upForSale == null) throw new ConflictResponse("The item is currently not up for sale!");
+
+        List<AuctionOfferDto> offers = ItemAuctionService.listOffers(upForSale);
+        ctx.json(new ListOffersResponse(offers));
     }
 }

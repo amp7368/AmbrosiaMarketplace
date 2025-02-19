@@ -26,7 +26,7 @@ public class DAuctionOffer extends BaseEntity {
     @ManyToOne
     protected DAuctionItem item;
 
-    @Column(nullable = false)
+    @ManyToOne(optional = false)
     protected DCost cost;
     @ManyToOne(optional = false)
     protected DClient bidder;
