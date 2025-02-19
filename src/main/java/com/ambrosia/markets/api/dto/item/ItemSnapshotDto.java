@@ -1,5 +1,6 @@
-package com.ambrosia.markets.api.base.item;
+package com.ambrosia.markets.api.dto.item;
 
+import com.ambrosia.markets.api.dto.item.auction.ItemSnapshotAuctionDto;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import java.util.List;

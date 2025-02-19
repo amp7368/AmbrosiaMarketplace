@@ -7,13 +7,12 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.InternalServerErrorResponse;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.UUID;
 
 public class AssetsController extends BaseController {
 
-    public void getImage(Context ctx) throws FileNotFoundException {
+    public void getImage(Context ctx) throws InternalServerErrorResponse {
         String imageInput = ctx.pathParam("image");
         UUID imageId;
         try {

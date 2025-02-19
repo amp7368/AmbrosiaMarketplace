@@ -5,9 +5,13 @@ import com.ambrosia.markets.database.model.item.DItem;
 import com.ambrosia.markets.database.model.item.data.DItemData;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
 import com.ambrosia.markets.database.model.item.snapshot.query.QDItemSnapshot;
+import com.ambrosia.markets.database.model.item.stack.DMiscItem;
+import com.ambrosia.markets.database.model.item.stack.query.QDMiscItem;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItemStatus;
 import com.ambrosia.markets.database.model.profile.auction.item.query.QDAuctionItem;
+import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
+import com.ambrosia.markets.database.model.profile.auction.offer.query.QDAuctionOffer;
 import com.ambrosia.markets.database.model.profile.backpack.DBackpackItem;
 import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
 import io.ebean.DB;
@@ -72,5 +76,20 @@ public interface ItemApi {
             .orderBy().auctionItems.startSaleAt.desc()
             .setMaxRows(req.limit())
             .findList();
+    }
+
+    @Nullable
+    static DMiscItem findMiscItem(UUID id) {
+        return new QDMiscItem()
+            .where().id.eq(id)
+            .findOne();
+    }
+
+    @Nullable
+    static DAuctionOffer findOffers(DAuctionItem upForSale, DClient bidder) {
+        return new QDAuctionOffer().where()
+            .item.eq(upForSale)
+            .bidder.eq(bidder)
+            .findOne();
     }
 }

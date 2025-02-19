@@ -1,40 +1,44 @@
 package com.ambrosia.markets.api.v1.controller.user.me.items.auctions;
 
+import am.ik.yavi.core.ConstraintViolationsException;
+import am.ik.yavi.core.Validated;
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
-import com.ambrosia.markets.database.model.item.api.ItemApi;
+import com.ambrosia.markets.api.base.client.IClientRequest;
+import com.ambrosia.markets.api.request.item.ItemParam;
+import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
-import com.ambrosia.markets.util.emerald.EmeraldParserException;
 import com.ambrosia.markets.util.emerald.Emeralds;
 import com.ambrosia.markets.util.emerald.EmeraldsParser;
-import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import java.util.Optional;
-import java.util.UUID;
 
-public class ItemAuctionsUpdateRequest extends BaseClientAuthorizationRequest {
+public class ItemAuctionsUpdateRequest implements IClientRequest {
 
+    private final DClient client;
     private final DItemSnapshot item;
     private final Emeralds listedPrice;
     private final int durationDays;
 
-    public ItemAuctionsUpdateRequest(Context ctx, ItemAuctionsUpdateRequestInput input) {
-        super(ctx);
-        try {
-            String itemIdInput = ctx.pathParam("item");
-            UUID itemId = UUID.fromString(itemIdInput);
-            item = ItemApi.findItem(itemId);
-            if (item == null)
-                throw new BadRequestResponse("Item id of '" + itemId + "' not found");
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestResponse("Item query param. Please provide a valid UUID");
-        }
-        try {
-            listedPrice = EmeraldsParser.parse(input.listedPrice());
-        } catch (EmeraldParserException e) {
-            throw new BadRequestResponse(e.getMessage());
-        }
-        this.durationDays = Optional.ofNullable(input.durationDays())
+    public ItemAuctionsUpdateRequest(DClient client, DItemSnapshot item, Emeralds listedPrice, int durationDays) {
+        this.client = client;
+        this.item = item;
+        this.listedPrice = listedPrice;
+        this.durationDays = durationDays;
+    }
+
+    public static ItemAuctionsUpdateRequest parse(Context ctx, ItemAuctionsUpdateRequestInput input) {
+        DClient client = BaseClientAuthorizationRequest.clientAuthorization(ctx);
+
+        String itemInput = ctx.pathParam("item");
+
+        Validated<DItemSnapshot> validateItem = ItemParam.validator.validate(itemInput);
+        validateItem.throwIfInvalid(ConstraintViolationsException::new);
+
+        DItemSnapshot item = validateItem.value();
+        Emeralds listedPrice = EmeraldsParser.tryParse(input.listedPrice());
+        int durationDays = Optional.ofNullable(input.durationDays())
             .orElse(7);
+        return new ItemAuctionsUpdateRequest(client, item, listedPrice, durationDays);
     }
 
     public DItemSnapshot getItem() {
@@ -47,5 +51,10 @@ public class ItemAuctionsUpdateRequest extends BaseClientAuthorizationRequest {
 
     public int getDurationDays() {
         return durationDays;
+    }
+
+    @Override
+    public DClient getClient() {
+        return client;
     }
 }

@@ -1,5 +1,6 @@
 package com.ambrosia.markets.util.emerald;
 
+import am.ik.yavi.core.ValueValidator;
 import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -18,6 +19,8 @@ public class EmeraldsParser {
         "^\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*STX)?\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*LE)?\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*EB)?\\s*("
             + "(\\d+)\\s*E)?\\s*$", Pattern.UNICODE_CASE + Pattern.CASE_INSENSITIVE);
     private static final String EMERALDS_FORMAT_MESSAGE = "Use the format \"23 STX 12 LE 8 EB 56 E\" or \"12.75 STX\".";
+
+    public static ValueValidator<? super Object, ?> validator;
 
     @Nullable
     public static Emeralds tryParse(String amountArg) {

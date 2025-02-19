@@ -26,4 +26,12 @@ public class DAuctionOfferStatusChange extends BaseEntity {
     @Column
     protected AuctionOfferStatus newStatus;
 
+    public DAuctionOfferStatusChange(DAuctionOffer offer, AuctionOfferStatus newStatus) {
+        this.offer = offer;
+        this.newStatus = newStatus;
+    }
+
+    public AuctionOfferStatus getNewStatus() {
+        return newStatus;
+    }
 }

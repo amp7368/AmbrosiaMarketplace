@@ -55,7 +55,7 @@ dependencies {
     implementation 'io.javalin:javalin:6.4.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
     // validation
-    implementation 'am.ik.yavi:yavi:0.12.1'
+    implementation 'am.ik.yavi:yavi:0.14.1'
     // rate limiting client
     implementation 'com.bucket4j:bucket4j_jdk17-core:8.14.0'
 

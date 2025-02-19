@@ -72,4 +72,8 @@ public class DAuctionItem extends BaseEntity {
     public DAuctionItemStatus getStatus() {
         return this.status;
     }
+
+    public UUID getId() {
+        return this.id;
+    }
 }
