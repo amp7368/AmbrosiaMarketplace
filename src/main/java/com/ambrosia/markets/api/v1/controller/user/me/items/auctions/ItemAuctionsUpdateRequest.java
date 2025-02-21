@@ -1,7 +1,5 @@
 package com.ambrosia.markets.api.v1.controller.user.me.items.auctions;
 
-import am.ik.yavi.core.ConstraintViolationsException;
-import am.ik.yavi.core.Validated;
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
 import com.ambrosia.markets.api.base.client.IClientRequest;
 import com.ambrosia.markets.api.request.item.ItemParam;
@@ -30,12 +28,9 @@ public class ItemAuctionsUpdateRequest implements IClientRequest {
         DClient client = BaseClientAuthorizationRequest.clientAuthorization(ctx);
 
         String itemInput = ctx.pathParam("item");
+        DItemSnapshot item = ItemParam.parse(itemInput);
 
-        Validated<DItemSnapshot> validateItem = ItemParam.validator.validate(itemInput);
-        validateItem.throwIfInvalid(ConstraintViolationsException::new);
-
-        DItemSnapshot item = validateItem.value();
-        Emeralds listedPrice = EmeraldsParser.tryParse(input.listedPrice());
+        Emeralds listedPrice = EmeraldsParser.parse(input.listedPrice());
         int durationDays = Optional.ofNullable(input.durationDays())
             .orElse(7);
         return new ItemAuctionsUpdateRequest(client, item, listedPrice, durationDays);

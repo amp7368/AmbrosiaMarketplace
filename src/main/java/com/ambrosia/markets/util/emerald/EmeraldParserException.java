@@ -1,7 +1,8 @@
 package com.ambrosia.markets.util.emerald;
 
-public class EmeraldParserException extends Exception {
+import net.dv8tion.jda.api.exceptions.HttpException;
 
+public class EmeraldParserException extends HttpException {
 
     public EmeraldParserException(String msg) {
         super(msg);

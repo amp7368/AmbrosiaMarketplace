@@ -2,6 +2,7 @@ package com.ambrosia.markets.api.system;
 
 import am.ik.yavi.core.ConstraintViolationsException;
 import com.ambrosia.markets.api.ApiModule;
+import com.ambrosia.markets.util.emerald.EmeraldParserException;
 import io.ebean.DuplicateKeyException;
 import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
@@ -13,6 +14,11 @@ public class ExceptionHandlers {
     public static void registerExceptions(Javalin app) {
         app.exception(DuplicateKeyException.class, ExceptionHandlers::duplicateKeyException);
         app.exception(ConstraintViolationsException.class, ExceptionHandlers::constraintException);
+        app.exception(EmeraldParserException.class, ExceptionHandlers::emeraldParseException);
+    }
+
+    private static void emeraldParseException(EmeraldParserException e, Context ctx) {
+        throw new BadRequestResponse(e.getMessage());
     }
 
     private static void constraintException(ConstraintViolationsException e, Context context) {

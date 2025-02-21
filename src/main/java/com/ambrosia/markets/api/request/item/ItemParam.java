@@ -5,7 +5,6 @@ import am.ik.yavi.builder.StringValidatorBuilder;
 import am.ik.yavi.builder.ValidatorBuilder;
 import am.ik.yavi.core.ApplicativeValidator;
 import am.ik.yavi.core.Constraint;
-import am.ik.yavi.core.ConstraintViolationsException;
 import am.ik.yavi.core.ValueValidator;
 import com.ambrosia.markets.database.model.item.api.ItemApi;
 import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
@@ -17,19 +16,6 @@ public class ItemParam {
 
 
     public static ValueValidator<String, DItemSnapshot> validator = validator();
-    private final DItemSnapshot item;
-
-    // todo delete
-    public ItemParam(String itemIdInput) {
-        try {
-            UUID itemId = UUID.fromString(itemIdInput);
-            item = ItemApi.findItem(itemId);
-            if (item == null)
-                throw new BadRequestResponse("Item id of '" + itemId + "' not found");
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestResponse("Item query param. Please provide a valid UUID");
-        }
-    }
 
     private static ValueValidator<String, DItemSnapshot> validator() {
         StringValidator<UUID> base = StringValidatorBuilder.of("item", arg -> arg.notNull().uuid()).build(a -> {
@@ -61,11 +47,16 @@ public class ItemParam {
             .andThen(Supplier::get);
     }
 
-    public static DItemSnapshot parse(String item) throws ConstraintViolationsException {
-        return validator.validated(item);
-    }
-
-    public DItemSnapshot getItem() {
+    public static DItemSnapshot parse(String itemIdInput) {
+        UUID itemId;
+        try {
+            itemId = UUID.fromString(itemIdInput);
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestResponse("Item query param. Please provide a valid UUID");
+        }
+        DItemSnapshot item = ItemApi.findItem(itemId);
+        if (item == null)
+            throw new BadRequestResponse("Item id of '" + itemId + "' not found");
         return item;
     }
 }
