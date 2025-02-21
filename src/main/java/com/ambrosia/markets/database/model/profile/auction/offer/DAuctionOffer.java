@@ -2,10 +2,12 @@ package com.ambrosia.markets.database.model.profile.auction.offer;
 
 import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.entity.client.DClient;
+import com.ambrosia.markets.database.model.item.snapshot.DItemSnapshot;
 import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.trade.cost.DCost;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -34,7 +36,7 @@ public class DAuctionOffer extends BaseEntity {
     protected Instant completedAt;
     @Column(nullable = false)
     protected AuctionOfferStatus status;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     protected List<DAuctionOfferStatusChange> statusHistory = new ArrayList<>();
 
     public DAuctionOffer(DAuctionItem item, DCost cost, DClient bidder) {
@@ -43,17 +45,22 @@ public class DAuctionOffer extends BaseEntity {
         this.bidder = bidder;
     }
 
-    public void changeStatus(DAuctionOfferStatusChange status) {
+    public void changeStatus(DAuctionOfferStatusChange status, boolean isCompleted) {
         this.status = status.getNewStatus();
         this.statusHistory.add(status);
+        if (isCompleted) this.completedAt = Instant.now();
     }
 
     public UUID getId() {
         return id;
     }
 
-    public DAuctionItem getAuctionItem() {
+    public DAuctionItem getAuction() {
         return item;
+    }
+
+    public DItemSnapshot getAuctionItem() {
+        return item.getItem();
     }
 
     public DCost getCost() {

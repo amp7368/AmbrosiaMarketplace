@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.v1.controller.marketplace.items.offers;
+package com.ambrosia.markets.api.dto.item;
 
 import com.ambrosia.markets.api.base.BaseResponse;
 import com.ambrosia.markets.api.dto.item.auction.AuctionOfferDto;

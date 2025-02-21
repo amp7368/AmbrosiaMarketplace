@@ -54,14 +54,11 @@ public class ApiModule extends AppleModule {
         app.get("/api/v1/user/me/items", inventory::listItems);
         app.patch("/api/v1/user/me/items/{item}/auction", new ItemAuctionsController()::markForAuction);
         app.get("/api/v1/user/me/offers", offers::listClientOffers);
+        app.patch("/api/v1/user/me/offers/{offer}/status", offers::updateStatus);
 
         // assets
         app.get("/api/v1/assets/{image}", new AssetsController()::getImage);
     }
-
-//    private void registerPermissions() {
-//        Arrays.stream(DefaultAuthPermission.values()).forEach(DefaultAuthPermission::get);
-//    }
 
     private int getPort() {
         return AmbrosiaConfig.getApi().getPort();
@@ -88,7 +85,6 @@ public class ApiModule extends AppleModule {
                 });
             cfg.jsonMapper(jsonMapper);
         });
-//        app.beforeMatched(new ApiSecurity()::manage);
 
         app.beforeMatched(ctx -> {
             String body = ctx.body().replaceAll("\\s+", "");
