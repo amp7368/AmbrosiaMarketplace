@@ -2,6 +2,7 @@ package com.ambrosia.markets.api.v1.controller.marketplace.items.offers;
 
 import com.ambrosia.markets.api.base.BaseController;
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
+import com.ambrosia.markets.api.dto.item.ListOffersResponse;
 import com.ambrosia.markets.api.dto.item.auction.AuctionOfferDto;
 import com.ambrosia.markets.api.request.item.ItemParam;
 import com.ambrosia.markets.api.v1.service.ItemAuctionService;

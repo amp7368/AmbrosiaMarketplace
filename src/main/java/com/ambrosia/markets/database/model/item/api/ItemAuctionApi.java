@@ -5,6 +5,8 @@ import com.ambrosia.markets.database.model.profile.auction.item.DAuctionItem;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import com.ambrosia.markets.database.model.profile.auction.offer.query.QDAuctionOffer;
 import java.util.List;
+import java.util.UUID;
+import org.jspecify.annotations.Nullable;
 
 public interface ItemAuctionApi {
 
@@ -20,5 +22,12 @@ public interface ItemAuctionApi {
             .bidder.eq(client)
             .orderBy().modifiedAt.desc()
             .findList();
+    }
+
+    @Nullable
+    static DAuctionOffer findOffer(UUID id) {
+        return new QDAuctionOffer().where()
+            .id.eq(id)
+            .findOne();
     }
 }

@@ -18,8 +18,8 @@ public class AuctionOfferDto {
 
     public AuctionOfferDto(DAuctionOffer offer) {
         this.id = offer.getId();
-        this.auctionItem = offer.getAuctionItem().getId();
-        this.item = offer.getAuctionItem().getItem().getId();
+        this.auctionItem = offer.getAuction().getId();
+        this.item = offer.getAuctionItem().getId();
         this.cost = new CostDto(offer.getCost());
         this.bidder = offer.getBidder().getId();
         this.completedAt = offer.getCompletedAt();
