@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.v1.controller.users.offers;
+package com.ambrosia.markets.api.v1.controller.users.offers.status;
 
 import am.ik.yavi.builder.ValidatorBuilder;
 import am.ik.yavi.core.Validator;

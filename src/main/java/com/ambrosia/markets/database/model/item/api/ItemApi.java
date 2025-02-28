@@ -46,6 +46,13 @@ public interface ItemApi {
             .findOne();
     }
 
+    static boolean hasOldAuction(DItemSnapshot item) {
+        return new QDAuctionItem().where()
+            .item.eq(item)
+            .status.notEqualTo(DAuctionItemStatus.CURRENT)
+            .exists();
+    }
+
     static DItemSnapshot createItem(String name, DClient client, DItemData itemData) {
         DClientBackpack backpack = client.getBackpack();
         DItem item = new DItem();

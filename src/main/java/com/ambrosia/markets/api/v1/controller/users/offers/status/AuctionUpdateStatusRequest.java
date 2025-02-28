@@ -1,4 +1,4 @@
-package com.ambrosia.markets.api.v1.controller.users.offers;
+package com.ambrosia.markets.api.v1.controller.users.offers.status;
 
 import com.ambrosia.markets.database.model.entity.client.DClient;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;

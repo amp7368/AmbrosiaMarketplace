@@ -4,6 +4,7 @@ import com.ambrosia.markets.api.base.BaseController;
 import com.ambrosia.markets.api.base.client.BaseClientAuthorizationRequest;
 import com.ambrosia.markets.api.dto.item.ListOffersResponse;
 import com.ambrosia.markets.api.dto.item.auction.AuctionOfferDto;
+import com.ambrosia.markets.api.request.cost.CostRequest;
 import com.ambrosia.markets.api.request.item.ItemParam;
 import com.ambrosia.markets.api.v1.service.ItemAuctionService;
 import com.ambrosia.markets.database.model.entity.client.DClient;
@@ -23,7 +24,7 @@ public class MarketplaceOffersController extends BaseController {
         MakeOfferRequestInput input = validateBody(ctx, MakeOfferRequestInput.validator, MakeOfferRequestInput.class);
         DItemSnapshot item = ItemParam.parse(ctx.pathParam("item"));
 
-        if (bidder.getId().equals(item.getOwner().getId()))
+        if (DClient.isEqual(bidder, item.getOwner()))
             throw new UnauthorizedResponse("You cannot place an offer on your own item!");
 
         DAuctionItem upForSale = item.getCurrentAuction();
@@ -32,8 +33,7 @@ public class MarketplaceOffersController extends BaseController {
         DAuctionOffer clientOffer = ItemApi.findOffers(upForSale, bidder);
         if (clientOffer != null) throw new ConflictResponse("You already have an offer on this item!");
 
-        MakeOfferRequest request = new MakeOfferRequest(bidder, upForSale,
-            input.getEmeralds(), input.getItems(), input.getMiscItems());
+        MakeOfferRequest request = new MakeOfferRequest(bidder, upForSale, new CostRequest(input));
 
         DAuctionOffer offer = ItemAuctionService.createOffer(request);
 

@@ -41,15 +41,8 @@ public final class Emeralds implements Comparable<Emeralds> {
         return of(emeralds);
     }
 
-
     public long amount() {
         return amount;
-    }
-
-    @Override
-    public String toString() {
-        return EmeraldsFormatter.of()
-            .format(this);
     }
 
     public Emeralds negative() {
@@ -91,13 +84,19 @@ public final class Emeralds implements Comparable<Emeralds> {
     }
 
     @Override
+    public int hashCode() {
+        return (int) (this.amount % Integer.MAX_VALUE);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return obj instanceof Emeralds other && this.amount == other.amount;
     }
 
     @Override
-    public int hashCode() {
-        return (int) (this.amount % Integer.MAX_VALUE);
+    public String toString() {
+        return EmeraldsFormatter.of()
+            .format(this);
     }
 
     public boolean lte(long compareAmount) {

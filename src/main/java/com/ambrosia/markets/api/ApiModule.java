@@ -8,6 +8,7 @@ import com.ambrosia.markets.api.v1.controller.assets.AssetsController;
 import com.ambrosia.markets.api.v1.controller.items.ItemsController;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.MarketplaceItemsController;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.offers.MarketplaceOffersController;
+import com.ambrosia.markets.api.v1.controller.transfers.TransfersController;
 import com.ambrosia.markets.api.v1.controller.user.me.ProfileController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.InventoryController;
 import com.ambrosia.markets.api.v1.controller.user.me.items.auctions.ItemAuctionsController;
@@ -45,6 +46,8 @@ public class ApiModule extends AppleModule {
         app.get("/api/v1/marketplace/items/{item}/offers", marketOffers::listOffers);
         app.post("/api/v1/marketplace/items/{item}/offers", marketOffers::makeOffer);
 
+        app.patch("/api/v1/offers/{offer}/status", offers::updateStatus);
+        app.post("/api/v1/transfers", new TransfersController()::createTransfer);
         app.get("/api/v1/items/{item}", new ItemsController()::getItem);
         // public users
         app.get("/api/v1/users/{user}/items", new UsersItemsController()::listItems);
@@ -56,7 +59,6 @@ public class ApiModule extends AppleModule {
         app.get("/api/v1/user/me/items", inventory::listItems);
         app.patch("/api/v1/user/me/items/{item}/auction", new ItemAuctionsController()::markForAuction);
         app.get("/api/v1/user/me/offers", offers::listClientOffers);
-        app.patch("/api/v1/user/me/offers/{offer}/status", offers::updateStatus);
 
         // assets
         app.get("/api/v1/assets/{image}", new AssetsController()::getImage);
@@ -90,7 +92,9 @@ public class ApiModule extends AppleModule {
 
         app.beforeMatched(ctx -> {
             String body = ctx.body().replaceAll("\\s+", "");
-            logger().info("{} - BODY: {}", ctx.url(), body);
+            if (body.isBlank())
+                logger().info("{} | {}", ctx.method(), ctx.url());
+            else logger().info("{} | {} - BODY: {}", ctx.method(), ctx.url(), body);
         });
 
         registerControllers(app);

@@ -1,6 +1,7 @@
 package com.ambrosia.markets.database;
 
 import apple.lib.ebean.database.AppleEbeanDatabase;
+import apple.lib.ebean.database.AppleEbeanDatabaseMetaConfig;
 import apple.lib.ebean.database.config.AppleEbeanDatabaseConfig;
 import apple.lib.ebean.database.config.AppleEbeanPostgresConfig;
 import com.ambrosia.markets.config.AmbrosiaConfig;
@@ -47,7 +48,16 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
 
     @Override
     protected void configureMigration(DbMigration migration, MigrationConfig config) {
+        // todo add this into library?
         migration.setStrictMode(AmbrosiaConfig.get().isProduction());
+        String pendingDrops = "1.7";
+        if (migration.getPendingDrops().contains(pendingDrops)) {
+            migration.setGeneratePendingDrop(pendingDrops);
+        } else {
+            String msg = "Failed to add pending drop for version '%s' because there is no drops pending for that version"
+                .formatted(pendingDrops);
+            AppleEbeanDatabaseMetaConfig.logInfo(msg);
+        }
         super.configureMigration(migration, config);
     }
 

@@ -1,7 +1,7 @@
 package com.ambrosia.markets.api.dto.item.auction;
 
-import com.ambrosia.markets.database.model.profile.auction.offer.AuctionOfferStatus;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
+import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOfferStatus;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +14,7 @@ public class AuctionOfferDto {
     public final CostDto cost;
     public final UUID bidder;
     public final Instant completedAt;
-    public final AuctionOfferStatus status;
+    public final DAuctionOfferStatus status;
 
     public AuctionOfferDto(DAuctionOffer offer) {
         this.id = offer.getId();

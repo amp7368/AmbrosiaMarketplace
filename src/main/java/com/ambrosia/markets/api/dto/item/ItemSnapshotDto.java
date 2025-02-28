@@ -16,6 +16,7 @@ public class ItemSnapshotDto {
     public final String encodedString;
     @Nullable
     public final ItemSnapshotAuctionDto auction;
+    public final ItemAuctionStatusDto status;
 
 
     public ItemSnapshotDto(DItemSnapshot item) {
@@ -26,11 +27,23 @@ public class ItemSnapshotDto {
         encodedString = item.getEncodedString();
         DAuctionItem itemAuction = item.getCurrentAuction();
         this.auction = itemAuction == null ? null : new ItemSnapshotAuctionDto(itemAuction);
+        if (this.auction == null)
+            status = ItemAuctionStatusDto.ON_MARKETPLACE;
+        else if (item.hasOldAuction())
+            status = ItemAuctionStatusDto.TIMED_OUT;
+        else
+            status = ItemAuctionStatusDto.IN_BACKPACK;
     }
 
     public static List<ItemSnapshotDto> convert(List<DItemSnapshot> items) {
         return items.parallelStream()
             .map(ItemSnapshotDto::new)
             .toList();
+    }
+
+    public enum ItemAuctionStatusDto {
+        ON_MARKETPLACE,
+        IN_BACKPACK,
+        TIMED_OUT;
     }
 }

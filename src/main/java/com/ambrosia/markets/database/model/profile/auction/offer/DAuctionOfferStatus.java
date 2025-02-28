@@ -2,7 +2,7 @@ package com.ambrosia.markets.database.model.profile.auction.offer;
 
 import io.ebean.annotation.DbEnumValue;
 
-public enum AuctionOfferStatus {
+public enum DAuctionOfferStatus {
     CURRENT,
     TAKEN_BACK,
     REJECTED,

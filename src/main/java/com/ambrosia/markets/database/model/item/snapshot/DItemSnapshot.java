@@ -100,4 +100,8 @@ public class DItemSnapshot extends BaseEntity {
     public DAuctionItem getCurrentAuction() {
         return ItemApi.findCurrentAuctionItem(this);
     }
+
+    public boolean hasOldAuction() {
+        return ItemApi.hasOldAuction(this);
+    }
 }

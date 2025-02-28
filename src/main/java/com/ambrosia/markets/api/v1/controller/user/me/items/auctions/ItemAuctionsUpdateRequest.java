@@ -30,7 +30,7 @@ public class ItemAuctionsUpdateRequest implements IClientRequest {
         String itemInput = ctx.pathParam("item");
         DItemSnapshot item = ItemParam.parse(itemInput);
 
-        Emeralds listedPrice = EmeraldsParser.parse(input.listedPrice());
+        Emeralds listedPrice = EmeraldsParser.parseNoZero(input.listedPrice());
         int durationDays = Optional.ofNullable(input.durationDays())
             .orElse(7);
         return new ItemAuctionsUpdateRequest(client, item, listedPrice, durationDays);

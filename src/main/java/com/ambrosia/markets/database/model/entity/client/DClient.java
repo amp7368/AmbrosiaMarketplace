@@ -43,6 +43,17 @@ public class DClient extends BaseEntity {
     public DClient() {
     }
 
+    /**
+     * ebean says not to implement Entity#equals, so I won't
+     *
+     * @param a the first client
+     * @param b the second client
+     * @return true if the clients refer to the same individual (same id)
+     */
+    public static boolean isEqual(@NotNull DClient a, @NotNull DClient b) {
+        return a.getId().equals(b.getId());
+    }
+
     public UUID getId() {
         return id;
     }

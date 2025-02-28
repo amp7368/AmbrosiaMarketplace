@@ -13,7 +13,7 @@ public class EmeraldsParser {
     private static final BigDecimal BIG_STACK = BigDecimal.valueOf(Emeralds.STACK);
     private static final BigDecimal BIG_LIQUID = BigDecimal.valueOf(Emeralds.LIQUID);
     private static final BigDecimal BIG_BLOCK = BigDecimal.valueOf(Emeralds.BLOCK);
-    private static final BigDecimal MAX_EMERALDS = BIG_STACK.multiply(BigDecimal.valueOf(256));
+    private static final BigDecimal MAX_EMERALDS = BIG_STACK.multiply(BigDecimal.valueOf(10000));
 
     private static final Pattern EMERALDS_PATTERN = Pattern.compile(
         "^\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*STX)?\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*LE)?\\s*((\\d+(\\.\\d*)?|\\.\\d+)\\s*EB)?\\s*("
@@ -32,7 +32,17 @@ public class EmeraldsParser {
     }
 
     @NotNull
+    public static Emeralds parseNoZero(@Nullable String amountArg) throws EmeraldParserException {
+        Emeralds parse = parse(amountArg);
+        if (parse.isZero())
+            throw new EmeraldParserException("Amount of zero is not allowed!");
+        return parse;
+    }
+
+    @NotNull
     public static Emeralds parse(String amountArg) throws EmeraldParserException {
+        if (amountArg == null) throw new EmeraldParserException("No value was provided for emeralds. Use " + EMERALDS_FORMAT_MESSAGE);
+        if (amountArg.isBlank()) return Emeralds.zero();
         verifyHasUnits(amountArg);
 
         Matcher match = EMERALDS_PATTERN.matcher(amountArg);
@@ -52,8 +62,8 @@ public class EmeraldsParser {
 
         if (amount.compareTo(MAX_EMERALDS) > 0)
             throw new EmeraldParserException("Amount of '%s' is greater than 64stx!".formatted(amountArg));
-        if (amount.compareTo(BigDecimal.ZERO) <= 0)
-            throw new EmeraldParserException("Amount of '%s' is 0 emeralds. Positive numbers only!'".formatted(amountArg));
+        if (amount.compareTo(BigDecimal.ZERO) < 0)
+            throw new EmeraldParserException("Amount of '%s' is negative. Positive numbers only!".formatted(amountArg));
         return Emeralds.of(amount);
     }
 

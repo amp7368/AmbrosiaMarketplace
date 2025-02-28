@@ -35,7 +35,7 @@ public class DAuctionOffer extends BaseEntity {
     @Column
     protected Instant completedAt;
     @Column(nullable = false)
-    protected AuctionOfferStatus status;
+    protected DAuctionOfferStatus status;
     @OneToMany(fetch = FetchType.LAZY)
     protected List<DAuctionOfferStatusChange> statusHistory = new ArrayList<>();
 
@@ -49,6 +49,10 @@ public class DAuctionOffer extends BaseEntity {
         this.status = status.getNewStatus();
         this.statusHistory.add(status);
         if (isCompleted) this.completedAt = Instant.now();
+    }
+
+    public boolean isCompleted() {
+        return completedAt != null;
     }
 
     public UUID getId() {
@@ -75,7 +79,11 @@ public class DAuctionOffer extends BaseEntity {
         return completedAt;
     }
 
-    public AuctionOfferStatus getStatus() {
+    public DAuctionOfferStatus getStatus() {
         return status;
+    }
+
+    public DClient getSeller() {
+        return this.getAuctionItem().getOwner();
     }
 }

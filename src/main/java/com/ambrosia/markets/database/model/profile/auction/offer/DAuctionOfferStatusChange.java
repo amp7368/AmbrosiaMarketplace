@@ -24,14 +24,14 @@ public class DAuctionOfferStatusChange extends BaseEntity {
     @ManyToOne
     protected DAuctionOffer offer;
     @Column
-    protected AuctionOfferStatus newStatus;
+    protected DAuctionOfferStatus newStatus;
 
-    public DAuctionOfferStatusChange(DAuctionOffer offer, AuctionOfferStatus newStatus) {
+    public DAuctionOfferStatusChange(DAuctionOffer offer, DAuctionOfferStatus newStatus) {
         this.offer = offer;
         this.newStatus = newStatus;
     }
 
-    public AuctionOfferStatus getNewStatus() {
+    public DAuctionOfferStatus getNewStatus() {
         return newStatus;
     }
 }
