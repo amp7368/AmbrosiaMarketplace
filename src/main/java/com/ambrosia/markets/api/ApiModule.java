@@ -47,7 +47,7 @@ public class ApiModule extends AppleModule {
         app.post("/api/v1/marketplace/items/{item}/offers", marketOffers::makeOffer);
 
         app.patch("/api/v1/offers/{offer}/status", offers::updateStatus);
-        app.post("/api/v1/transfers", new TransfersController()::createTransfer);
+        app.post("/api/v1/transfers", new TransfersController()::createTransferRequest);
         app.get("/api/v1/items/{item}", new ItemsController()::getItem);
         // public users
         app.get("/api/v1/users/{user}/items", new UsersItemsController()::listItems);

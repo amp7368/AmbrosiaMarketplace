@@ -18,8 +18,8 @@ import org.jspecify.annotations.Nullable;
 
 // transfer includes many items in a trade
 @Entity
-@Table(name = "transfer_action")
-public class DTransferAction extends BaseEntity {
+@Table(name = "transfer_action_pending")
+public class DTransferActionPending extends BaseEntity {
 
     @Id
     protected UUID id;
@@ -27,6 +27,10 @@ public class DTransferAction extends BaseEntity {
     protected DTransferType transferType;
     @Column(nullable = false)
     protected Instant eventDate;
+    @Column(nullable = false)
+    protected boolean sellerConfirmed;
+    @Column(nullable = false)
+    protected boolean buyerConfirmed;
 
     @ManyToOne
     protected DAuctionOffer offer;
@@ -45,14 +49,22 @@ public class DTransferAction extends BaseEntity {
     @OneToOne(optional = false)
     protected DCost buyerCost;
 
-    public DTransferAction(DTransferActionPending request) {
-        this.eventDate = request.getEventDate();
-        this.transferType = request.getTransferType();
-        this.offer = request.getOffer();
-        this.seller = request.getSeller();
-        this.sellerCost = request.getSellerCost();
-        this.buyer = request.getBuyer();
-        this.buyerCost = request.getBuyerCost();
+    public DTransferActionPending(
+        Instant eventDate,
+        DTransferType type,
+        DAuctionOffer offer,
+        DClient seller,
+        DCost sellerCost,
+        DClient buyer,
+        DCost buyerCost
+    ) {
+        this.eventDate = eventDate;
+        this.transferType = type;
+        this.offer = offer;
+        this.seller = seller;
+        this.sellerCost = sellerCost;
+        this.buyer = buyer;
+        this.buyerCost = buyerCost;
     }
 
     public UUID getId() {
@@ -72,6 +84,28 @@ public class DTransferAction extends BaseEntity {
         return offer;
     }
 
+    public DTransferActionPending setSellerConfirmed() {
+        this.sellerConfirmed = true;
+        return this;
+    }
+
+    public DTransferActionPending setBuyerConfirmed() {
+        this.buyerConfirmed = true;
+        return this;
+    }
+
+    public boolean isConfirmed() {
+        return buyerConfirmed && sellerConfirmed;
+    }
+
+    public boolean isBuyerConfirmed() {
+        return buyerConfirmed;
+    }
+
+    public boolean isSellerConfirmed() {
+        return sellerConfirmed;
+    }
+
     public DClient getSeller() {
         return seller;
     }
@@ -87,6 +121,5 @@ public class DTransferAction extends BaseEntity {
     public DCost getBuyerCost() {
         return buyerCost;
     }
-
 }
 

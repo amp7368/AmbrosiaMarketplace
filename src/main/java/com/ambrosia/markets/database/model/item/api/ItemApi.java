@@ -14,6 +14,8 @@ import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import com.ambrosia.markets.database.model.profile.auction.offer.query.QDAuctionOffer;
 import com.ambrosia.markets.database.model.profile.backpack.DBackpackItem;
 import com.ambrosia.markets.database.model.profile.backpack.DClientBackpack;
+import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
+import com.ambrosia.markets.database.system.exception.AlreadySoldException;
 import io.ebean.DB;
 import io.ebean.Transaction;
 import java.time.Instant;
@@ -67,6 +69,20 @@ public interface ItemApi {
             transaction.commit();
         }
         return snapshot;
+    }
+
+    static void transferTo(DTransferAction transfer, DItemSnapshot item, DClient newOwner, Transaction transaction)
+        throws AlreadySoldException {
+        item.sell(transfer, newOwner)
+            .save(transaction);
+
+        DClientBackpack backpack = newOwner.getBackpack();
+        DItemSnapshot snapshot = new DItemSnapshot(item);
+        DBackpackItem backpackItem = new DBackpackItem(backpack, snapshot);
+        backpack.addItem(backpackItem);
+
+        snapshot.save(transaction);
+        backpackItem.save(transaction);
     }
 
     @Nullable

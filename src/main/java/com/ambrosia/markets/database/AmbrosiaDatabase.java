@@ -1,10 +1,8 @@
 package com.ambrosia.markets.database;
 
 import apple.lib.ebean.database.AppleEbeanDatabase;
-import apple.lib.ebean.database.AppleEbeanDatabaseMetaConfig;
 import apple.lib.ebean.database.config.AppleEbeanDatabaseConfig;
 import apple.lib.ebean.database.config.AppleEbeanPostgresConfig;
-import com.ambrosia.markets.config.AmbrosiaConfig;
 import com.ambrosia.markets.database.model.base.BareBaseEntity;
 import com.ambrosia.markets.database.model.base.BaseEntity;
 import com.ambrosia.markets.database.model.base.image.DImage;
@@ -32,34 +30,10 @@ import com.ambrosia.markets.database.model.trade.cost.DCost;
 import com.ambrosia.markets.database.model.trade.cost.DCostItem;
 import com.ambrosia.markets.database.model.trade.cost.DCostItemMisc;
 import com.ambrosia.markets.database.model.trade.transfer.DTransferAction;
-import io.ebean.config.DatabaseConfig;
-import io.ebean.datasource.DataSourceConfig;
-import io.ebean.dbmigration.DbMigration;
-import io.ebean.migration.MigrationConfig;
 import java.util.Collection;
 import java.util.List;
 
 public class AmbrosiaDatabase extends AppleEbeanDatabase {
-
-    @Override
-    protected DatabaseConfig configureDatabase(DataSourceConfig dataSourceConfig) {
-        return super.configureDatabase(dataSourceConfig);
-    }
-
-    @Override
-    protected void configureMigration(DbMigration migration, MigrationConfig config) {
-        // todo add this into library?
-        migration.setStrictMode(AmbrosiaConfig.get().isProduction());
-        String pendingDrops = "1.7";
-        if (migration.getPendingDrops().contains(pendingDrops)) {
-            migration.setGeneratePendingDrop(pendingDrops);
-        } else {
-            String msg = "Failed to add pending drop for version '%s' because there is no drops pending for that version"
-                .formatted(pendingDrops);
-            AppleEbeanDatabaseMetaConfig.logInfo(msg);
-        }
-        super.configureMigration(migration, config);
-    }
 
     @Override
     protected boolean isDefault() {
@@ -122,10 +96,6 @@ public class AmbrosiaDatabase extends AppleEbeanDatabase {
     @Override
     protected String getName() {
         return "Ambrosia";
-    }
-
-    private boolean shouldDropDatabase() {
-        return true;
     }
 
     public static class AmbrosiaDatabaseConfig extends AppleEbeanPostgresConfig {

@@ -19,4 +19,16 @@ public class MiscItemRequest {
     public int getQuantity() {
         return quantity;
     }
+
+    @Override
+    public int hashCode() {
+        return item.getId().hashCode() + quantity;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof MiscItemRequest other &&
+            item.getId().equals(other.item.getId()) &&
+            quantity == other.quantity;
+    }
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +35,12 @@ public class DCost extends BaseEntity {
     }
 
     public void addMiscItem(DCostItemMisc miscItem) {
+        this.isExtended = true;
         this.miscItems.add(miscItem);
     }
 
     public void addItem(DCostItem item) {
+        this.isExtended = true;
         this.items.add(item);
     }
 
@@ -58,10 +61,12 @@ public class DCost extends BaseEntity {
     }
 
     public List<DCostItemMisc> getMiscItems() {
+        if (!isExtended()) return Collections.emptyList();
         return miscItems;
     }
 
     public List<DItemSnapshot> getItems() {
+        if (!isExtended()) return Collections.emptyList();
         return items.stream()
             .map(DCostItem::getItem)
             .toList();

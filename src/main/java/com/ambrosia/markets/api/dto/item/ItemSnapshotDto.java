@@ -21,7 +21,7 @@ public class ItemSnapshotDto {
 
     public ItemSnapshotDto(DItemSnapshot item) {
         id = item.getId();
-        displayName = item.getName();
+        displayName = item.getUserDisplayName();
         owner = item.getOwner().getId();
         data = new VersionedItemResponse(item.getData());
         encodedString = item.getEncodedString();

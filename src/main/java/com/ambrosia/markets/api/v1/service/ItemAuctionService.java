@@ -1,6 +1,7 @@
 package com.ambrosia.markets.api.v1.service;
 
 import com.ambrosia.markets.api.dto.item.auction.AuctionOfferDto;
+import com.ambrosia.markets.api.system.exception.ApiExceptions;
 import com.ambrosia.markets.api.v1.controller.marketplace.items.offers.MakeOfferRequest;
 import com.ambrosia.markets.api.v1.controller.user.me.items.auctions.ItemAuctionsUpdateRequest;
 import com.ambrosia.markets.api.v1.controller.users.offers.status.AuctionUpdateStatusRequest;
@@ -12,10 +13,12 @@ import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOffer;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOfferStatus;
 import com.ambrosia.markets.database.model.profile.auction.offer.DAuctionOfferStatusChange;
 import com.ambrosia.markets.database.model.trade.cost.DCost;
+import com.ambrosia.markets.database.system.exception.AlreadySoldException;
 import com.ambrosia.markets.util.emerald.Emeralds;
 import io.ebean.DB;
 import io.ebean.Transaction;
 import io.javalin.http.ConflictResponse;
+import io.javalin.http.ExpectationFailedResponse;
 import java.util.List;
 
 public class ItemAuctionService {
@@ -36,7 +39,7 @@ public class ItemAuctionService {
         return auctionItem;
     }
 
-    public static DAuctionOffer createOffer(MakeOfferRequest request) {
+    public static DAuctionOffer createOffer(MakeOfferRequest request) throws ExpectationFailedResponse {
         DAuctionOffer offer;
         try (Transaction transaction = DB.beginTransaction()) {
             DCost cost = CostService.createCost(request.getWillingToPay(), transaction);
@@ -47,6 +50,8 @@ public class ItemAuctionService {
             offer.save(transaction);
             status.save(transaction);
             transaction.commit();
+        } catch (AlreadySoldException e) {
+            throw ApiExceptions.cannotOffer(e);
         }
         return offer;
     }
